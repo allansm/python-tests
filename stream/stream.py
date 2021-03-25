@@ -1,22 +1,16 @@
 import os
 import time
 import random
-from functions import *
+import fileHandle
 
-list = readFile("links.txt").split("\n")
-'''
-while(True):
-    random.shuffle(list)
-    print(list[0])
-    time.sleep(0.5)
-'''
-random.shuffle(list)
+lines = fileHandle.getLines("e:/persistence.txt")
+random.shuffle(lines)
+fname = os.environ.get('TEMP')+"\\test.txt"
 
-remove("test.txt")
+#os.system("youtube-dl -g "+lines[0]+" > "+fname)
 
-createFile("test.txt")
-
-for n in list:
-    writeFile("test.txt",n+"\n")
-    
-os.system("vlc test.txt")
+fileHandle.shuffleLines(lines,fname)
+while True:
+    #-I dummy --dummy-quiet -vvv
+    os.system("vlc -I dummy --dummy-quiet -vvv "+fname+" :sout=#http{dst=192.168.0.169,port=8080,mux=ts,ttl=1} :sout-all :sout-keep vlc://exit")
+    time.sleep(1/1000)

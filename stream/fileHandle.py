@@ -1,4 +1,5 @@
 import os
+import random
 
 def createFile(fname):
     open(fname,"x")
@@ -15,3 +16,16 @@ def readFile(fname):
 def remove(fname):
     if os.path.exists(fname):
         os.remove(fname)
+        
+def getLines(fname):
+    return readFile(fname).split("\n")
+        
+def shuffleLines(lines,shuffled):
+    random.shuffle(lines)
+
+    remove(shuffled)
+
+    createFile(shuffled)
+
+    for n in lines:
+        writeFile(shuffled,n+"\n")
