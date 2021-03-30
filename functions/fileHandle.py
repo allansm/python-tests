@@ -36,9 +36,16 @@ def getTemp():
 def consumeLine(fname,i):
     lines = getLines(fname)
     index = 0
+    remove(fname)
     for line in lines:
         if index != i:
             writeFile(fname,line+"\n")
         index+=1
     return lines[i]
+
+def isEmpty(fname):
+    if os.path.getsize(fname) == 0:
+        return True
+    else:
+        return False
 
