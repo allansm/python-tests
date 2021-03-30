@@ -9,6 +9,9 @@ fname = getTemp()+"\\music.txt"
 path = input("music path:")
 
 def getMusic(folder):
+    fname = getTemp()+"\\music.txt"
+    remove(fname)
+
     system("dir /B \""+folder+"\" > "+fname)
 
     lines = getLines(fname)
@@ -23,5 +26,5 @@ getMusic(path)
 while True:
     if isEmpty(fname):
         getMusic(path)
-    system("ffplay -autoexit -nodisp \"e:/music/"+consumeLine(fname,0)+"\"")
+    system("ffplay -autoexit -nodisp \""+path+"/"+consumeLine(fname,0)+"\"")
 

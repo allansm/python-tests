@@ -2,32 +2,25 @@ import sys
 sys.path.append("../functions")
 
 from fileHandle import *
-import datetime
-import datetime
+from timeHandle import *
 
-def showRegister():
-    now = datetime.datetime.now()
-    now = str(now)
-    date = now.split(" ")[0]
-    fname = "data/"+date
+def showRegister(): 
+    fname = "data/"+getDate()
     lines = getLines(fname)
     for line in lines:
         print(line)
 
-def register():
-    now = datetime.datetime.now()
-    now = str(now)
-    date = now.split(" ")[0]
-    fname = "data/"+date
-    time = now.split(" ")[1].split(".")[0]
+def register(): 
+    fname = "data/"+getDate()
 
     register = input("thing to remember:")
     register = register+"\n"
 
-    writeFile(fname,time+":"+register)
+    writeFile(fname,getTime()+":"+register)
 
 def console():
     while True:
+        print("current time:"+getTime())
         op = input("1: register 2: get today register:")
         if int(op) == 1:
             register()
