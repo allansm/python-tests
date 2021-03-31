@@ -12,7 +12,13 @@ def getMusic(folder):
     fname = getTemp()+"\\music.txt"
     remove(fname)
 
-    system("dir /B \""+folder+"\" > "+fname)
+    #system("dir /B \""+folder+"\" > "+fname)
+
+    ltos = ls(folder,"*.mp3")
+    
+    #print(ltos[0])
+
+    writeLines(fname,ltos)
 
     lines = getLines(fname)
 
@@ -25,6 +31,6 @@ getMusic(path)
 
 while True:
     if isEmpty(fname):
-        getMusic(path)
-    system("ffplay -autoexit -nodisp \""+path+"/"+consumeLine(fname,0)+"\"")
+        getMusic(path+"\\*.mp3")
+    system("ffplay -autoexit -nodisp \""+consumeLine(fname,0)+"\"")
 
