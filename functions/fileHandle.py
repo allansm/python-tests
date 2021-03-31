@@ -49,13 +49,17 @@ def consumeLine(fname,i):
     remove(fname)
     for line in lines:
         if index != i:
-            writeFile(fname,line+"\n")
+            if line != "":
+                writeFile(fname,line+"\n")
         index+=1
     return lines[i]
 
 def isEmpty(fname):
-    if os.path.getsize(fname) == 0:
-        return True
+    if os.path.exists(fname):
+        if os.path.getsize(fname) == 0:
+            return True
+        else:
+            return False
     else:
         return False
 

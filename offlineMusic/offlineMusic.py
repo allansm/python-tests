@@ -10,13 +10,9 @@ path = input("music path:")
 
 def getMusic(folder):
     fname = getTemp()+"\\music.txt"
-    remove(fname)
+    remove(fname)   
 
-    #system("dir /B \""+folder+"\" > "+fname)
-
-    ltos = ls(folder,"*.mp3")
-    
-    #print(ltos[0])
+    ltos = ls(folder,"*.mp3")    
 
     writeLines(fname,ltos)
 
@@ -27,7 +23,8 @@ def getMusic(folder):
     for line in lines:
         print(line)
 
-getMusic(path)
+if isEmpty(fname):
+    getMusic(path)
 
 while True:
     if isEmpty(fname):
