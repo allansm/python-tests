@@ -28,6 +28,8 @@ if isEmpty(fname):
 
 while True:
     if isEmpty(fname):
-        getMusic(path+"\\*.mp3")
-    system("ffplay -autoexit -nodisp \""+consumeLine(fname,0)+"\"")
+        getMusic(path)
+
+    if exists(fname):
+        system("ffplay -autoexit -nodisp \""+consumeLine(fname,0)+"\"")
 

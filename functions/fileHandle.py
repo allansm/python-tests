@@ -22,7 +22,13 @@ def writeLines(fname,lines):
 def readFile(fname):
     f = open(fname,"r")
     return f.read()
-    
+
+def exists(fname):
+    if os.path.exists(fname):
+        return True
+    else : 
+        return False
+
 def remove(fname):
     if os.path.exists(fname):
         os.remove(fname)
@@ -61,7 +67,7 @@ def isEmpty(fname):
         else:
             return False
     else:
-        return False
+        return True
 
 def ls(path,extension):
     return glob(path+"/"+extension)
