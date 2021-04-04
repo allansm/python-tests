@@ -1,20 +1,18 @@
 import sys
 sys.path.append("../functions")
-sys.path.append("../yt.py")
 
 from fileHandle import *
 from yt import *
 
 def play():
-    remove("playme")
     lines = getLines("persistence.txt")
     
     for line in lines:
-        system("youtube-dl -x --audio-format mp3 -g "+line+" > playme")
-        playme = getLines("playme")[0]
-        system("ffplay -nodisp \""+playme+"\"")
-
-def run():
+        system("youtube-dl -x --audio-format mp3 "+line)
+        mp3 = ls(".","*.mp3")[0]
+        system("ffplay -nodisp -autoexit \""+mp3+"\"")
+        
+def console():
     remove("persistence.txt")
     link = input("playlist link:")
     
@@ -24,6 +22,7 @@ def run():
         list = link
 
     getLinksFromList(list)
-   
-run()
-play()
+    
+    play()
+
+console()

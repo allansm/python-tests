@@ -65,17 +65,6 @@ def consumeLineAndShuffle(fname,i):
    lines = getLines(fname)
    shuffleLines(lines,fname)
    return line
-   '''lines = getLines(fname)
-    index = 0
-    remove(fname)
-    for line in lines:
-        if index != i:
-            if line != "":
-                writeFile(fname,line+"\n")
-        index+=1
-    shuffleLines(lines,fname)
-    return lines[i]
-'''
 
 def isEmpty(fname):
     if os.path.exists(fname):
