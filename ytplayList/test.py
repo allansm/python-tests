@@ -25,10 +25,21 @@ def useFile(fname):
                     list = line
 
                 getLinksFromList(list)
-                play()
+                try:
+                    play()
+
+                except:
+                    print("erro on play!!!")
             exit()
 
+def deleteMp3():
+    files = ls(".","*.mp3")
+
+    for f in files:
+        remove(f)
+
 def console():
+    deleteMp3()
     remove("persistence.txt")
     link = input("playlist link or txt path:")
 
