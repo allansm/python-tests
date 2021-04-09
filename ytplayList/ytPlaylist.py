@@ -3,9 +3,10 @@ sys.path.append("../functions")
 
 from fileHandle import *
 from yt import *
+from random import shuffle
 
 def play():
-    lines = getLines("persistence.txt")
+    lines = getLines(getTemp()+"persistence.txt")
     
     for line in lines:
         system("youtube-dl -x --audio-format mp3 "+line)
@@ -17,12 +18,16 @@ def useFile(fname):
     if(not fname.startswith("http")):
         if(exists(fname)):
             lines = getLines(fname)
-
+            
+            shuffle(lines)
+            
             for line in lines:
                 if(not line.startswith("https://www.youtube.com/playlist?list=")):
+                    print(line)
                     list = getListLink(line)
                 else:
                     list = line
+
 
                 getLinksFromList(list)
                 try:
@@ -40,7 +45,7 @@ def deleteMp3():
 
 def console():
     deleteMp3()
-    remove("persistence.txt")
+    remove(getTemp()+"persistence.txt")
     link = input("playlist link or txt path:")
 
     useFile(link)
