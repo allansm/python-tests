@@ -30,10 +30,17 @@ def getMusic(folder):
 if isEmpty(fname):
     getMusic(path)
 
+i=0
+
 while True:
     if isEmpty(fname):
         getMusic(path)
+        i=0
 
     if exists(fname):
-        system("ffplay -autoexit -nodisp \""+consumeLineAndShuffle(fname,0)+"\"")
-
+        try:
+            system("ffplay -autoexit -nodisp \""+consumeLineAndShuffle(fname,0)+"\"")
+            writeFile(getTemp()+"\\offlinemusic.log",i+"\n")
+        
+        except:
+            print("file not found!!")

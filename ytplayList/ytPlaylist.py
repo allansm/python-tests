@@ -8,6 +8,8 @@ from random import shuffle
 def play():
     lines = getLines(getTemp()+"persistence.txt")
     
+    shuffle(lines)
+
     for line in lines:
         system("youtube-dl -x --audio-format mp3 "+line)
         mp3 = ls(".","*.mp3")[0]
