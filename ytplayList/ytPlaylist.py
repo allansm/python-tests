@@ -4,6 +4,7 @@ sys.path.append("../functions")
 from fileHandle import *
 from yt import *
 from random import shuffle
+from os import chdir
 
 def play():
     lines = getLines(getTemp()+"persistence.txt")
@@ -46,6 +47,8 @@ def deleteMp3():
         remove(f)
 
 def console():
+    chdir(getTemp())
+    
     deleteMp3()
     remove(getTemp()+"persistence.txt")
     link = input("playlist link or txt path:")
