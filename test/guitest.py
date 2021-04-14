@@ -1,5 +1,7 @@
 import tkinter as tk
 
+from os import system
+
 window = tk.Tk()
 
 #greeting = tk.Label(text="Hello, Tkinter")
@@ -20,10 +22,16 @@ window = tk.Tk()
 #frame = tk.Frame()
 #frame.pack()
 
-def handle_click(event):
-    print("The button was clicked!")
 
-button = tk.Button(text="Click me!")
+entry = tk.Entry(width=50)
+
+entry.pack()
+
+def handle_click(event):
+    system(entry.get())
+    entry.delete(0,255)
+
+button = tk.Button(text="execute")
 
 button.bind("<Button-1>", handle_click)
 
