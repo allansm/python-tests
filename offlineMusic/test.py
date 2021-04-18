@@ -9,8 +9,8 @@ sys.path.append("../functions")
 from fileHandle import *
 from timeHandle import *
 
-def createList():
-    files = ls("e:\music","*.mp3")
+def createList(mpath):
+    files = ls(mpath,"*.mp3")
 
     shuffle(files)
     shuffle(files)
@@ -20,6 +20,8 @@ def createList():
     writeLines("music.txt",files)
     writeFile("music.log","new list created\n")
 
+
+mpath = input("music path:")
 
 chdir(getTemp())
 
@@ -33,7 +35,7 @@ chdir("offmusic")
 
 while(True):
     if isEmpty("music.txt"):
-        createList()
+        createList(mpath)
 
     mp3 = consumeLine("music.txt",0)
     
