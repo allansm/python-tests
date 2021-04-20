@@ -48,6 +48,7 @@ try:
 except:
     print("error!!")
 
+remove("last.txt")
 writeFile("last.txt",mpath)
 
 
