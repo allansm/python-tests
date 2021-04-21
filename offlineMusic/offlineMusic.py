@@ -10,10 +10,13 @@ sys.path.append("../functions")
 
 from fileHandle import *
 from timeHandle import *
+from util import *
 
 def createList(mpath):
     if(exists("persistence.txt")):
-        copyfile("persistence.txt","music.txt")
+        lines = getLines("persistence.txt")
+        shuffled = fakeshuffle(lines)
+        writeLines("music.txt",shuffled)
     else:
         files = ls(mpath,"*.mp3")
 
