@@ -5,6 +5,7 @@ from fileHandle import *
 from yt import *
 from random import shuffle
 from os import chdir
+from subprocess import call
 
 def play():
     lines = getLines(getTemp()+"persistence.txt")
@@ -12,9 +13,13 @@ def play():
     shuffle(lines)
 
     for line in lines:
-        system("youtube-dl -x --audio-format mp3 "+line)
+        #system("youtube-dl -x --audio-format mp3 "+line)
+        call("youtube-dl -x --audio-format mp3 "+line,shell=True)
         mp3 = ls(".","*.mp3")[0]
-        system("ffplay -nodisp -autoexit \""+mp3+"\"")
+        
+        #system("ffplay -nodisp -autoexit \""+mp3+"\"")
+        call("ffplay -nodisp -autoexit \""+mp3+"\"",shell=True)
+        
         remove(mp3)
 
 def useFile(fname):

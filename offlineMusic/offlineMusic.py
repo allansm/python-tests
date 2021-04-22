@@ -1,4 +1,6 @@
-from os import system
+#from os import system
+from subprocess import call
+
 from os import chdir
 from os import mkdir
 from random import shuffle
@@ -64,5 +66,7 @@ while(True):
     
     writeFile("music.log",removeBreakLine(mp3)+"\n")
     
-    system("ffplay -autoexit -nodisp \""+mp3+"\"")
+    #system("ffplay -autoexit -nodisp \""+mp3+"\"")
+    call("ffplay -autoexit -nodisp \""+mp3+"\"",shell=True)
+
 

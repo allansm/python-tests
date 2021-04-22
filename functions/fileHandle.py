@@ -1,13 +1,17 @@
 import os
 from glob import glob
 import random
+from tempfile import gettempdir
 
 def removeBreakLine(string):
     return string.replace("\n","").replace("\r","")
 
 
 def createFile(fname):
-    open(fname,"x")
+    try:
+        open(fname,"w")
+    except:
+        print("...")
 
 def writeFile(fname,txt):
     f = open(fname,"a")
@@ -47,7 +51,7 @@ def shuffleLines(lines,shuffled):
         writeFile(shuffled,n+"\n")
 
 def getTemp():
-    return os.environ.get("TEMP")
+    return gettempdir()+"/"
 
 def consumeLine(fname,i):
     lines = getLines(fname)

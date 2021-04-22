@@ -11,8 +11,21 @@ def fakeshuffle(arr):
     c,d = split_list(h2)
 
     shuffle(a)
+    shuffle(a)
+    shuffle(a)
+    shuffle(a)
+
     shuffle(b)
+    shuffle(b)
+    shuffle(b)
+
     shuffle(c)
+    shuffle(c)
+    shuffle(c)
+
+    shuffle(d)
+    shuffle(d)
+    shuffle(d)
     shuffle(d)
 
     arr = a+b+c+d
