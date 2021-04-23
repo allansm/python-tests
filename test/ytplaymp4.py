@@ -7,28 +7,31 @@ from subprocess import call
 from os import chdir
 from os import mkdir
 from util import *
+def redirect():
+    chdir(getTemp())
 
-chdir(getTemp())
+    try:
+        mkdir("ytplaymp4")
+    except:
+        print("...")
 
-try:
-    mkdir("ytplaymp4")    
-except:
-    print("...")
+    chdir("ytplaymp4")
 
-chdir("ytplaymp4")
+def createList(fn):
+    lines = getLines(fn)
 
-txt = input("links file url:")
+    shuffled = fakeshuffle(lines)
 
-lines = getLines(txt)
+    writeLines("persistence.txt",shuffled)
 
-shuffled = fakeshuffle(lines)
+def play(fn):
+    while True:
+        if(not exists("persistence.txt")):
+            createList(fn)
+        else:
+            call("youtube-dl --get-url --format best "+consumeLine("persistence.txt",0)+" > current",shell=True)
+            call("ffplay -an -noborder -x 300 -y 200 -top 0 -left 0 "+consumeLine("current",0))
+                
+redirect()
 
-writeLines("persistence.txt",shuffled)
-
-newlines = getLines("persistence.txt")
-
-for line in newlines:
-    call("youtube-dl --get-url --format best "+line+" > current",shell=True)
-    call("ffplay -an -noborder -x 300 -y 200 -top 0 -left 0 "+getLines("current")[0])
-
-
+play(input("links file url:"))
