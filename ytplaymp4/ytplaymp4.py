@@ -32,7 +32,7 @@ def createList(fn):
     writeLines("persistence.txt",shuffled)
     print("persistence created...")
 
-def play(fn):
+def play(fn,miniature):
     while True:
         if(exists("last")):
             if(fn != getLines("last")[0]):
@@ -46,9 +46,12 @@ def play(fn):
             consumed = consumeLine("current",0)
             print("consumed:"+consumed)
             
-            call("ffplay -an -x 300 -y 200 -top 28 -left 1000 -alwaysontop -noborder -framedrop -autoexit "+consumed)
-                
+            if(miniature == "y"):
+                call("ffplay -an -x 300 -y 200 -top 28 -left 1000 -alwaysontop -noborder -framedrop -autoexit "+consumed)
+            else:
+                call("ffplay -an -x 1366 -y 768 -noborder -framedrop -autoexit "+consumed)
+
 redirect()
 
-play(input("links file url:"))
+play(input("links file url:"),input("miniature(y/n):"))
 
