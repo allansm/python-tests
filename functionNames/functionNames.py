@@ -22,29 +22,17 @@ code = parser.parse_args().code
 
 chdir(getcwd())
 
-#lines = getLines(code)
+if(os.path.isfile(code)):
 
-print(code+":")
+    print(code+":")
+    showFunctions(code,"    ")
 
-showFunctions(code,"    ")
+else:
+    chdir(code)
 
-'''for line in lines:
-    if "def " in line:
-        if "(" in line:
-            print("     "+line)
-    
-    elif "function " in line:
-        if "(" in line:
-            print("     "+line)
+    files = ls(".","*.*")
 
-    elif "function!" in line:
-        print("     "+line)
-
-    
-    elif "(" in line:
-        if "{" in line:
-            if "while" not in line:
-                if "for" not in line:
-                    if "if" not in line:
-                        print("    "+line)
-   '''  
+    for f in files:
+        print(f+":")
+        showFunctions(f,"   ")
+        print("")
