@@ -1,26 +1,34 @@
 import sys
+import os
 
-sys.path.append("../functions")
+wdir = os.path.dirname(os.path.realpath(__file__))
+
+
+sys.path.append(wdir)
+sys.path.append(wdir+"/../functions")
 
 from fileHandle import *
 
 from os import chdir
+from os import getcwd
+from fn import *
 
 import argparse
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument("code",type=str)
-parser.add_argument("path",type=str)
 
 code = parser.parse_args().code
 
-chdir(parser.parse_args().path)
+chdir(getcwd())
 
-lines = getLines(code)
+#lines = getLines(code)
 
 print(code+":")
 
-for line in lines:
+showFunctions(code,"    ")
+
+'''for line in lines:
     if "def " in line:
         if "(" in line:
             print("     "+line)
@@ -39,4 +47,4 @@ for line in lines:
                 if "for" not in line:
                     if "if" not in line:
                         print("    "+line)
-     
+   '''  

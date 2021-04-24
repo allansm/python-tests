@@ -3,6 +3,10 @@ from glob import glob
 import random
 from tempfile import gettempdir
 
+#use __file__
+def selfLocation(__f__):
+    return os.path.dirname(os.path.realpath(__f__))
+
 def removeBreakLine(string):
     return string.replace("\n","").replace("\r","")
 
