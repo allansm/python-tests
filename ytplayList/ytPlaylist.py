@@ -13,11 +13,10 @@ def play():
     shuffle(lines)
 
     for line in lines:
-        #system("youtube-dl -x --audio-format mp3 "+line)
-        call("youtube-dl -x --audio-format mp3 "+line,shell=True)
+    
+        call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
         mp3 = ls(".","*.mp3")[0]
         
-        #system("ffplay -nodisp -autoexit \""+mp3+"\"")
         call("ffplay -nodisp -autoexit \""+mp3+"\"",shell=True)
         
         remove(mp3)

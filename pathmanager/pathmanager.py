@@ -30,6 +30,9 @@ def run():
     else:
         for path in paths:
             chdir(path)
+            print("")
+            print("     PATH:"+path)
+            print("")
             system(command)
 
 run()

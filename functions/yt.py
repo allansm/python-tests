@@ -3,8 +3,9 @@ sys.path.append("../functions")
 
 from fileHandle import *
 from re import search
-#from os import system
+
 from subprocess import call
+from os import getcwd
 
 def getListLink(link):
     if "&" in link.split("list=")[1]:
@@ -21,7 +22,6 @@ def getListLink(link):
     return list;
 
 def getLinksFromList(list):
-    #system("youtube-dl --get-id "+list+" > "+getTemp()+"persistence.txt")
     call("youtube-dl --get-id "+list+" > "+getTemp()+"persistence.txt",shell=True)
     
     lines = getLines(getTemp()+"persistence.txt")
@@ -35,8 +35,7 @@ def getLinksFromList(list):
         writeFile(getTemp()+"persistence.txt",line)
 
 def downloadAsMusic():
-    #system("youtube-dl -x --audio-format mp3 -a "+getTemp()+"persistence.txt")
-    call("youtube-dl -x --audio-format mp3 -a "+getTemp()+"persistence.txt",shell=True)
+    call("youtube-dl -x --audio-format mp3 -o \""+getcwd()+"/%(title)s-%(id)s.%(ext)s\" -a "+getTemp()+"persistence.txt",shell=True)
     
     remove(getTemp()+"persistence.txt")
 
