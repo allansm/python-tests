@@ -28,13 +28,13 @@ chdir("..")
 fold = ls(".","*")
 
 
-functions = code+","
+functions = ""
 
 for f in fold:
     if(os.path.isfile(f)):
-        fun = getFunctions(f,"")
-        if(fun != ""):
-            functions = functions+","+fun
+        fun = getFunctions(f,"",";")
+        if(fun != "" or not fun):
+            functions = functions+";"+fun
     else:
         chdir(f)
 
@@ -42,12 +42,16 @@ for f in fold:
 
         for fi in files:
             try:
-                fun = getFunctions(fi,"")
-                if(fun != ""):
-                    functions = functions+","+fun
+                fun = getFunctions(fi,"",";")
+                if(fun != "" or not fun):
+                    functions = functions+";"+fun
             except:
                 continue
         
         chdir("..")
 
+functions = functions.replace(";","")
+functions = removeBreakLine(functions)
+functions = functions.replace("{","?")
+functions = functions.replace(":","?")
 print(functions)
