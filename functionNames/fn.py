@@ -28,4 +28,30 @@ def showFunctions(fn,txt):
                     if "for" not in line:
                         if "if" not in line:
                             print(txt+line)
-    
+
+def getFunctions(fn,txt):
+
+    lines = getLines(fn)
+
+    functions = ""
+
+    for line in lines:
+        if "def " in line:
+            if "(" in line:
+                functions = functions+","+txt+line
+        
+        elif "function " in line:
+            if "(" in line:
+                functions = functions+","+txt+line
+
+        elif "function!" in line:
+            functions = functions+","+txt+line
+
+        
+        elif "(" in line:
+            if "{" in line:
+                if "while" not in line:
+                    if "for" not in line:
+                        if "if" not in line:
+                            functions = functions+","+txt+line
+    return functions
