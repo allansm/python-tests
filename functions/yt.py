@@ -27,12 +27,12 @@ def getLinksFromList(list):
     lines = getLines(getTemp()+"persistence.txt")
     del lines[-1]
 
-    remove(getTemp()+"persistence.txt")
-    createFile(getTemp()+"persistence.txt")
+    #remove(getTemp()+"play.txt")
+    #createFile(getTemp()+"play.txt")
 
     for line in lines:
         line = "https://www.youtube.com/watch?v="+line+"\n"
-        writeFile(getTemp()+"persistence.txt",line)
+        writeFile(getTemp()+"play.txt",line)
 
 def downloadAsMusic():
     call("youtube-dl -x --audio-format mp3 -o \""+getcwd()+"/%(title)s-%(id)s.%(ext)s\" -a "+getTemp()+"persistence.txt",shell=True)

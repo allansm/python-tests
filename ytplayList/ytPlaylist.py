@@ -8,7 +8,9 @@ from os import chdir
 from subprocess import call
 
 def play():
-    lines = getLines(getTemp()+"persistence.txt")
+    lines = getLines(getTemp()+"play.txt")
+
+    remove(getTemp()+"play.txt")
     
     shuffle(lines)
 
@@ -24,6 +26,7 @@ def play():
 def useFile(fname):
     if(not fname.startswith("http")):
         if(exists(fname)):
+            print("file exists : ok")
             lines = getLines(fname)
             
             shuffle(lines)
@@ -35,13 +38,16 @@ def useFile(fname):
                 else:
                     list = line
 
-
+                print("getting links from list...")
+                print(list)
                 getLinksFromList(list)
-                try:
-                    play()
 
-                except:
-                    print("erro on play!!!")
+            try:
+                play()
+
+            except:
+                print("erro on play!!!")
+
             exit()
 
 def deleteMp3():
