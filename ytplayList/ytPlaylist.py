@@ -6,17 +6,25 @@ from yt import *
 from random import shuffle
 from os import chdir
 from subprocess import call
+from os import mkdir
 
 def play():
-    lines = getLines(getTemp()+"play.txt")
+    lines = getLines("play.txt")
 
-    remove(getTemp()+"play.txt")
+    remove("play.txt")
     
     shuffle(lines)
+    shuffle(lines)
+    shuffle(lines)
+    shuffle(lines)
+
+    lines = fakeshuffle(lines)
+    lines = fakeshuffle(lines)
+    lines = fakeshuffle(lines)
 
     for line in lines:
     
-        call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
+        call("youtube-dl -x --audio-format mp3 -o \"%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
         mp3 = ls(".","*.mp3")[0]
         
         call("ffplay -nodisp -autoexit \""+mp3+"\"",shell=True)
@@ -39,7 +47,6 @@ def useFile(fname):
                     list = line
 
                 print("getting links from list...")
-                print(list)
                 getLinksFromList(list)
 
             try:
@@ -58,9 +65,17 @@ def deleteMp3():
 
 def console():
     chdir(getTemp())
+
+    try:
+       mkdir("ytplaylist")
+    except:
+        print("folder exists...")
+
+    chdir("ytplaylist")
     
     deleteMp3()
-    remove(getTemp()+"persistence.txt")
+    remove("persistence.txt")
+    remove("play.txt")
     link = input("playlist link or txt path:")
 
     useFile(link)

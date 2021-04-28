@@ -22,17 +22,14 @@ def getListLink(link):
     return list;
 
 def getLinksFromList(list):
-    call("youtube-dl --get-id "+list+" > "+getTemp()+"persistence.txt",shell=True)
+    call("youtube-dl --get-id "+list+" > persistence.txt",shell=True)
     
-    lines = getLines(getTemp()+"persistence.txt")
+    lines = getLines("persistence.txt")
     del lines[-1]
-
-    #remove(getTemp()+"play.txt")
-    #createFile(getTemp()+"play.txt")
 
     for line in lines:
         line = "https://www.youtube.com/watch?v="+line+"\n"
-        writeFile(getTemp()+"play.txt",line)
+        writeFile("play.txt",line)
 
 def downloadAsMusic():
     call("youtube-dl -x --audio-format mp3 -o \""+getcwd()+"/%(title)s-%(id)s.%(ext)s\" -a "+getTemp()+"persistence.txt",shell=True)
