@@ -7,7 +7,9 @@ from random import shuffle
 from os import chdir
 from subprocess import call
 from os import mkdir
+from os import system
 from util import *
+from glob import glob
 
 def play():
     lines = getLines("play.txt")
@@ -25,8 +27,10 @@ def play():
 
     for line in lines:
         writeFile(".log",line+"\n")
-
-        call("youtube-dl -x --audio-format mp3 -o \"%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
+        
+        #specify all path for linux
+        call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"ytplaylist/%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
+        
         mp3 = ls(".","*.mp3")[0]
         
         call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
