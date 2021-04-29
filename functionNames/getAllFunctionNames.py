@@ -52,6 +52,6 @@ for f in fold:
 
 functions = functions.replace(";","")
 functions = removeBreakLine(functions)
-functions = functions.replace("{","?")
-functions = functions.replace(":","?")
+functions = functions.replace("{","?@?")
+functions = functions.replace(":","?@?")
 print(functions)
