@@ -7,6 +7,7 @@ from random import shuffle
 from os import chdir
 from subprocess import call
 from os import mkdir
+from util import *
 
 def play():
     lines = getLines("play.txt")
@@ -23,7 +24,8 @@ def play():
     lines = fakeshuffle(lines)
 
     for line in lines:
-    
+        writeFile(".log",line)
+
         call("youtube-dl -x --audio-format mp3 -o \"%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
         mp3 = ls(".","*.mp3")[0]
         
