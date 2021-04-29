@@ -24,12 +24,12 @@ def play():
     lines = fakeshuffle(lines)
 
     for line in lines:
-        writeFile(".log",line)
+        writeFile(".log",line+"\n")
 
         call("youtube-dl -x --audio-format mp3 -o \"%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
         mp3 = ls(".","*.mp3")[0]
         
-        call("ffplay -nodisp -autoexit \""+mp3+"\"",shell=True)
+        call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
         
         remove(mp3)
 
@@ -79,7 +79,7 @@ def console():
     remove("persistence.txt")
     remove("play.txt")
     link = input("playlist link or txt path:")
-
+    
     useFile(link)
 
     if(not link.startswith("https://www.youtube.com/playlist?list=")):
