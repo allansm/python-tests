@@ -9,7 +9,6 @@ from subprocess import call
 from os import mkdir
 from os import system
 from util import *
-#from glob import glob
 
 def ignore(fname,link):
     lines = getLines(fname)
@@ -21,8 +20,6 @@ def ignore(fname,link):
 
 def play(ig):
     lines = getLines("play.txt")
-
-    remove("play.txt")
     
     shuffle(lines)
     shuffle(lines)
@@ -43,7 +40,7 @@ def play(ig):
         
             mp3 = ls(".","*.mp3")[0]
             
-            print("listen:"+line+"\nmp3:"+mp3)
+            print("\nlisten:"+line+"\nmp3:"+mp3)
 
 
             call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
@@ -95,10 +92,18 @@ def console():
     chdir("ytplaylist")
     
     deleteMp3()
+
+    if(exists("play.txt")):
+        if(input("use backuped list ? (y/n):") == "y"):
+            ignore = input("ignore link?\npath to txt(blank=none):") 
+            play(ignore)
+            
+            exit()
+
     remove("persistence.txt")
     remove("play.txt")
     link = input("playlist link or txt path:")
-    ignore = input("ignore link?\npath to txt(blank=none):")    
+    ignore = input("ignore link?\npath to txt(blank=none):")
     useFile(link,ignore)
 
     if(not link.startswith("https://www.youtube.com/playlist?list=")):
