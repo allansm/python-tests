@@ -9,6 +9,7 @@ from subprocess import call
 from os import mkdir
 from os import system
 from util import *
+from random import randrange
 
 def ignore(fname,link):
     lines = getLines(fname)
@@ -21,14 +22,13 @@ def ignore(fname,link):
 def play(ig):
     lines = getLines("play.txt")
     
-    shuffle(lines)
-    shuffle(lines)
-    shuffle(lines)
-    shuffle(lines)
+    for x in range(randrange(5,11)):
+        print("shuffle:"+str(x))
+        shuffle(lines)
 
-    lines = fakeshuffle(lines)
-    lines = fakeshuffle(lines)
-    lines = fakeshuffle(lines)
+    for x in range(randrange(5,11)):
+        print("fake:"+str(x))
+        lines = fakeshuffle(lines)
 
     for line in lines:
         print("checking...")

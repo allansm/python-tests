@@ -10,7 +10,7 @@ root.overrideredirect(1)
 
 #txt.set("helloworld")
 
-label = tk.Label(root, text="helloworld")
+label = tk.Label(root,bg="systemTransparent", text="helloworld")
 root.overrideredirect(True)
 root.geometry("+250+250")
 #root.lift()
