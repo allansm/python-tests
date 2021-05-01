@@ -37,14 +37,17 @@ def play(ig):
             
             #specify all path for linux
             call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"ytplaylist/%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
-        
-            mp3 = ls(".","*.mp3")[0]
             
-            print("\nlisten:"+line+"\nmp3:"+mp3)
+            try:
+                mp3 = ls(".","*.mp3")[0]
+            
+                print("\nlisten:"+line+"\nmp3:"+mp3)
+                call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
 
-
-            call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
-        
+            except:
+                writeFile(".log","file not found.\n")
+                print("file not found.")
+                    
             remove(mp3)
         else:
             print("ignored:"+line)

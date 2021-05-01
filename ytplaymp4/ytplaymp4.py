@@ -24,7 +24,13 @@ def createList(fn):
 
     lines = getLines(fn)
 
-    shuffled = fakeshuffle(lines)
+    for x in range(randrange(5,11)):
+        print("shuffle:"+str(x))
+        shuffle(lines)
+
+    for x in range(randrange(5,11)):
+        print("fake:"+str(x))
+        lines = fakeshuffle(lines)
     
     for line in shuffled:
         print(line)
