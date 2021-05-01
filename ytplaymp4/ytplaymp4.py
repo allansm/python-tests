@@ -53,9 +53,9 @@ def play(fn,miniature):
             print("consumed:"+consumed)
             
             if(miniature == "y"):
-                call("ffplay -an -x 300 -y 200 -top 28 -left 1000 -alwaysontop -noborder -framedrop -autoexit \""+consumed+"\"",shell=True)
+                call("ffplay -an -x 300 -y 170 -top 28 -left 1000 -alwaysontop -noborder -framedrop -autoexit -loglevel 0 \""+consumed+"\"",shell=True)
             else:
-                call("ffplay -an -x 1366 -y 768 -noborder -framedrop -autoexit \""+consumed+"\"",shell=True)
+                call("ffplay -an -x 1366 -y 768 -noborder -framedrop -autoexit -loglevel 0 \""+consumed+"\"",shell=True)
 
 redirect()
 

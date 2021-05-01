@@ -66,7 +66,6 @@ while(True):
     
     writeFile("music.log",removeBreakLine(mp3)+"\n")
     
-    #system("ffplay -autoexit -nodisp \""+mp3+"\"")
-    call("ffplay -autoexit -nodisp \""+mp3+"\"",shell=True)
+    call("ffplay -autoexit -nodisp -loglevel 0  \""+mp3+"\"",shell=True)
 
 
