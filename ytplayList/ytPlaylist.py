@@ -41,7 +41,7 @@ def play(ig):
             try:
                 mp3 = ls(".","*.mp3")[0]
             
-                print("\nlisten:"+line+"\nmp3:"+mp3)
+                print("\nlistening:"+line+"\nmp3:"+mp3)
                 call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
 
             except:

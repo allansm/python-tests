@@ -1,4 +1,3 @@
-#from os import system
 from subprocess import call
 
 from os import chdir
@@ -66,6 +65,8 @@ while(True):
     
     writeFile("music.log",removeBreakLine(mp3)+"\n")
     
+    print("listening:"+mp3)
+
     call("ffplay -autoexit -nodisp -loglevel 0  \""+mp3+"\"",shell=True)
 
 
