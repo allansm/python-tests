@@ -84,6 +84,12 @@ def deleteMp3():
     for f in files:
         remove(f)
 
+def deleteWebm():
+    files = ls(".","*.webm")
+
+    for f in files:
+        remove(f)
+
 def console():
     chdir(getTemp())
 
@@ -95,18 +101,30 @@ def console():
     chdir("ytplaylist")
     
     deleteMp3()
+    deleteWebm()
 
     if(exists("play.txt")):
         if(input("use backuped list ? (y/n):") == "y"):
-            ignore = input("ignore link?\npath to txt(blank=none):") 
+            if(exists("ignore.txt")):
+                ignore = getLines("ignore.txt")[0]
+                print("ignore:"+ignore)
+            else:
+                ignore = input("ignore link?\npath to txt(blank=none):")
+                remove("ignore.txt")
+                writeFile("ignore.txt",ignore)
+
             play(ignore)
             
             exit()
 
     remove("persistence.txt")
     remove("play.txt")
+    remove("ignore.txt")
+
     link = input("playlist link or txt path:")
     ignore = input("ignore link?\npath to txt(blank=none):")
+    writeFile("ignore.txt",ignore)
+
     useFile(link,ignore)
 
     if(not link.startswith("https://www.youtube.com/playlist?list=")):
