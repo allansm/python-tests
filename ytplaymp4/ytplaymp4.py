@@ -50,7 +50,7 @@ def play(fn,miniature):
             call("youtube-dl --get-url --format best "+consumeLine("persistence.txt",0)+" > current",shell=True)
             
             consumed = consumeLine("current",0)
-            print("consumed:"+consumed)
+            print("watching:"+consumed)
             
             if(miniature == "y"):
                 call("ffplay -an -x 300 -y 170 -top 28 -left 1000 -alwaysontop -noborder -framedrop -autoexit -loglevel 0 \""+consumed+"\"",shell=True)
