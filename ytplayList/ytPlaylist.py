@@ -12,10 +12,11 @@ from util import *
 from random import randrange
 
 def ignore(fname,link):
-    lines = getLines(fname)
-    for line in lines:
-        if(line == link):
-            return True
+    if(fname != ""):
+        lines = getLines(fname)
+        for line in lines:
+            if(line == link):
+                return True
 
     return False
 
