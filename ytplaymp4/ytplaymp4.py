@@ -47,7 +47,7 @@ def play(fn,miniature):
         if(not exists("persistence.txt")):
             createList(fn)
         else:
-            call("youtube-dl --get-url --format best "+consumeLine("persistence.txt",0)+" > current",shell=True)
+            call("youtube-dl --get-url -f \"bestvideo[height<=720]+bestaudio/best[height<=720]\" "+consumeLine("persistence.txt",0)+" > current",shell=True)
             
             consumed = consumeLine("current",0)
             print("watching:"+consumed)
