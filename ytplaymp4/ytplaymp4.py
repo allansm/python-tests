@@ -38,7 +38,7 @@ def createList(fn):
     writeLines("persistence.txt",shuffled)
     print("persistence created...")
 
-def play(fn,miniature):
+def play(fn,miniature,quality):
     while True:
         if(exists("last")):
             if(fn != getLines("last")[0]):
@@ -47,7 +47,7 @@ def play(fn,miniature):
         if(not exists("persistence.txt")):
             createList(fn)
         else:
-            call("youtube-dl --get-url -f \"bestvideo[height<=720]+bestaudio/best[height<=720]\" "+consumeLine("persistence.txt",0)+" > current",shell=True)
+            call("youtube-dl --get-url -f \"bestvideo[height<="+quality+"]+bestaudio/best[height<="+quality+"]\" "+consumeLine("persistence.txt",0)+" > current",shell=True)
             
             consumed = consumeLine("current",0)
             print("watching:"+consumed)
@@ -59,5 +59,5 @@ def play(fn,miniature):
 
 redirect()
 
-play(input("links file url:"),input("miniature(y/n):"))
+play(input("links file url:"),input("miniature(y/n):"),input("quality:"))
 
