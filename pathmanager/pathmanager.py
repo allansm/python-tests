@@ -13,26 +13,11 @@ def run():
 
     command = input("command:")
 
-    if(command == "select"):
-        i=0
-        for path in paths:
-            print(str(i)+" : "+path)
-            i = i+1
-
-        index = input("index :")
-
-        chdir(paths[int(index)])
-        
-        command = input("command:")
-
+    for path in paths:
+        chdir(path)
+        print("")
+        print("     PATH:"+path)
+        print("")
         system(command)
-    
-    else:
-        for path in paths:
-            chdir(path)
-            print("")
-            print("     PATH:"+path)
-            print("")
-            system(command)
 
 run()
