@@ -39,6 +39,8 @@ def createList(fn):
     print("persistence created...")
 
 def play(fn,miniature,quality):
+    if(miniature != "y"):
+        res = input("resolution (WIDTHxHEIGHT):").split("x")
     while True:
         if(exists("last")):
             if(fn != getLines("last")[0]):
@@ -55,7 +57,7 @@ def play(fn,miniature,quality):
             if(miniature == "y"):
                 call("ffplay -an -x 300 -y 170 -top 28 -left 1000 -alwaysontop -noborder -framedrop -autoexit -loglevel 0 \""+consumed+"\"",shell=True)
             else:
-                call("ffplay -an -x 1366 -y 768 -noborder -framedrop -autoexit -loglevel 0 \""+consumed+"\"",shell=True)
+                call("ffplay -an -x "+res[0]+" -y "+res[1]+" -noborder -framedrop -autoexit -loglevel 0 \""+consumed+"\"",shell=True)
 
 redirect()
 
