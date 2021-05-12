@@ -8,6 +8,9 @@ from subprocess import call
 from os import getcwd
 
 def getListLink(link):
+    if "list=" not in link:
+        return link
+
     if "&" in link.split("list=")[1]:
         result = search('list=(.*)&', link)
         list = result.group(1).split("&")[0]
