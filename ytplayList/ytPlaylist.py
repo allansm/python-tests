@@ -44,11 +44,12 @@ def play(ig):
             try:
                 mp3 = ls(".","*.mp3")[0]
                 mp3msg = mp3.replace(".\\","")
+                mp3msg = mp3msg.replace(".mp3","")
 
                 print("\nlistening:"+line+"\nmp3:"+mp3msg)
                 if(isWindows()):
                     #call("start \"\" \""+notifu+"\" /m \""+line+"\\n\\nmp3:"+mp3+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10",shell=True)
-                    call("start \"\" \""+notifu+"\" /m \"\\n"+mp3msg+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10",shell=True)
+                    call("start \"\" \""+notifu+"\" /m \"\\n"+mp3msg+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /c /q",shell=True)
 
                 call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
 

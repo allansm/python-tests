@@ -2,6 +2,8 @@ import os
 from glob import glob
 import random
 from tempfile import gettempdir
+from urllib.parse import urlparse
+
 
 #use __file__
 def selfLocation(__f__):
@@ -85,4 +87,17 @@ def isEmpty(fname):
 
 def ls(path,extension):
     return glob(path+"/"+extension)
+
+def getAllFiles(path):
+    fold = os.walk(path)
+    ret = []
+    for root, dirs, files in fold:
+        for name in files:
+            ret.append(os.path.join(root, name))
+
+    return ret
+
+def getFileName(path):
+    name = urlparse(path)
+    return os.path.basename(name.path)
 
