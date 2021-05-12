@@ -1,4 +1,5 @@
 from random import shuffle
+import platform
 
 def split_list(a_list):
     half = len(a_list)//2
@@ -32,4 +33,8 @@ def fakeshuffle(arr):
 
     return arr
 
-
+def isWindows():
+    if(platform.system() == "Windows"):
+        return True
+    
+    return false

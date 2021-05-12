@@ -11,6 +11,8 @@ from os import system
 from util import *
 from random import randrange
 
+notifu = selfLocation(__file__)+"\\bin\\notifu"
+
 def ignore(fname,link):
     if(fname != ""):
         lines = getLines(fname)
@@ -41,8 +43,13 @@ def play(ig):
             
             try:
                 mp3 = ls(".","*.mp3")[0]
-            
-                print("\nlistening:"+line+"\nmp3:"+mp3)
+                mp3msg = mp3.replace(".\\","")
+
+                print("\nlistening:"+line+"\nmp3:"+mp3msg)
+                if(isWindows()):
+                    #call("start \"\" \""+notifu+"\" /m \""+line+"\\n\\nmp3:"+mp3+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10",shell=True)
+                    call("start \"\" \""+notifu+"\" /m \"\\n"+mp3msg+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10",shell=True)
+
                 call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
 
             except:
