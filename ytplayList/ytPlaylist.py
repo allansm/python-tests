@@ -23,6 +23,8 @@ def ignore(fname,link):
     return False
 
 def play(ig):
+    SUPRESS = open(os.devnull, 'w')
+
     lines = getLines("play.txt")
     
     for x in range(randrange(5,11)):
@@ -35,11 +37,11 @@ def play(ig):
 
     for line in lines:
         print("checking...")
-        if(not ignore(ig,line)):
+        if(not ignore(ig,line) and not line == ""):
             writeFile(".log",line+"\n")
             
             #specify all path for linux
-            call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"ytplaylist/%(title)s-%(id)s.%(ext)s\" "+line,shell=True)
+            call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"ytplaylist/%(title)s-%(id)s.%(ext)s\" "+line,shell=True,stdout=SUPRESS)
             
             try:
                 mp3 = ls(".","*.mp3")[0]
@@ -48,8 +50,9 @@ def play(ig):
 
                 print("\nlistening:"+line+"\nmp3:"+mp3msg)
                 if(isWindows()):
-                    #call("start \"\" \""+notifu+"\" /m \""+line+"\\n\\nmp3:"+mp3+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10",shell=True)
-                    call("start \"\" \""+notifu+"\" /m \"\\n"+mp3msg+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /c /q",shell=True)
+                    call("@echo off",shell=True)
+                    call("taskkill /f /im notifu.exe",shell=True,stdout=SUPRESS)
+                    call("start \"\" \""+notifu+"\" /m \"\\n"+mp3msg+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
 
                 call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
 
@@ -70,14 +73,15 @@ def useFile(fname,ignore):
             shuffle(lines)
             
             for line in lines:
-                if(not line.startswith("https://www.youtube.com/playlist?list=")):
-                    print(line)
-                    list = getListLink(line)
-                else:
-                    list = line
+                if(not line.startswith("#")):
+                    if(not line.startswith("https://www.youtube.com/playlist?list=")):
+                        print(line)
+                        list = getListLink(line)
+                    else:
+                        list = line
 
-                print("getting links from list...")
-                getLinksFromList(list)
+                    print("getting links from list...")
+                    getLinksFromList(list)
 
             try:
                 play(ignore)
