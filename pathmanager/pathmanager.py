@@ -14,10 +14,11 @@ def run():
     command = input("command:")
 
     for path in paths:
-        chdir(path)
-        print("")
-        print("     PATH:"+path)
-        print("")
-        system(command)
+        if(path != ""):
+            chdir(path)
+            print("")
+            print("     PATH:"+path)
+            print("")
+            system(command)
 
 run()

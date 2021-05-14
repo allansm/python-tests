@@ -51,7 +51,7 @@ def play(ig):
                 print("\nlistening:"+line+"\nmp3:"+mp3msg)
                 if(isWindows()):
                     call("@echo off",shell=True)
-                    call("taskkill /f /im notifu.exe",shell=True,stdout=SUPRESS)
+                    call("taskkill /f /im notifu.exe 2>NUL",shell=True,stdout=SUPRESS)
                     call("start \"\" \""+notifu+"\" /m \"\\n"+mp3msg+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
 
                 call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
