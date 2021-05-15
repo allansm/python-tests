@@ -8,10 +8,18 @@ import sys
 sys.path.append("../functions")
 
 from fileHandle import *
-
+from shutil import rmtree
 os.chdir(wdir)
 
 src = getAllFiles("src")
+
+try:
+    rmtree("bin")
+except:
+    dummy = ""
+
+os.mkdir("bin")
+
 javac = []
 
 for f in src:
@@ -19,6 +27,9 @@ for f in src:
         javac.append(os.path.dirname(f)+"\\"+"*.java")
 
 javac = list(dict.fromkeys(javac))
+
+for line in javac:
+    print(line)
 
 for line in javac:
     os.system("javac -cp lib\* -d bin "+line)
