@@ -22,11 +22,42 @@ def ignore(fname,link):
 
     return False
 
-def play(ig):
+def generatePlaylists(list):
+    if(not "list=" in list):
+        tmpname = list.split("v=")[-1]
+        if(not exists("playlists/"+tmpname)):
+            writeFile("playlists/"+tmpname,line)
+
+        return tmpname
+
+    else:
+        tmpname = list.split("list=")[-1]
+        if(not exists("playlists/"+tmpname)):
+            call("youtube-dl --get-id "+list+" > persistence.txt",shell=True)
+
+            lines = getLines("persistence.txt")
+            del lines[-1]
+
+            for line in lines:
+                line = "https://www.youtube.com/watch?v="+line+"\n"
+                writeFile("playlists/"+tmpname,line)
+        
+        return tmpname
+
+def play(ig,playlists):
     SUPRESS = open(os.devnull, 'w')
 
-    lines = getLines("play.txt")
+    #playlists = getAllFiles("playlists")
+    lines = []
+    for pl in playlists:
+        print("getting lines..")
+        try:
+            lines = lines + getLines(pl)
+        except:
+            print("erro on:"+pl)
     
+    print(lines)
+
     for x in range(randrange(5,11)):
         print("shuffle:"+str(x))
         shuffle(lines)
@@ -65,6 +96,13 @@ def play(ig):
             print("ignored:"+line)
 
 def useFile(fname,ignore):
+    try:
+        mkdir("playlists")
+    except:
+        dummy = ""
+
+    playlists = []
+
     if(not fname.startswith("http")):
         if(exists(fname)):
             print("file exists : ok")
@@ -85,9 +123,34 @@ def useFile(fname,ignore):
                     
                     #this is a test
                     #getLinksFromList(list)
+                    '''                    
+                    if(not "list=" in list):
+                        tmpname = list.split("v=")[-1]
+                        if(not exists("playlists/"+tmpname)):
+                            writeFile("playlists/"+tmpname,line)
 
+                        playlists.append("playlists/"+tmpname)
+                    else:
+                        tmpname = list.split("list=")[-1]
+                        if(not exists("playlists/"+tmpname)):
+                            call("youtube-dl --get-id "+list+" > persistence.txt",shell=True)
+            
+                            lines = getLines("persistence.txt")
+                            del lines[-1]
+
+                            for line in lines:
+                                line = "https://www.youtube.com/watch?v="+line+"\n"
+                                writeFile("playlists/"+tmpname,line)
+                        
+                        playlists.append("playlists/"+tmpname)
+                    '''
+                    playlists.append("playlists/"+generatePlaylists(list))
+                    print(playlists)
+                    #end test
+
+                    
             try:
-                play(ignore)
+                play(ignore,playlists)
 
             except:
                 print("erro on play!!!")
@@ -116,10 +179,17 @@ def console():
 
     chdir("ytplaylist")
     
+    try:
+        mkdir("playlists")
+    except:
+        dummy = ""
+
+
     deleteMp3()
     deleteWebm()
-
-    if(exists("play.txt")):
+    
+    #remove this
+    '''if(exists("play.txt")):
         if(input("use backuped list ? (y/n):") == "y"):
             if(exists("ignore.txt")):
                 ignore = getLines("ignore.txt")[0]
@@ -132,9 +202,9 @@ def console():
             play(ignore)
             
             exit()
-
+    '''
     remove("persistence.txt")
-    remove("play.txt")
+    #remove("play.txt")
     remove("ignore.txt")
 
     link = input("playlist link or txt path:")
@@ -148,8 +218,10 @@ def console():
     else:
         list = link
 
-    getLinksFromList(list)
-    
-    play(ignore)
+    #getLinksFromList(list)
+    playlists = []
+    playlists.append("playlists/"+generatePlaylists(link))
+
+    play(ignore,playlists)
 
 console()
