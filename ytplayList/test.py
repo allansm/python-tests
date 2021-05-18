@@ -26,7 +26,7 @@ def generatePlaylists(list):
     if(not "list=" in list):
         tmpname = list.split("v=")[-1]
         if(not exists("playlists/"+tmpname)):
-            writeFile("playlists/"+tmpname,line)
+            writeFile("playlists/"+tmpname,list)
 
         return tmpname
 
