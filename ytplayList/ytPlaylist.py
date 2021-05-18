@@ -11,8 +11,9 @@ from os import system
 from util import *
 from random import randrange
 
-notifu = selfLocation(__file__)+"\\bin\\notifu"
+#notifu = selfLocation(__file__)+"\\bin\\notifu"
 
+#headless functions
 def ignore(fname,link):
     if(fname != ""):
         lines = getLines(fname)
@@ -22,11 +23,39 @@ def ignore(fname,link):
 
     return False
 
-def play(ig):
+def toast(message,title):
     SUPRESS = open(os.devnull, 'w')
 
-    lines = getLines("play.txt")
+    notifu = selfLocation(__file__)+"\\bin\\notifu"
+
+    if(isWindows()):
+        call("@echo off",shell=True)
+        call("taskkill /f /im notifu.exe 2>NUL",shell=True,stdout=SUPRESS)
+        call("start \"\" \""+notifu+"\" /m \"\\n"+message+"\" /p \""+title+"\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
+
+def build():
+    chdir(getTemp())
+
+    try:
+       mkdir("ytplaylist")
+    except:
+        print("folder exists...")
+
+    chdir("ytplaylist")
     
+    try:
+        mkdir("playlists")
+    except:
+        dummy = ""
+
+
+    deleteMp3()
+    deleteWebm()
+    
+    remove("persistence.txt")
+    remove("ignore.txt")
+
+def shuffleLines(lines):
     for x in range(randrange(5,11)):
         print("shuffle:"+str(x))
         shuffle(lines)
@@ -34,62 +63,30 @@ def play(ig):
     for x in range(randrange(5,11)):
         print("fake:"+str(x))
         lines = fakeshuffle(lines)
+    
+    return lines
 
-    for line in lines:
-        print("checking...")
-        if(not ignore(ig,line) and not line == ""):
-            writeFile(".log",line+"\n")
-            
-            #specify all path for linux
-            call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"ytplaylist/%(title)s-%(id)s.%(ext)s\" "+line,shell=True,stdout=SUPRESS)
-            
-            try:
-                mp3 = ls(".","*.mp3")[0]
-                mp3msg = mp3.replace(".\\","")
-                mp3msg = mp3msg.replace(".mp3","")
+def downloadMp3(link):
+    SUPRESS = open(os.devnull, 'w')
 
-                print("\nlistening:"+line+"\nmp3:"+mp3msg)
-                if(isWindows()):
-                    call("@echo off",shell=True)
-                    call("taskkill /f /im notifu.exe 2>NUL",shell=True,stdout=SUPRESS)
-                    call("start \"\" \""+notifu+"\" /m \"\\n"+mp3msg+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
+    #specify all path for linux
+    call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"ytplaylist/%(title)s-%(id)s.%(ext)s\" "+link,shell=True,stdout=SUPRESS)
 
-                call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3+"\"",shell=True)
 
-            except:
-                writeFile(".log","file not found.\n")
-                print("file not found.")
-                    
-            remove(mp3)
-        else:
-            print("ignored:"+line)
+def getMp3():
+    mp3 = ls(".","*.mp3")[0]
+    mp3msg = mp3.replace(".\\","")
+    mp3msg = mp3msg.replace(".mp3","")
 
-def useFile(fname,ignore):
-    if(not fname.startswith("http")):
-        if(exists(fname)):
-            print("file exists : ok")
-            lines = getLines(fname)
-            
-            shuffle(lines)
-            
-            for line in lines:
-                if(not line.startswith("#")):
-                    if(not line.startswith("https://www.youtube.com/playlist?list=")):
-                        print(line)
-                        list = getListLink(line)
-                    else:
-                        list = line
+    arr = []
+    arr.append(mp3)
+    arr.append(mp3msg)
 
-                    print("getting links from list...")
-                    getLinksFromList(list)
+    return arr
 
-            try:
-                play(ignore)
+def playMp3(link):
+    call("ffplay -nodisp -autoexit -loglevel 0 \""+link+"\"",shell=True)
 
-            except:
-                print("erro on play!!!")
-
-            exit()
 
 def deleteMp3():
     files = ls(".","*.mp3")
@@ -103,7 +100,135 @@ def deleteWebm():
     for f in files:
         remove(f)
 
+def generatePlaylists(list):
+    if(not "list=" in list):
+        tmpname = list.split("v=")[-1]
+        if(not exists("playlists/"+tmpname)):
+            writeFile("playlists/"+tmpname,list)
+
+        return tmpname
+
+    else:
+        tmpname = list.split("list=")[-1]
+        if(not exists("playlists/"+tmpname)):
+            call("youtube-dl --get-id "+list+" > persistence.txt",shell=True)
+
+            lines = getLines("persistence.txt")
+            del lines[-1]
+
+            for line in lines:
+                line = "https://www.youtube.com/watch?v="+line+"\n"
+                writeFile("playlists/"+tmpname,line)
+        
+        return tmpname
+
+#main functions
+def play(ig,playlists): 
+    lines = []
+    for pl in playlists:
+        print("getting lines..")
+        try:
+            lines = lines + getLines(pl)
+        except:
+            print("erro on:"+pl)
+    
+    print(lines)
+    
+    #remove
+    '''
+    for x in range(randrange(5,11)):
+        print("shuffle:"+str(x))
+        shuffle(lines)
+
+    for x in range(randrange(5,11)):
+        print("fake:"+str(x))
+        lines = fakeshuffle(lines)
+    '''
+    
+    lines = shuffleLines(lines)
+    
+    for line in lines:
+        print("checking...")
+        if(not ignore(ig,line) and not line == ""):
+            writeFile(".log",line+"\n")
+            #remove
+            '''
+            #specify all path for linux
+            call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"ytplaylist/%(title)s-%(id)s.%(ext)s\" "+line,shell=True,stdout=SUPRESS)
+            '''
+            downloadMp3(line)
+
+            try:
+                #remove
+                '''
+                mp3 = ls(".","*.mp3")[0]
+                mp3msg = mp3.replace(".\\","")
+                mp3msg = mp3msg.replace(".mp3","")
+                '''
+                mp3 = getMp3()
+
+                print("\nlistening:"+line+"\nmp3:"+mp3[1])
+                
+                #remove
+                '''
+                if(isWindows()):
+                    call("@echo off",shell=True)
+                    call("taskkill /f /im notifu.exe 2>NUL",shell=True,stdout=SUPRESS)
+                    call("start \"\" \""+notifu+"\" /m \"\\n"+mp3msg+"\" /p \"Listening\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
+                '''
+                toast(mp3[1],"Listening")
+
+                #call("ffplay -nodisp -autoexit -loglevel 0 \""+mp3[0]+"\"",shell=True)
+                playMp3(mp3[0])
+
+            except:
+                writeFile(".log","file not found.\n")
+                print("file not found.")
+                    
+            remove(mp3[0])
+        else:
+            print("ignored:"+line)
+
+def useFile(fname,ignore):
+    #remove
+    '''
+    try:
+        mkdir("playlists")
+    except:
+        dummy = ""
+    '''
+
+    playlists = []
+
+    if(not fname.startswith("http")):
+        if(exists(fname)):
+            print("file exists : ok")
+            lines = getLines(fname)
+                       
+            for line in lines:
+                if(not line.startswith("#")):
+                    if(not line.startswith("https://www.youtube.com/playlist?list=")):
+                        print(line)
+                        list = getListLink(line)
+                    else:
+                        list = line
+
+                    print("getting links from list...")
+                    
+                    playlists.append("playlists/"+generatePlaylists(list))
+                    print(playlists)
+                    
+            try:
+                play(ignore,playlists)
+
+            except:
+                print("erro on play!!!")
+
+            exit()
+
 def console():
+    #remove
+    '''
     chdir(getTemp())
 
     try:
@@ -113,26 +238,19 @@ def console():
 
     chdir("ytplaylist")
     
+    try:
+        mkdir("playlists")
+    except:
+        dummy = ""
+
+
     deleteMp3()
     deleteWebm()
-
-    if(exists("play.txt")):
-        if(input("use backuped list ? (y/n):") == "y"):
-            if(exists("ignore.txt")):
-                ignore = getLines("ignore.txt")[0]
-                print("ignore:"+ignore)
-            else:
-                ignore = input("ignore link?\npath to txt(blank=none):")
-                remove("ignore.txt")
-                writeFile("ignore.txt",ignore)
-
-            play(ignore)
-            
-            exit()
-
+    
     remove("persistence.txt")
-    remove("play.txt")
     remove("ignore.txt")
+    '''
+    build()
 
     link = input("playlist link or txt path:")
     ignore = input("ignore link?\npath to txt(blank=none):")
@@ -145,8 +263,9 @@ def console():
     else:
         list = link
 
-    getLinksFromList(list)
-    
-    play(ignore)
+    playlists = []
+    playlists.append("playlists/"+generatePlaylists(link))
+
+    play(ignore,playlists)
 
 console()
