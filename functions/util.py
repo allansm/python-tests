@@ -1,5 +1,7 @@
 from random import shuffle
 import platform
+from subprocess import call
+import os
 
 def split_list(a_list):
     half = len(a_list)//2
@@ -38,3 +40,15 @@ def isWindows():
         return True
     
     return false
+
+#require notifu on windows blank on linux
+def toast(message,title,exe):
+    SUPRESS = open(os.devnull, 'w')
+
+    if(isWindows()):
+        call("@echo off",shell=True)
+        call("taskkill /f /im notifu.exe 2>NUL",shell=True,stdout=SUPRESS)
+        call("start \"\" \""+exe+"\" /m \"\\n"+message+"\" /p \""+title+"\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
+    else:
+        linux = "incomplete"
+

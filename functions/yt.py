@@ -42,3 +42,34 @@ def downloadAsMusic():
 
 def downloadMp4(url):
    call("youtube-dl --format best "+url)
+
+def downloadMp3(link,folder):
+    SUPRESS = open(os.devnull, 'w')
+
+    #specify all path for linux
+    call("youtube-dl -x --audio-format mp3 -o \""+folder+"/%(title)s-%(id)s.%(ext)s\" "+link,shell=True,stdout=SUPRESS)
+
+
+def generatePlaylists(list):
+    if(not "list=" in list):
+        tmpname = list.split("v=")[-1]
+        if(not exists("playlists/"+tmpname)):
+            writeFile("playlists/"+tmpname,list)
+
+        return tmpname
+
+    else:
+        tmpname = list.split("list=")[-1]
+        if(not exists("playlists/"+tmpname)):
+            call("youtube-dl --get-id "+list+" > persistence.txt",shell=True)
+
+            lines = getLines("persistence.txt")
+            del lines[-1]
+
+            for line in lines:
+                line = "https://www.youtube.com/watch?v="+line+"\n"
+                writeFile("playlists/"+tmpname,line)
+        
+        return tmpname
+
+
