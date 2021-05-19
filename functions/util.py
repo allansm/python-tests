@@ -50,5 +50,5 @@ def toast(message,title,exe):
         call("taskkill /f /im notifu.exe 2>NUL",shell=True,stdout=SUPRESS)
         call("start \"\" \""+exe+"\" /m \"\\n"+message+"\" /p \""+title+"\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
     else:
-        linux = "incomplete"
+        call("notify-send \""+title+"\" \""+message+"\"")
 

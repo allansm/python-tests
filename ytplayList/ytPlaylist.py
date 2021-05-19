@@ -166,7 +166,7 @@ def console():
         list = link
 
     playlists = []
-    playlists.append("playlists/"+generatePlaylists(link))
+    playlists.append("playlists/"+generatePlaylists(list))
 
     play(ignore,playlists)
 
