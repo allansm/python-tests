@@ -22,18 +22,6 @@ def ignore(fname,link):
 
     return False
 
-#remove
-'''
-def toast(message,title):
-    SUPRESS = open(os.devnull, 'w')
-
-    notifu = selfLocation(__file__)+"\\bin\\notifu"
-
-    if(isWindows()):
-        call("@echo off",shell=True)
-        call("taskkill /f /im notifu.exe 2>NUL",shell=True,stdout=SUPRESS)
-        call("start \"\" \""+notifu+"\" /m \"\\n"+message+"\" /p \""+title+"\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
-'''
 
 def build():
     chdir(getTemp())
@@ -68,14 +56,6 @@ def shuffleLines(lines):
     
     return lines
 
-#remove
-'''
-def downloadMp3(link):
-    SUPRESS = open(os.devnull, 'w')
-
-    #specify all path for linux
-    call("youtube-dl -x --audio-format mp3 -o \""+getTemp()+"ytplaylist/%(title)s-%(id)s.%(ext)s\" "+link,shell=True,stdout=SUPRESS)
-'''
 
 def getMp3():
     mp3 = ls(".","*.mp3")[0]
@@ -87,11 +67,16 @@ def getMp3():
     arr.append(mp3msg)
 
     return arr
-#remove
-'''
-def playMp3(link):
-    call("ffplay -nodisp -autoexit -loglevel 0 \""+link+"\"",shell=True)
-'''
+def getPlaylistsLines(playlists):
+    lines = []
+    for pl in playlists:
+        print("getting lines..")
+        try:
+            lines = lines + getLines(pl)
+        except:
+            print("erro on:"+pl)
+    
+    return lines
 
 def deleteMp3():
     files = ls(".","*.mp3")
@@ -105,41 +90,9 @@ def deleteWebm():
     for f in files:
         remove(f)
 
-#removed
-'''
-def generatePlaylists(list):
-    if(not "list=" in list):
-        tmpname = list.split("v=")[-1]
-        if(not exists("playlists/"+tmpname)):
-            writeFile("playlists/"+tmpname,list)
-
-        return tmpname
-
-    else:
-        tmpname = list.split("list=")[-1]
-        if(not exists("playlists/"+tmpname)):
-            call("youtube-dl --get-id "+list+" > persistence.txt",shell=True)
-
-            lines = getLines("persistence.txt")
-            del lines[-1]
-
-            for line in lines:
-                line = "https://www.youtube.com/watch?v="+line+"\n"
-                writeFile("playlists/"+tmpname,line)
-        
-        return tmpname
-'''
-
 #main functions
-def play(ig,playlists): 
-    lines = []
-    for pl in playlists:
-        print("getting lines..")
-        try:
-            lines = lines + getLines(pl)
-        except:
-            print("erro on:"+pl)
-    
+def play(ig,playlists):
+    lines = getPlaylistsLines(playlists)
     print(lines)
         
     lines = shuffleLines(lines)
@@ -158,8 +111,6 @@ def play(ig,playlists):
                 
                 toast(mp3[1],"Listening",selfLocation(__file__)+"\\bin\\notifu")
 
-
-                #playMp3(mp3[0])
                 playSound(mp3[0])
 
 
