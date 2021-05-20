@@ -47,11 +47,9 @@ def build():
 
 def shuffleLines(lines):
     for x in range(randrange(5,11)):
-        #print("shuffle:"+str(x))
         shuffle(lines)
 
     for x in range(randrange(5,11)):
-        #print("fake:"+str(x))
         lines = fakeshuffle(lines)
     
     return lines
@@ -118,9 +116,6 @@ def deleteWebm():
 #main functions
 def play(ig,playlists):
     lines = getPlaylistsLines(playlists)
-    #print(lines)
-        
-    #lines = shuffleLines(lines)
     
     for line in lines:
         print("checking...")
@@ -162,7 +157,6 @@ def useFile(fname,ignore):
             for line in lines:
                 if(not line.startswith("#")):
                     if(not line.startswith("https://www.youtube.com/playlist?list=")):
-                        #print(line)
                         list = getListLink(line)
                     else:
                         list = line
@@ -170,7 +164,6 @@ def useFile(fname,ignore):
                     print("getting links from list...")
                     
                     playlists.append("playlists/"+generatePlaylists(list))
-                    #print(playlists)
                     
             try:
                 play(ignore,playlists)
