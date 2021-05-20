@@ -120,7 +120,7 @@ def play(ig,playlists):
     lines = getPlaylistsLines(playlists)
     #print(lines)
         
-    lines = shuffleLines(lines)
+    #lines = shuffleLines(lines)
     
     for line in lines:
         print("checking...")
