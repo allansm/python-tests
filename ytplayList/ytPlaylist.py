@@ -47,14 +47,34 @@ def build():
 
 def shuffleLines(lines):
     for x in range(randrange(5,11)):
-        print("shuffle:"+str(x))
+        #print("shuffle:"+str(x))
         shuffle(lines)
 
     for x in range(randrange(5,11)):
-        print("fake:"+str(x))
+        #print("fake:"+str(x))
         lines = fakeshuffle(lines)
     
     return lines
+
+def eqMerge(mat):
+    big = 0
+
+    for m in mat:
+        if(len(m) > big):
+            big = len(m)
+
+    print(big)
+
+    arr = []
+
+    for i in range(big):
+        for m in mat:
+            try:
+                arr.append(m[i])
+            except:
+                error = ""
+
+    return arr
 
 
 def getMp3():
@@ -67,16 +87,21 @@ def getMp3():
     arr.append(mp3msg)
 
     return arr
+
 def getPlaylistsLines(playlists):
-    lines = []
+    mat = []
+    playlists = shuffleLines(playlists)
     for pl in playlists:
         print("getting lines..")
         try:
-            lines = lines + getLines(pl)
+            lines = []
+            print(pl)
+            lines = shuffleLines(getLines(pl)) 
+            mat.append(lines)
         except:
             print("erro on:"+pl)
     
-    return lines
+    return eqMerge(mat)
 
 def deleteMp3():
     files = ls(".","*.mp3")
@@ -93,7 +118,7 @@ def deleteWebm():
 #main functions
 def play(ig,playlists):
     lines = getPlaylistsLines(playlists)
-    print(lines)
+    #print(lines)
         
     lines = shuffleLines(lines)
     
@@ -117,8 +142,12 @@ def play(ig,playlists):
             except:
                 writeFile(".log","file not found.\n")
                 print("file not found.")
-                    
-            remove(mp3[0])
+
+            try:        
+                remove(mp3[0])
+            except:
+                dummy = ""
+
         else:
             print("ignored:"+line)
 
@@ -133,7 +162,7 @@ def useFile(fname,ignore):
             for line in lines:
                 if(not line.startswith("#")):
                     if(not line.startswith("https://www.youtube.com/playlist?list=")):
-                        print(line)
+                        #print(line)
                         list = getListLink(line)
                     else:
                         list = line
@@ -141,7 +170,7 @@ def useFile(fname,ignore):
                     print("getting links from list...")
                     
                     playlists.append("playlists/"+generatePlaylists(list))
-                    print(playlists)
+                    #print(playlists)
                     
             try:
                 play(ignore,playlists)
