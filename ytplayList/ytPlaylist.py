@@ -178,6 +178,32 @@ def console():
 
     link = input("playlist link or txt path:")
     ignore = input("ignore link?\npath to txt(blank=none):")
+    
+    #remove if nessesary
+    #need a better version########
+
+    quit = False
+    try:
+        files = getAllFiles(link)
+        files = shuffleLines(files)
+
+        for f in files:
+            if "mp3" in f:
+                fn = getFileName(f)
+                if(f.replace(fn,"") == link.replace("/","\\")+"\\"):
+                    print(f)
+                    playSound(f)
+
+        quit = True
+
+    except:
+        dummy = ""
+    
+    if(quit):
+        exit()
+
+    ##############################
+
     writeFile("ignore.txt",ignore)
 
     useFile(link,ignore)
