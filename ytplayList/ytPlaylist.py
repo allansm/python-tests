@@ -184,17 +184,18 @@ def console():
 
     quit = False
     try:
-        files = getAllFiles(link)
-        files = shuffleLines(files)
+        if not ".txt" in link:
+            files = getAllFiles(link)
+            files = shuffleLines(files)
 
-        for f in files:
-            if "mp3" in f:
-                fn = getFileName(f)
-                if(f.replace(fn,"") == link.replace("/","\\")+"\\"):
-                    print(f)
-                    playSound(f)
+            for f in files:
+                if "mp3" in f:
+                    fn = getFileName(f)
+                    if(f.replace(fn,"") == link.replace("/","\\")+"\\"):
+                        print(f)
+                        playSound(f)
 
-        quit = True
+            quit = True
 
     except:
         dummy = ""
