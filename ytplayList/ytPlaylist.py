@@ -120,28 +120,31 @@ def play(ig,playlists):
     for line in lines:
         print("checking...")
         if(not ignore(ig,line) and not line == ""):
-            writeFile(".log",line+"\n")
-            
-            downloadMp3(line,getTemp()+"ytPlaylist")
-
-            try:
-                mp3 = getMp3()
-
-                print("\nlistening:"+line+"\nmp3:"+mp3[1])
+            if "mp3" in line:
+                playSound(line)
+            else:
+                writeFile(".log",line+"\n")
                 
-                toast(mp3[1],"Listening",selfLocation(__file__)+"\\bin\\notifu")
+                downloadMp3(line,getTemp()+"ytPlaylist")
 
-                playSound(mp3[0])
+                try:
+                    mp3 = getMp3()
+
+                    print("\nlistening:"+line+"\nmp3:"+mp3[1])
+                    
+                    toast(mp3[1],"Listening",selfLocation(__file__)+"\\bin\\notifu")
+
+                    playSound(mp3[0])
 
 
-            except:
-                writeFile(".log","file not found.\n")
-                print("file not found.")
+                except:
+                    writeFile(".log","file not found.\n")
+                    print("file not found.")
 
-            try:        
-                remove(mp3[0])
-            except:
-                dummy = ""
+                try:        
+                    remove(mp3[0])
+                except:
+                    dummy = ""
 
         else:
             print("ignored:"+line)
@@ -184,19 +187,21 @@ def console():
 
     quit = False
     try:
-        if not ".txt" in link:
+        #if not ".txt" in link:
+            #if not "http" in link:
+        if os.path.isdir(link):
+            quit = True
             files = getAllFiles(link)
             files = shuffleLines(files)
 
             for f in files:
                 if "mp3" in f:
                     fn = getFileName(f)
-                    if(f.replace(fn,"") == link.replace("/","\\")+"\\"):
+                    if(f.replace(fn,"").replace("/","\\") == link.replace("/","\\")+"\\"):
                         print(f)
                         playSound(f)
 
-            quit = True
-
+        exit()
     except:
         dummy = ""
     

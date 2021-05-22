@@ -7,6 +7,8 @@ from re import search
 from subprocess import call
 from os import getcwd
 
+import os
+
 def getListLink(link):
     if "list=" not in link:
         return link
@@ -51,7 +53,16 @@ def downloadMp3(link,folder):
 
 
 def generatePlaylists(list):
-    if(not "list=" in list):
+    if(os.path.isdir(list)):
+        tmpname = os.path.basename(list)
+        if(not exists("playlists/"+tmpname)):
+            lines = getAllFiles(list)
+            for line in lines:
+                writeFile("playlists/"+tmpname,line+"\n")
+        
+        return tmpname
+
+    elif(not "list=" in list):
         tmpname = list.split("v=")[-1]
         if(not exists("playlists/"+tmpname)):
             writeFile("playlists/"+tmpname,list)
