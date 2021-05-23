@@ -28,14 +28,16 @@ for b in bin:
 
 index = int(input("index:"))
 
-call("java -classpath bin "+package[index],shell=True)
-
 cn = package[index].split(".")[-1]
 
 try:
     os.mkdir("bat")
 except:
     dummy = ""
+
 call("echo @echo off > bat/"+cn+".bat",shell=True)
 call("echo cd .. >> bat/"+cn+".bat",shell=True)
 call("echo java -classpath bin "+package[index]+" >> bat/"+cn+".bat",shell=True)
+
+call("java -classpath bin "+package[index],shell=True)
+
