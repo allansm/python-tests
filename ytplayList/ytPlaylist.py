@@ -12,6 +12,8 @@ from util import *
 from random import randrange
 from ff import *
 
+import argparse
+
 #headless functions
 def ignore(fname,link):
     if(fname != ""):
@@ -113,6 +115,28 @@ def deleteWebm():
     for f in files:
         remove(f)
 
+def playFolder(link):
+    quit = False
+    try:
+        if os.path.isdir(link):
+            quit = True
+            files = getAllFiles(link)
+            files = shuffleLines(files)
+
+            for f in files:
+                if "mp3" in f:
+                    fn = getFileName(f)
+                    if(f.replace(fn,"").replace("/","\\") == link.replace("/","\\")+"\\"):
+                        print(f)
+                        playSound(f)
+
+        exit()
+    except:
+        dummy = ""
+    
+    if(quit):
+        exit()
+
 #main functions
 def play(ig,playlists):
     lines = getPlaylistsLines(playlists)
@@ -176,63 +200,24 @@ def useFile(fname,ignore):
 
             exit()
 
-def playFolder(link):
-    quit = False
-    try:
-        if os.path.isdir(link):
-            quit = True
-            files = getAllFiles(link)
-            files = shuffleLines(files)
-
-            for f in files:
-                if "mp3" in f:
-                    fn = getFileName(f)
-                    if(f.replace(fn,"").replace("/","\\") == link.replace("/","\\")+"\\"):
-                        print(f)
-                        playSound(f)
-
-        exit()
-    except:
-        dummy = ""
-    
-    if(quit):
-        exit()
-
 def console():
     build()
-
-    link = input("playlist link or txt path:")
-    ignore = input("ignore link?\npath to txt(blank=none):")
     
-    #remove if nessesary
-    #need a better version########
-    '''
-    quit = False
-    try:
-        #if not ".txt" in link:
-            #if not "http" in link:
-        if os.path.isdir(link):
-            quit = True
-            files = getAllFiles(link)
-            files = shuffleLines(files)
-
-            for f in files:
-                if "mp3" in f:
-                    fn = getFileName(f)
-                    if(f.replace(fn,"").replace("/","\\") == link.replace("/","\\")+"\\"):
-                        print(f)
-                        playSound(f)
-
-        exit()
-    except:
-        dummy = ""
+    #test
+    parser = argparse.ArgumentParser()
     
-    if(quit):
-        exit()
-    '''
+    parser.add_argument("--link",required=False)
+    parser.add_argument("--ignore",required=False)
+    
+    args = parser.parse_args()
+    
+    link = args.link if args.link != None else input("playlist link or txt path:")
+    ignore = args.ignore if args.ignore != None else iinput("ignore link?\npath to txt(blank=none):")
+    
+    #
+
     playFolder(link)
-    ##############################
-
+    
     writeFile("ignore.txt",ignore)
 
     useFile(link,ignore)
