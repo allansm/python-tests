@@ -176,6 +176,28 @@ def useFile(fname,ignore):
 
             exit()
 
+def playFolder(link):
+    quit = False
+    try:
+        if os.path.isdir(link):
+            quit = True
+            files = getAllFiles(link)
+            files = shuffleLines(files)
+
+            for f in files:
+                if "mp3" in f:
+                    fn = getFileName(f)
+                    if(f.replace(fn,"").replace("/","\\") == link.replace("/","\\")+"\\"):
+                        print(f)
+                        playSound(f)
+
+        exit()
+    except:
+        dummy = ""
+    
+    if(quit):
+        exit()
+
 def console():
     build()
 
@@ -184,7 +206,7 @@ def console():
     
     #remove if nessesary
     #need a better version########
-
+    '''
     quit = False
     try:
         #if not ".txt" in link:
@@ -207,7 +229,8 @@ def console():
     
     if(quit):
         exit()
-
+    '''
+    playFolder(link)
     ##############################
 
     writeFile("ignore.txt",ignore)
