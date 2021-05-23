@@ -157,6 +157,11 @@ def play(ig,playlists):
                     print("\nlistening:"+line+"\nmp3:"+mp3[1])
                     
                     toast(mp3[1],"Listening",selfLocation(__file__)+"\\bin\\notifu")
+                    
+                    #test
+                    remove("current.txt")
+                    writeFile("current.txt",line)
+                    #
 
                     playSound(mp3[0])
 
