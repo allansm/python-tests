@@ -15,6 +15,14 @@ from ff import *
 import argparse
 
 #headless functions
+def log(msg,f):
+    writeFile(f,msg)
+
+def storeCurrent(cur):
+    remove("current.txt")
+    writeFile("current.txt",cur)
+
+
 def ignore(fname,link):
     if(fname != ""):
         lines = getLines(fname)
@@ -147,7 +155,7 @@ def play(ig,playlists):
             if "mp3" in line:
                 playSound(line)
             else:
-                writeFile(".log",line+"\n")
+                #writeFile(".log",line+"\n")
                 
                 downloadMp3(line,getTemp()+"ytPlaylist")
 
@@ -159,8 +167,13 @@ def play(ig,playlists):
                     toast(mp3[1],"Listening",selfLocation(__file__)+"\\bin\\notifu")
                     
                     #test
-                    remove("current.txt")
-                    writeFile("current.txt",line)
+                    
+                    #remove("current.txt")
+                    #writeFile("current.txt",line)
+                    
+                    storeCurrent(line)
+
+                    log(".log",line+" "+mp3[1]+"\n")
                     #
 
                     playSound(mp3[0])
