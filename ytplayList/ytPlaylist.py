@@ -155,8 +155,7 @@ def play(ig,playlists):
             if "mp3" in line:
                 playSound(line)
             else:
-                #writeFile(".log",line+"\n")
-                
+               
                 downloadMp3(line,getTemp()+"ytPlaylist")
 
                 try:
@@ -168,12 +167,9 @@ def play(ig,playlists):
                     
                     #test
                     
-                    #remove("current.txt")
-                    #writeFile("current.txt",line)
-                    
                     storeCurrent(line)
 
-                    log(".log",line+" "+mp3[1]+"\n")
+                    log(line+" "+mp3[1]+"\n",".log")
                     #
 
                     playSound(mp3[0])
@@ -220,8 +216,7 @@ def useFile(fname,ignore):
 
 def console():
     build()
-    
-    #test
+     
     parser = argparse.ArgumentParser()
     
     parser.add_argument("--link",required=False)
@@ -232,8 +227,6 @@ def console():
     link = args.link if args.link != None else input("playlist link or txt path:")
     ignore = args.ignore if args.ignore != None else iinput("ignore link?\npath to txt(blank=none):")
     
-    #
-
     playFolder(link)
     
     writeFile("ignore.txt",ignore)
