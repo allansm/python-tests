@@ -1,3 +1,5 @@
+#note has problem with ignore when using --path
+
 import sys
 sys.path.append("../functions")
 
@@ -8,6 +10,7 @@ from os import chdir
 from subprocess import call
 from os import mkdir
 from os import system
+from os import getcwd
 from util import *
 from random import randrange
 from ff import *
@@ -19,8 +22,8 @@ def log(msg,f):
     writeFile(f,msg)
 
 def storeCurrent(cur):
-    remove("current.txt")
-    writeFile("current.txt",cur)
+    remove(getTemp()+"ytplaylist/"+"current.txt")
+    writeFile(getTemp()+"ytplaylist/"+"current.txt",cur)
 
 
 def ignore(fname,link):
@@ -33,11 +36,13 @@ def ignore(fname,link):
     return False
 
 
-def build(path):
-    path = path if path != None else getTemp()
+def build(path,ignore):
+    #path = path if path != None else getTemp()
+    wd = getcwd()
+    
+    chdir(getTemp())
 
-    chdir(path)
-    #chdir(getTemp())
+    print(getTemp())
 
     try:
        mkdir("ytplaylist")
@@ -57,6 +62,28 @@ def build(path):
     
     remove("persistence.txt")
     remove("ignore.txt")
+
+    writeFile("ignore.txt",ignore)
+
+    if(path != None):
+        chdir(wd)
+        print(wd)
+
+        chdir(path)
+        print(path)
+
+        try:
+           mkdir("ytplaylist")
+        except:
+            print("folder exists...")
+
+        chdir("ytplaylist")
+        
+        try:
+            mkdir("playlists")
+        except:
+            dummy = ""
+
 
 def shuffleLines(lines):
     for x in range(randrange(5,11)):
@@ -89,9 +116,10 @@ def eqMerge(mat):
 
 
 def getMp3():
-    mp3 = ls(".","*.mp3")[0]
+    mp3 = ls(getTemp()+"ytPlaylist","*.mp3")[0]
     mp3msg = mp3.replace(".\\","")
     mp3msg = mp3msg.replace(".mp3","")
+    mp3msg = mp3msg.replace(getTemp()+"ytPlaylist\\","")
 
     arr = []
     arr.append(mp3)
@@ -225,26 +253,17 @@ def useFile(fname,ignore):
 
             exit()
 
-def console():     
-    '''
-    parser = argparse.ArgumentParser()
-    
-    parser.add_argument("--link",required=False)
-    parser.add_argument("--ignore",required=False)
-    
-    args = parser.parse_args()
-    '''
-    
+def console():    
     args = getArgs()
-
-    build(args.path)
 
     link = args.link if args.link != None else input("playlist link or txt path:")
     ignore = args.ignore if args.ignore != None else iinput("ignore link?\npath to txt(blank=none):")
-    
+
+    build(args.path,ignore)
+        
     playFolder(link)
     
-    writeFile("ignore.txt",ignore)
+    #writeFile("ignore.txt",ignore)
 
     useFile(link,ignore)
 
@@ -259,3 +278,4 @@ def console():
     play(ignore,playlists)
 
 console()
+
