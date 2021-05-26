@@ -33,8 +33,11 @@ def ignore(fname,link):
     return False
 
 
-def build():
-    chdir(getTemp())
+def build(path):
+    path = path if path != None else getTemp()
+
+    chdir(path)
+    #chdir(getTemp())
 
     try:
        mkdir("ytplaylist")
@@ -145,6 +148,17 @@ def playFolder(link):
     if(quit):
         exit()
 
+def getArgs():
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument("--link",required=False)
+    parser.add_argument("--ignore",required=False)
+    parser.add_argument("--path",required=False) 
+
+    args = parser.parse_args()
+    
+    return args
+
 #main functions
 def play(ig,playlists):
     lines = getPlaylistsLines(playlists)
@@ -165,12 +179,9 @@ def play(ig,playlists):
                     
                     toast(mp3[1],"Listening",selfLocation(__file__)+"\\bin\\notifu")
                     
-                    #test
-                    
                     storeCurrent(line)
-
                     log(line+" "+mp3[1]+"\n",".log")
-                    #
+                    
 
                     playSound(mp3[0])
 
@@ -214,16 +225,20 @@ def useFile(fname,ignore):
 
             exit()
 
-def console():
-    build()
-     
+def console():     
+    '''
     parser = argparse.ArgumentParser()
     
     parser.add_argument("--link",required=False)
     parser.add_argument("--ignore",required=False)
     
     args = parser.parse_args()
+    '''
     
+    args = getArgs()
+
+    build(args.path)
+
     link = args.link if args.link != None else input("playlist link or txt path:")
     ignore = args.ignore if args.ignore != None else iinput("ignore link?\npath to txt(blank=none):")
     
