@@ -1,4 +1,5 @@
 #note has problem with ignore when using --path (maybe solved)
+#note has problem with offline music using folder as --link
 
 import sys
 sys.path.append("../functions")
