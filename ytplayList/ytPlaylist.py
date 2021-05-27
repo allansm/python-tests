@@ -1,4 +1,4 @@
-#note has problem with ignore when using --path
+#note has problem with ignore when using --path (maybe solved)
 
 import sys
 sys.path.append("../functions")
@@ -37,7 +37,6 @@ def ignore(fname,link):
 
 
 def build(path,ignore):
-    #path = path if path != None else getTemp()
     wd = getcwd()
     
     chdir(getTemp())
@@ -262,8 +261,6 @@ def console():
     build(args.path,ignore)
         
     playFolder(link)
-    
-    #writeFile("ignore.txt",ignore)
 
     useFile(link,ignore)
 
