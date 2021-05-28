@@ -30,13 +30,6 @@ def getTotal(count):
     return total
 
 def getPercent(count):
-    '''
-    total = 0
-
-    for c in count:
-        total = total + c
-    '''
-
     total = getTotal(count)
 
     percent = []
