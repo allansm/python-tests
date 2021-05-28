@@ -1,5 +1,3 @@
-#note add files count and lines count to output
-
 import sys
 
 sys.path.append("../functions")
@@ -23,73 +21,86 @@ def countLines(fname):
     return len(getLines(fname))-1
 
 
+def getTotal(count):
+    total = 0
+
+    for c in count:
+        total = total + c
+    
+    return total
+
+def getPercent(count):
+    '''
+    total = 0
+
+    for c in count:
+        total = total + c
+    '''
+
+    total = getTotal(count)
+
+    percent = []
+    for c in count:
+        tmp = (c / total) * 100
+        tmp = format(tmp,".2f")
+        percent.append(tmp)
+    
+    return percent
+
 def getStats(folders,extensions,names):
     files = []
     for folder in folders:
         files = files + getAllFiles(folder)
 
-    #extension = [".py",".php",".java",".cpp",".html",".asm",".txt",".bat"]
     extension = extensions.split(";")
     count = []
+    n = []
     for e in extension:
         count.append(0)
+        n.append(0)
 
-    #name = ["python","php","java","c++","html","assembly","text","windows shell"]
     name = names.split(";")
-    #count = [0,0,0,0,0,0,0,0]
 
     for f in files:
         for e in extension:
             try:
                 if(e in f):
                     count[extension.index(e)] = count[extension.index(e)] +  countLines(f)
-                    
+                    n[extension.index(e)] = n[extension.index(e)] + 1
+ 
             except:
                 dummy = ""
     
+    percent = getPercent(count)
+
     stats = []
     stats.append(extension)
     stats.append(name)
     stats.append(count)
-    
+    stats.append(percent)
+    stats.append(n)
+
     return stats
 
-def test(count):
-    total = 0
+def console():
+    args = getArgs()
 
-    for c in count:
-        total = total + c
-    
-    percent = []
-    for c in count:
-        tmp = (c / total) * 100
-        #tmp = round(tmp)
-        tmp = format(tmp,".2f")
-        percent.append(tmp)
-    
-    return percent
+    txt = args.folders
+    names = args.names
+    extensions = args.extensions
 
-args = getArgs()
+    folders = getLines(txt)
 
-txt = args.folders
-names = args.names
-extensions = args.extensions
+    stats = getStats(folders,extensions,names)
 
-folders = getLines(txt)
+    name = stats[1]
+    count = stats[2]
+    percent = stats[3]
+    files = stats[4]
 
-stats = getStats(folders,extensions,names)
+    for n in name:
+        print(n+":\n"+str(percent[name.index(n)])+"%\n"+str(count[name.index(n)])+" lines\n"+str(files[name.index(n)])+" files\n")
 
-name = stats[1]
-count = stats[2]
+    print("\ntotal lines:"+str(getTotal(count)))
 
-'''
-total = 0
-
-for c in count:
-    total = total + c
-'''
-
-percent = test(count)
-for n in name:
-    print(n+":"+str(percent[name.index(n)])+"%") #str(count[name.index(n)])+" lines")
-
+console()
