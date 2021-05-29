@@ -1,5 +1,3 @@
-#offline music has no toast and message
-
 import sys
 sys.path.append("../functions")
 
@@ -188,13 +186,11 @@ def getArgs():
 
 #main functions
 def play(ig,playlists):
-    #
     erroCount = 0
 
     lines = getPlaylistsLines(playlists)
     
     for line in lines:
-        #
         if(erroCount >= 3):
             print("erro limit reached")
             input("press any key to return")
@@ -203,7 +199,11 @@ def play(ig,playlists):
         print("checking...")
         if(not ignore(ig,line) and not line == ""):
             if "mp3" in line:
+                print("\nlistening:"+line)    
+                toast(line,"Listening",selfLocation(__file__)+"\\bin\\notifu")
+
                 playSound(line)
+
             else:
                
                 downloadMp3(line,getTemp()+"ytPlaylist")
@@ -221,14 +221,12 @@ def play(ig,playlists):
 
                     playSound(mp3[0])
                     
-                    #
                     erroCount = 0
 
                 except:
                     writeFile(".log","file not found.\n")
                     print("file not found.")
                     
-                    #
                     erroCount = erroCount + 1
 
                 try:        
