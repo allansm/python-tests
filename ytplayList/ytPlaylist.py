@@ -1,5 +1,4 @@
-#note has problem with ignore when using --path (maybe solved)
-#note has problem with offline music using folder as --link
+#offline music has no toast and message
 
 import sys
 sys.path.append("../functions")
@@ -189,9 +188,18 @@ def getArgs():
 
 #main functions
 def play(ig,playlists):
+    #
+    erroCount = 0
+
     lines = getPlaylistsLines(playlists)
     
     for line in lines:
+        #
+        if(erroCount >= 3):
+            print("erro limit reached")
+            input("press any key to return")
+            erroCount = 0
+
         print("checking...")
         if(not ignore(ig,line) and not line == ""):
             if "mp3" in line:
@@ -212,11 +220,16 @@ def play(ig,playlists):
                     
 
                     playSound(mp3[0])
-
+                    
+                    #
+                    erroCount = 0
 
                 except:
                     writeFile(".log","file not found.\n")
                     print("file not found.")
+                    
+                    #
+                    erroCount = erroCount + 1
 
                 try:        
                     remove(mp3[0])
@@ -257,7 +270,7 @@ def console():
     args = getArgs()
 
     link = args.link if args.link != None else input("playlist link or txt path:")
-    ignore = args.ignore if args.ignore != None else iinput("ignore link?\npath to txt(blank=none):")
+    ignore = args.ignore if args.ignore != None else input("ignore link?\npath to txt(blank=none):")
 
     build(args.path,ignore)
         
