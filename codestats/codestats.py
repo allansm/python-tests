@@ -92,7 +92,7 @@ def console():
     files = stats[4]
 
     for n in name:
-        print(n+":\n"+str(percent[name.index(n)])+"%\n"+str(count[name.index(n)])+" lines\n"+str(files[name.index(n)])+" files\n")
+        print(n+": lines percent "+str(percent[name.index(n)])+"% "+str(count[name.index(n)])+" lines "+str(files[name.index(n)])+" files")
 
     print("\ntotal lines:"+str(getTotal(count)))
 
