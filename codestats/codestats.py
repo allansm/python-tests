@@ -65,6 +65,7 @@ def getStats(folders,extensions,names):
                 dummy = ""
     
     percent = getPercent(count)
+    percentByFile = getPercent(n)
 
     stats = []
     stats.append(extension)
@@ -72,6 +73,7 @@ def getStats(folders,extensions,names):
     stats.append(count)
     stats.append(percent)
     stats.append(n)
+    stats.append(percentByFile)
 
     return stats
 
@@ -90,9 +92,10 @@ def console():
     count = stats[2]
     percent = stats[3]
     files = stats[4]
+    filePercent = stats[5]
 
     for n in name:
-        print(n+": lines percent "+str(percent[name.index(n)])+"% "+str(count[name.index(n)])+" lines "+str(files[name.index(n)])+" files")
+        print(n+":\n\nlines percent "+str(percent[name.index(n)])+"%\n"+str(count[name.index(n)])+" lines\n"+str(files[name.index(n)])+" files\npercent by file "+str(filePercent[name.index(n)])+" %\n")
 
     print("\ntotal lines:"+str(getTotal(count)))
 
