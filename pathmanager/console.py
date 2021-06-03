@@ -27,7 +27,7 @@ def run():
 
     while(True):
         package = getcwd().split(":\\")[1].replace("\\",".").replace(" ","")
-        command = input("."+package+".")
+        command = input(package+".")
         if("cd " in command):
             chdir(command.replace("cd ",""))
         elif(command == "select"):
