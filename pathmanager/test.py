@@ -23,16 +23,6 @@ def run():
     flag = False
 
     paths = getLines(".config")
-    '''
-    i=0
-    for path in paths:
-        print(str(i)+" : "+path)
-        i = i+1
-
-    index = input("index :")
-
-    chdir(paths[int(index)])
-    '''
     select(paths)
 
     while(True):
@@ -41,16 +31,6 @@ def run():
         if("cd " in command):
             chdir(command.replace("cd ",""))
         elif(command == "select"):
-            '''
-            i=0
-            for path in paths:
-                print(str(i)+" : "+path)
-                i = i+1
-
-            index = input("index :")
-
-            chdir(paths[int(index)])
-            '''
             select(paths)
         else:
             system(command) 
