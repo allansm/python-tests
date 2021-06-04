@@ -33,7 +33,7 @@ def ignore(fname,link):
 
     return False
 
-def test(link,ignore,path):
+def makeRunnable(link,ignore,path):
     name = link.replace(":","").replace("/","").replace(".","").replace("\\","").replace("?","").replace("=","").replace(";","")
     
     try: 
@@ -301,8 +301,7 @@ def console():
 
     build(args.path,ignore)
     
-    #require attention
-    test(link,ignore,args.path)
+    makeRunnable(link,ignore,args.path)
 
     playFolder(link)
 
