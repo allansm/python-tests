@@ -33,6 +33,33 @@ def ignore(fname,link):
 
     return False
 
+def test(link,ignore,path):
+    name = link.replace(":","").replace("/","").replace(".","").replace("\\","").replace("?","").replace("=","").replace(";","")
+    
+    try: 
+        mkdir("run")
+    except:
+        dummy = ""
+    name = "run/"+name
+
+    if(isWindows()):
+        name = name+".bat"
+
+
+    if(path == None):
+        path = getTemp()
+    
+    remove(name)
+    
+    if(isWindows()):
+        writeFile(name,"@echo off\n")
+        writeFile(name,"cd /d \""+selfLocation(__file__)+"\"\n")
+    else:
+        writeFile(name,"cd \""+selfLocation(__file__)+"\"\n")
+
+    writeFile(name,"python ytPlaylist.py --link \""+link+"\" --ignore \""+ignore+"\" --path \""+path+"\"")
+    
+    print(name+" created")
 
 def build(path,ignore):
     wd = getcwd()
@@ -189,6 +216,8 @@ def play(ig,playlists):
     erroCount = 0
 
     lines = getPlaylistsLines(playlists)
+
+    print("total music:"+str(len(lines)))
     
     for line in lines:
         if(erroCount >= 3):
@@ -271,7 +300,10 @@ def console():
     ignore = args.ignore if args.ignore != None else input("ignore link?\npath to txt(blank=none):")
 
     build(args.path,ignore)
-        
+    
+    #require attention
+    test(link,ignore,args.path)
+
     playFolder(link)
 
     useFile(link,ignore)

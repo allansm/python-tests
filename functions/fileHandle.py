@@ -9,6 +9,9 @@ from urllib.parse import urlparse
 def selfLocation(__f__):
     return os.path.dirname(os.path.realpath(__f__))
 
+def selfFileLocation(__f__):
+    return os.path.realpath(__f__)
+
 def removeBreakLine(string):
     return string.replace("\n","").replace("\r","")
 
