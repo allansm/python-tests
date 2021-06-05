@@ -1,10 +1,13 @@
 import sys
+from os import chdir
+from os.path import realpath
+from os.path import dirname
+chdir(dirname(realpath(__file__)))
 
 sys.path.append("../functions")
 
 from fileHandle import *
 
-from os import chdir
 from os import system
 from os import getcwd
 

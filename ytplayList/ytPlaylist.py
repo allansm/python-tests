@@ -224,6 +224,96 @@ def oneInTen():
     else:
         return False
 
+##tests####################################################
+def getPlaylistsMat(playlists):
+    mat = []
+    playlists = shuffleLines(playlists)
+    for pl in playlists:
+        print("getting lines..")
+        try:
+            lines = []
+            print(pl)
+            lines = shuffleLines(getLines(pl))
+            mat.append(lines)
+        except:
+            print("erro on:"+pl)
+
+    return mat
+
+def test(ig,playlists):
+    erroCount = 0
+
+    mat = getPlaylistsMat(playlists)
+    total = 0
+    indexs = []
+    for m in mat:
+        total = total + len(m)
+        indexs.append(0)
+
+    i = 0
+    while(i < total):
+        try:
+            index = randrange(0,len(mat))
+            line = mat[index][indexs[index]]
+            indexs[index] = indexs[index] + 1
+
+            ##pseudo play
+            erroCount = listen(line,ig,erroCount)
+
+            i = i +1
+        except:
+            dummy = ""
+
+def listen(line,ig,erroCount):
+    if(erroCount >= 3):
+        print("erro limit reached")
+        input("press any key to return")
+        erroCount = 0
+
+    print("checking...")
+    if(not ignore(ig,line) and not line == ""):
+        if ".mp3" in line:
+            print("\nlistening:"+line)    
+            toast(line,"Listening",selfLocation(__file__)+"\\bin\\notifu")
+
+            playSound(line)
+
+        else:
+           
+            downloadMp3(line,getTemp()+"ytPlaylist")
+
+            try:
+                mp3 = getMp3()
+
+                print("\nlistening:"+line+"\nmp3:"+mp3[1])
+                
+                toast(mp3[1],"Listening",selfLocation(__file__)+"\\bin\\notifu")
+                
+                storeCurrent(line)
+                log(line+" "+mp3[1]+"\n",".log")
+                
+
+                playSound(mp3[0])
+                
+                erroCount = 0
+
+            except:
+                writeFile(".log","file not found.\n")
+                print("file not found.")
+                
+                erroCount = erroCount + 1
+
+            try:        
+                remove(mp3[0])
+            except:
+                dummy = ""
+
+    else:
+        print("ignored:"+line)
+    
+    return erroCount
+###########################################################
+
 #main functions
 def play(ig,playlists):
     erroCount = 0
@@ -237,6 +327,9 @@ def play(ig,playlists):
     print("total music:"+str(len(lines)))
     
     for line in lines:
+        erroCount = listen(line,ig,erroCount)
+
+        '''
         if(erroCount >= 3):
             print("erro limit reached")
             input("press any key to return")
@@ -282,6 +375,7 @@ def play(ig,playlists):
 
         else:
             print("ignored:"+line)
+        '''
 
 def useFile(fname,ignore): 
     playlists = []
@@ -303,7 +397,12 @@ def useFile(fname,ignore):
                     playlists.append("playlists/"+generatePlaylists(list))
                     
             try:
-                play(ignore,playlists)
+                ##attention here
+
+                ##play(ignore,playlists)
+                
+                ##a test
+                test(ignore,playlists)
 
             except:
                 print("erro on play!!!")
