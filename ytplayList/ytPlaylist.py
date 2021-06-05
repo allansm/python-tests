@@ -213,7 +213,13 @@ def getArgs():
     return args
 
 def oneInTen():
-    if(randint(1,10) == randint(1,10)):
+    x = randint(1,10)
+    
+    #put a sleep here
+    
+    y = randint(1,10)
+
+    if(x == y):
         return True
     else:
         return False
