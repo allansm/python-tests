@@ -11,6 +11,7 @@ from os import system
 from os import getcwd
 from util import *
 from random import randrange
+from random import randint
 from ff import *
 
 import argparse
@@ -211,11 +212,21 @@ def getArgs():
     
     return args
 
+def oneInTen():
+    if(randint(1,10) == randint(1,10)):
+        return True
+    else:
+        return False
+
 #main functions
 def play(ig,playlists):
     erroCount = 0
 
     lines = getPlaylistsLines(playlists)
+
+    if(oneInTen()):
+        lines = shuffleLines(lines)
+        print("you in lucky 1 in 10 all shuffled")
 
     print("total music:"+str(len(lines)))
     
