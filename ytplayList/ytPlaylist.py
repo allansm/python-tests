@@ -153,19 +153,6 @@ def getMp3():
     return arr
 
 def getPlaylistsLines(playlists):
-    '''
-    mat = []
-    playlists = shuffleLines(playlists)
-    for pl in playlists:
-        print("getting lines..")
-        try:
-            lines = []
-            print(pl)
-            lines = shuffleLines(getLines(pl)) 
-            mat.append(lines)
-        except:
-            print("erro on:"+pl)
-    '''
     mat = getPlaylistsMat(playlists)
     return eqMerge(mat)
 
@@ -226,7 +213,6 @@ def oneInTen():
     else:
         return False
 
-##tests####################################################
 def getPlaylistsMat(playlists):
     mat = []
     playlists = shuffleLines(playlists)
@@ -241,31 +227,6 @@ def getPlaylistsMat(playlists):
             print("erro on:"+pl)
 
     return mat
-
-def play2(ig,playlists):
-    line = ""
-
-    erroCount = 0
-
-    mat = getPlaylistsMat(playlists)
-    total = 0
-    indexs = []
-    for m in mat:
-        total = total + len(m)
-        indexs.append(0)
-
-    i = 0
-    while(i < total):
-        try:
-            index = randrange(0,len(mat))
-            line = mat[index][indexs[index]]
-            indexs[index] = indexs[index] + 1
-            i = i +1
-        except:
-            dummy = ""
-
-        erroCount = listen(line,ig,erroCount)
-        line = ""
 
 def listen(line,ig,erroCount):
     if(erroCount >= 3):
@@ -315,9 +276,11 @@ def listen(line,ig,erroCount):
         print("ignored:"+line)
     
     return erroCount
-###########################################################
 
 #main functions
+
+#deprecated
+'''
 def play(ig,playlists):
     erroCount = 0
 
@@ -332,7 +295,35 @@ def play(ig,playlists):
     for line in lines:
         erroCount = listen(line,ig,erroCount)
 
-        
+'''
+
+def play(ig,playlists):
+    line = ""
+
+    erroCount = 0
+
+    mat = getPlaylistsMat(playlists)
+    total = 0
+    indexs = []
+    for m in mat:
+        total = total + len(m)
+        indexs.append(0)
+
+    i = 0
+    while(i < total):
+        try:
+            index = randrange(0,len(mat))
+            line = mat[index][indexs[index]]
+            indexs[index] = indexs[index] + 1
+            i = i +1
+        except:
+            dummy = ""
+
+        erroCount = listen(line,ig,erroCount)
+        line = ""
+
+
+
 def useFile(fname,ignore): 
     playlists = []
 
@@ -353,13 +344,7 @@ def useFile(fname,ignore):
                     playlists.append("playlists/"+generatePlaylists(list))
                     
             try:
-                ##attention here
-
-                ##play(ignore,playlists)
-                
-                ##a test
-                play2(ignore,playlists)
-
+                play(ignore,playlists)
             except:
                 print("erro on play!!!")
 
