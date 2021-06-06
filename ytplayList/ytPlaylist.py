@@ -153,6 +153,7 @@ def getMp3():
     return arr
 
 def getPlaylistsLines(playlists):
+    '''
     mat = []
     playlists = shuffleLines(playlists)
     for pl in playlists:
@@ -164,7 +165,8 @@ def getPlaylistsLines(playlists):
             mat.append(lines)
         except:
             print("erro on:"+pl)
-    
+    '''
+    mat = getPlaylistsMat(playlists)
     return eqMerge(mat)
 
 def deleteMp3():
@@ -240,7 +242,9 @@ def getPlaylistsMat(playlists):
 
     return mat
 
-def test(ig,playlists):
+def play2(ig,playlists):
+    line = ""
+
     erroCount = 0
 
     mat = getPlaylistsMat(playlists)
@@ -256,13 +260,12 @@ def test(ig,playlists):
             index = randrange(0,len(mat))
             line = mat[index][indexs[index]]
             indexs[index] = indexs[index] + 1
-
-            ##pseudo play
-            erroCount = listen(line,ig,erroCount)
-
             i = i +1
         except:
             dummy = ""
+
+        erroCount = listen(line,ig,erroCount)
+        line = ""
 
 def listen(line,ig,erroCount):
     if(erroCount >= 3):
@@ -329,54 +332,7 @@ def play(ig,playlists):
     for line in lines:
         erroCount = listen(line,ig,erroCount)
 
-        '''
-        if(erroCount >= 3):
-            print("erro limit reached")
-            input("press any key to return")
-            erroCount = 0
-
-        print("checking...")
-        if(not ignore(ig,line) and not line == ""):
-            if "mp3" in line:
-                print("\nlistening:"+line)    
-                toast(line,"Listening",selfLocation(__file__)+"\\bin\\notifu")
-
-                playSound(line)
-
-            else:
-               
-                downloadMp3(line,getTemp()+"ytPlaylist")
-
-                try:
-                    mp3 = getMp3()
-
-                    print("\nlistening:"+line+"\nmp3:"+mp3[1])
-                    
-                    toast(mp3[1],"Listening",selfLocation(__file__)+"\\bin\\notifu")
-                    
-                    storeCurrent(line)
-                    log(line+" "+mp3[1]+"\n",".log")
-                    
-
-                    playSound(mp3[0])
-                    
-                    erroCount = 0
-
-                except:
-                    writeFile(".log","file not found.\n")
-                    print("file not found.")
-                    
-                    erroCount = erroCount + 1
-
-                try:        
-                    remove(mp3[0])
-                except:
-                    dummy = ""
-
-        else:
-            print("ignored:"+line)
-        '''
-
+        
 def useFile(fname,ignore): 
     playlists = []
 
@@ -402,12 +358,14 @@ def useFile(fname,ignore):
                 ##play(ignore,playlists)
                 
                 ##a test
-                test(ignore,playlists)
+                play2(ignore,playlists)
 
             except:
                 print("erro on play!!!")
 
             exit()
+        else:
+            print("file exists : no")
 
 def console():    
     args = getArgs()
