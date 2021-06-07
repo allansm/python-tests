@@ -13,6 +13,7 @@ from util import *
 from random import randrange
 from random import randint
 from ff import *
+from time import sleep
 
 import argparse
 
@@ -204,7 +205,7 @@ def getArgs():
 def oneInTen():
     x = randint(1,10)
     
-    #put a sleep here
+    sleep(randint(1,3))
     
     y = randint(1,10)
 
@@ -278,25 +279,6 @@ def listen(line,ig,erroCount):
     return erroCount
 
 #main functions
-
-#deprecated
-'''
-def play(ig,playlists):
-    erroCount = 0
-
-    lines = getPlaylistsLines(playlists)
-
-    if(oneInTen()):
-        lines = shuffleLines(lines)
-        print("you in lucky 1 in 10 all shuffled")
-
-    print("total music:"+str(len(lines)))
-    
-    for line in lines:
-        erroCount = listen(line,ig,erroCount)
-
-'''
-
 def play(ig,playlists):
     line = ""
 
