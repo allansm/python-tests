@@ -14,6 +14,7 @@ from random import randrange
 from random import randint
 from ff import *
 from time import sleep
+from os.path import basename
 
 import argparse
 
@@ -278,7 +279,7 @@ def listen(line,ig,erroCount):
     
     return erroCount
 
-def test(playlists):
+def getMerged(playlists):
     playlist = []
     
     line = ""
@@ -307,15 +308,30 @@ def test(playlists):
 
     return playlist
 
-def test2(ig,playlists):
-    playlist = test(playlists)
+def useBackup(backup):
+    if(exists(backup)):
+        if(input("use backup(y/n)?") == "n"):
+            remove(backup)
+
+#main functions
+def play(ig,playlists,backup):
+    useBackup(backup)
+    if(not exists(backup)):
+        tmp = getMerged(playlists)
+        writeLines(backup,tmp)
+    else:
+        print("using backup")
+    #playlist = getLines("play.list")
     
     erroCount = 0
 
-    for music in playlist:
+    #for music in playlist:
+    while(not isEmpty(backup)):
+        print("total music:"+str(len(getLines(backup))))
+        music = consumeLine(backup,0)
         erroCount = listen(music,ig,erroCount)
 
-#main functions
+'''
 def play(ig,playlists):
     line = ""
 
@@ -341,7 +357,7 @@ def play(ig,playlists):
         erroCount = listen(line,ig,erroCount)
         line = ""
 
-
+'''
 
 def useFile(fname,ignore): 
     playlists = []
@@ -363,7 +379,8 @@ def useFile(fname,ignore):
                     playlists.append("playlists/"+generatePlaylists(list))
                     
             try:
-                test2(ignore,playlists)
+                backup = basename(fname).replace(".txt","")+".backup"
+                play(ignore,playlists,backup)
             except:
                 print("erro on play!!!")
 
@@ -392,8 +409,9 @@ def console():
 
     playlists = []
     playlists.append("playlists/"+generatePlaylists(list))
-
-    play(ignore,playlists)
+    
+    backup = "unk.backup"
+    play(ignore,playlists,backup)
 
 console()
 
