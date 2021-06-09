@@ -278,6 +278,43 @@ def listen(line,ig,erroCount):
     
     return erroCount
 
+def test(playlists):
+    playlist = []
+    
+    line = ""
+
+    erroCount = 0
+
+    mat = getPlaylistsMat(playlists)
+    total = 0
+    indexs = []
+    for m in mat:
+        total = total + len(m)
+        indexs.append(0)
+
+    i = 0
+    while(i < total):
+        try:
+            index = randrange(0,len(mat))
+            line = mat[index][indexs[index]]
+            indexs[index] = indexs[index] + 1
+            i = i +1
+        except:
+            dummy = ""
+
+        playlist.append(line)    
+        line = ""
+
+    return playlist
+
+def test2(ig,playlists):
+    playlist = test(playlists)
+    
+    erroCount = 0
+
+    for music in playlist:
+        erroCount = listen(music,ig,erroCount)
+
 #main functions
 def play(ig,playlists):
     line = ""
@@ -326,7 +363,7 @@ def useFile(fname,ignore):
                     playlists.append("playlists/"+generatePlaylists(list))
                     
             try:
-                play(ignore,playlists)
+                test2(ignore,playlists)
             except:
                 print("erro on play!!!")
 
