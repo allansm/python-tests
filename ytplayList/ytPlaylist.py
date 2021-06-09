@@ -321,43 +321,16 @@ def play(ig,playlists,backup):
         writeLines(backup,tmp)
     else:
         print("using backup")
-    #playlist = getLines("play.list")
-    
+        
     erroCount = 0
 
-    #for music in playlist:
     while(not isEmpty(backup)):
         print("total music:"+str(len(getLines(backup))))
+        log("total music:"+str(len(getLines(backup))),".log")
+        
         music = consumeLine(backup,0)
         erroCount = listen(music,ig,erroCount)
 
-'''
-def play(ig,playlists):
-    line = ""
-
-    erroCount = 0
-
-    mat = getPlaylistsMat(playlists)
-    total = 0
-    indexs = []
-    for m in mat:
-        total = total + len(m)
-        indexs.append(0)
-
-    i = 0
-    while(i < total):
-        try:
-            index = randrange(0,len(mat))
-            line = mat[index][indexs[index]]
-            indexs[index] = indexs[index] + 1
-            i = i +1
-        except:
-            dummy = ""
-
-        erroCount = listen(line,ig,erroCount)
-        line = ""
-
-'''
 
 def useFile(fname,ignore): 
     playlists = []
