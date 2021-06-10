@@ -65,12 +65,18 @@ def getTemp():
 def consumeLine(fname,i):
     lines = getLines(fname)
     index = 0
-    remove(fname)
+    #remove(fname)
+    txt = ""
     for line in lines:
         if index != i:
             if line != "":
-                writeFile(fname,line+"\n")
+                #writeFile(fname,line+"\n")
+                txt = txt+line+"\n"
         index+=1
+    
+    remove(fname)
+    writeFile(fname,txt)
+
     return lines[i]
 
 def consumeLineAndShuffle(fname,i):

@@ -302,15 +302,17 @@ def getMerged(playlists):
             i = i +1
         except:
             dummy = ""
-
-        playlist.append(line)    
+        
+        if(line != ""):
+            playlist.append(line)    
+        
         line = ""
 
     return playlist
 
 def useBackup(backup):
     if(exists(backup)):
-        if(input("use backup(y/n)?") == "n"):
+        if(input("use backup ? (y/n):") == "n"):
             remove(backup)
 
 #main functions
@@ -332,8 +334,8 @@ def play(ig,playlists,backup):
         print("total music:"+str(len(getLines(backup))))
         log("total music:"+str(len(getLines(backup)))+"\n",".log")
         
-        music = consumeLine(backup,0)
-        erroCount = listen(music,ig,erroCount)
+        music = consumeLine(backup,0)#getLines(backup)[0] #consumeLine(backup,0)
+        erroCount = listen(music,ig,erroCount) 
     
     log("ending playlist\n",".log")
 
