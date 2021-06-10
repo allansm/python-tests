@@ -326,11 +326,12 @@ def play(ig,playlists,backup):
 
     while(not isEmpty(backup)):
         print("total music:"+str(len(getLines(backup))))
-        log("total music:"+str(len(getLines(backup))),".log")
+        log("total music:"+str(len(getLines(backup)))+"\n",".log")
         
         music = consumeLine(backup,0)
         erroCount = listen(music,ig,erroCount)
-
+    
+    log("ending playlist\n",".log")
 
 def useFile(fname,ignore): 
     playlists = []
@@ -372,6 +373,8 @@ def console():
     makeRunnable(link,ignore,args.path)
 
     playFolder(link)
+    
+    log("starting...\n",".log")
 
     useFile(link,ignore)
 
