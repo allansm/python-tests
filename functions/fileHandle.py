@@ -3,11 +3,12 @@ from glob import glob
 import random
 from tempfile import gettempdir
 from urllib.parse import urlparse
-
+from os.path import dirname
+from os.path import realpath
 
 #use __file__
 def selfLocation(__f__):
-    return os.path.dirname(os.path.realpath(__f__))
+    return dirname(realpath(__f__))
 
 def selfFileLocation(__f__):
     return os.path.realpath(__f__)
@@ -65,12 +66,12 @@ def getTemp():
 def consumeLine(fname,i):
     lines = getLines(fname)
     index = 0
-    #remove(fname)
+    
     txt = ""
     for line in lines:
         if index != i:
             if line != "":
-                #writeFile(fname,line+"\n")
+                
                 txt = txt+line+"\n"
         index+=1
     
@@ -103,7 +104,7 @@ def getAllFiles(path):
     for root, dirs, files in fold:
         for name in files:
             ret.append(os.path.join(root, name))
-
+            #ret.append(os.path.realpath(name))
     return ret
 
 def getFileName(path):
