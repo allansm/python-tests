@@ -318,6 +318,10 @@ def play(ig,playlists,backup):
     useBackup(backup)
     if(not exists(backup)):
         tmp = getMerged(playlists)
+        if(oneInTen()):
+            shuffleLines(tmp)
+            print("lucky 1/10 all shuffled")
+
         writeLines(backup,tmp)
     else:
         print("using backup")
