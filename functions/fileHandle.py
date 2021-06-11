@@ -107,6 +107,16 @@ def getAllFiles(path):
             #ret.append(os.path.realpath(name))
     return ret
 
+def getAllFilesPath(path):
+    fold = os.walk(path)
+    ret = []
+    for root, dirs, files in fold:
+        for name in files:
+            ret.append(os.path.realpath(os.path.join(root, name)))
+
+    return ret
+
+
 def getFileName(path):
     name = urlparse(path)
     return os.path.basename(name.path)
