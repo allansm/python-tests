@@ -19,12 +19,12 @@ try:
     if(op == "file"):
         for registry in found:
             fn = getFileName(registry)
-            if(text in fn):
+            if(text.lower() in fn.lower()):
                     print(registry)
  
     else:
         for registry in found:
-            if(text in registry):
+            if(text.lower() in registry.lower()):
                 if(op == "filename"):
                     fn = getFileName(registry)
                     if(fn != ""):
