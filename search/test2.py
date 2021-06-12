@@ -16,15 +16,21 @@ try:
 
     chdir("search")
     found = getLines(".found")
-
-    for registry in found:
-        if(text in registry):
-            if(op == "filename"):
-                fn = getFileName(registry)
-                if(fn != ""):
-                    print(fn)
-            else:
-                print(registry)
+    if(op == "file"):
+        for registry in found:
+            fn = getFileName(registry)
+            if(text in fn):
+                    print(registry)
+ 
+    else:
+        for registry in found:
+            if(text in registry):
+                if(op == "filename"):
+                    fn = getFileName(registry)
+                    if(fn != ""):
+                        print(fn)
+                else:
+                    print(registry)
 except:
     print("has no path stored.")
 
