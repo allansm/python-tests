@@ -104,7 +104,7 @@ def getAllFiles(path):
     for root, dirs, files in fold:
         for name in files:
             ret.append(os.path.join(root, name))
-            #ret.append(os.path.realpath(name))
+
     return ret
 
 def getAllFilesPath(path):
