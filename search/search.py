@@ -7,15 +7,21 @@ from argsHandle import *
 from os import chdir
 
 try:
-    args = getArgs(["text","op"],"")
+    args = getArgs(["text","op","backup"],"")
     
     text = args.text
     op = args.op
+    backup = args.backup
 
     chdir(getTemp())
 
     chdir("search")
-    found = getLines(".found")
+    if(backup == None):
+        found = getLines(".found")
+    else:
+        print("using:"+backup)
+        found = getLines(backup)
+
     if(op == "file"):
         for registry in found:
             fn = getFileName(registry)
