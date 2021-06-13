@@ -7,11 +7,12 @@ from argsHandle import *
 from os import chdir
 
 try:
-    args = getArgs(["text","op","backup"],"")
+    args = getArgs(["text","op","backup","ext"],"")
     
     text = args.text
     op = args.op
     backup = args.backup
+    ext = args.ext
 
     chdir(getTemp())
 
@@ -26,17 +27,30 @@ try:
         for registry in found:
             fn = getFileName(registry)
             if(text.lower() in fn.lower()):
+                if(ext != None):
+                    if(ext in registry):
+                        print(registry)
+                else:
                     print(registry)
- 
     else:
         for registry in found:
             if(text.lower() in registry.lower()):
                 if(op == "filename"):
                     fn = getFileName(registry)
                     if(fn != ""):
-                        print(fn)
+                        if(ext != None):
+                            if(ext in registry):
+                                print(fn)
+                        else:
+                            print(fn)
+
                 else:
-                    print(registry)
+                    if(ext != None):
+                        if(ext in registry):
+                            print(registry)
+                    else:
+                        print(registry)
+
 except:
     print("has no path stored.")
 
