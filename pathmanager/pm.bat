@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0
-python pathmanager.py
+python pathmanager.py --command "%*"
 

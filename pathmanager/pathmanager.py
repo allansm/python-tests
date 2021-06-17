@@ -3,15 +3,18 @@ import sys
 sys.path.append("../functions")
 
 from fileHandle import *
+from argsHandle import *
 
 from os import chdir
 from os import system
 
 
 def run():
+    command = getArgs(["command"],"").command
     paths = getLines(".config")
-
-    command = input("command:")
+    
+    if(command == None or command == ""):
+        command = input("command:")
 
     for path in paths:
         if(path != ""):
@@ -21,6 +24,5 @@ def run():
             print("     PATH:"+path+"")
             print("")
             system(command)
-            #print("-----------------------------------------------------------------------------------------------------------------")
-
+           
 run()
