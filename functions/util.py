@@ -2,6 +2,7 @@ from random import shuffle
 import platform
 from subprocess import call
 import os
+from os import system
 
 def split_list(a_list):
     half = len(a_list)//2
@@ -51,4 +52,6 @@ def toast(message,title,exe):
         call("start \"\" \""+exe+"\" /m \"\\n"+message+"\" /p \""+title+"\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
     else:
         call("notify-send \""+title+"\" \""+message+"\"")
+
+clear = lambda: system("cls" if os.name=="nt" else "clear")
 
