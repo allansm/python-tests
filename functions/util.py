@@ -54,4 +54,5 @@ def toast(message,title,exe):
         call("notify-send \""+title+"\" \""+message+"\"")
 
 clear = lambda: system("cls" if os.name=="nt" else "clear")
+removeEmpty = lambda array: [i for i in array if i]
 

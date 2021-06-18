@@ -30,8 +30,7 @@ for root, dirs, files in fold:
                 exist = True
                 break
 
-        if(not exist):
-            #print(tmp+" add to .found")
+        if(not exist):          
             writeFile(".found",tmp+"\n")
 
         if(text.lower() in tmp.lower()):

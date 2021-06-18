@@ -8,23 +8,30 @@ chdir(dirname(realpath(__file__)))
 sys.path.append("../functions")
 
 from fileHandle import *
+from argsHandle import *
 
-#from os import chdir
 import subprocess
 
 paths = getLines(".config")
 
 totup = 0
+
+quiet = getArgs(["quiet"],"").quiet
+
 for path in paths:
     if(path != ""):
         chdir(path)
-        print(path)
+        if(quiet == None):
+            print(path)
         output = subprocess.check_output("git status", shell=True)
 
         if("Changes not staged for commit" in str(output) or "Untracked files" in str(output)):
-            print(" need update\n")
+            if(quiet == None):
+                print(" need update\n")
             totup = totup+1
+
         else:
-            print(" all up to date\n")
+            if(quiet == None):
+                print(" all up to date\n")
 
 print("total projects to be updated:"+str(totup))
