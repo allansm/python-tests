@@ -2,12 +2,20 @@ import sys
 sys.path.append("../functions")
 
 from subprocess import check_output
+from subprocess import call
 from os import system
 from time import sleep
 from util import *
 from argsHandle import *
 
-def inspect(limit,op):
+def inspect(limit,op,pattern):
+    pk = False
+    tokill = []
+    if(pattern != None):
+        pk = True
+        tokill = pattern.split(";")
+        
+
     totalmem = 0
     totalexe = 0
     totaldet = 0
@@ -41,6 +49,11 @@ def inspect(limit,op):
                     if(op == "kill"):
                         system("taskkill /f /pid "+pid)
 
+                    if(pk):
+                        for p in tokill:
+                            if(p in exe):
+                                call("taskkill /f /pid "+pid+" 2>NUL",shell=True,stdout=open(os.devnull, 'w'))
+
                     totaldet = totaldet + 1
                     totaldetmem = totaldetmem + int(memory)
 
@@ -52,16 +65,31 @@ def inspect(limit,op):
     print("memory by detection:"+str(totaldetmem/1000))
     print("n:"+str(totalexe))
     print("total detections:"+str(totaldet))
+    
+    '''
+    if(pk):
+        print("")
+        print("tokill:")
+        print(tokill)
+    '''
 
 def console():
-    args = getArgs(["limit","op"],"")
+    clear()
+    args = getArgs(["limit","op","interval","pattern"],"")
     
     limit = args.limit
     op = args.op
+    interval = args.interval
+    pattern = args.pattern
 
-    inspect(limit,op)
-    sleep(5)
-    clear()
+    if(interval == None):
+        interval = 5
+    else:
+        interval = int(interval)
 
+    inspect(limit,op,pattern)
+    sleep(interval)
+    
 while(True):
     console()
+
