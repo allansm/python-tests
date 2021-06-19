@@ -47,7 +47,7 @@ def inspect(limit,op,pattern):
                     print(exe)
                     
                     if(op == "kill"):
-                        system("taskkill /f /pid "+pid)
+                        call("taskkill /f /pid "+pid+" 2>NUL",shell=True,stdout=open(os.devnull, 'w'))
 
                     if(pk):
                         for p in tokill:
@@ -65,14 +65,7 @@ def inspect(limit,op,pattern):
     print("memory by detection:"+str(totaldetmem/1000))
     print("n:"+str(totalexe))
     print("total detections:"+str(totaldet))
-    
-    '''
-    if(pk):
-        print("")
-        print("tokill:")
-        print(tokill)
-    '''
-
+     
 def console():
     clear()
     args = getArgs(["limit","op","interval","pattern"],"")
