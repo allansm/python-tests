@@ -56,8 +56,8 @@ def inspect(limit,op,pattern):
 
 
     print("")
-    print("memory in use:"+str(totalmem/1000))
-    print("memory by detection:"+str(totaldetmem/1000))
+    print("memory in use (mb):"+str(totalmem/1000))
+    print("memory by detection (mb):"+str(totaldetmem/1000))
     print("n:"+str(totalexe))
     print("total detections:"+str(totaldet))
      
