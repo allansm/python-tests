@@ -116,6 +116,15 @@ def getAllFilesPath(path):
 
     return ret
 
+def getAllPaths(path):
+    fold = os.walk(path)
+    ret = []
+    for root, dirs, files in fold:
+        for name in dirs:
+            ret.append(os.path.realpath(os.path.join(root, name)))
+
+    return ret
+
 
 def getFileName(path):
     name = urlparse(path)

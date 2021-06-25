@@ -21,17 +21,17 @@ quiet = getArgs(["quiet"],"").quiet
 for path in paths:
     if(path != ""):
         chdir(path)
-        if(quiet == None):
+        if(quiet == "no"):
             print(path)
         output = subprocess.check_output("git status", shell=True)
 
         if("Changes not staged for commit" in str(output) or "Untracked files" in str(output)):
-            if(quiet == None):
+            if(quiet == "no"):
                 print(" need update\n")
             totup = totup+1
 
         else:
-            if(quiet == None):
+            if(quiet == "no"):
                 print(" all up to date\n")
 
 print("total projects to be updated:"+str(totup))
