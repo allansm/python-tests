@@ -63,12 +63,13 @@ def inspect(limit,op,pattern):
      
 def console():
     clear()
-    args = getArgs(["limit","op","interval","pattern"],"")
+    args = getArgs(["limit","op","interval","pattern","loop"],"")
     
     limit = args.limit
     op = args.op
     interval = args.interval
     pattern = args.pattern
+    loop = args.loop
 
     if(interval == None):
         interval = 5
@@ -76,9 +77,10 @@ def console():
         interval = int(interval)
 
     inspect(limit,op,pattern)
-
-    sleep(interval)
+        
+    if(not loop == "no"):
+        sleep(interval)
+        console()
     
-while(True):
-    console()
+console()
 
