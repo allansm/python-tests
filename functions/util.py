@@ -56,3 +56,4 @@ def toast(message,title,exe):
 clear = lambda: system("cls" if os.name=="nt" else "clear")
 removeEmpty = lambda array: [i for i in array if i]
 
+removeRedundant = lambda array: list(dict.fromkeys(array))
