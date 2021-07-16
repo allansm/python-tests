@@ -4,6 +4,9 @@ from subprocess import call
 import os
 from os import system
 
+from urllib import request
+
+
 def split_list(a_list):
     half = len(a_list)//2
     return a_list[:half], a_list[half:]
@@ -57,3 +60,8 @@ clear = lambda: system("cls" if os.name=="nt" else "clear")
 removeEmpty = lambda array: [i for i in array if i]
 
 removeRedundant = lambda array: list(dict.fromkeys(array))
+
+def download(url,fname):    
+    request.urlretrieve(url, fname)
+
+

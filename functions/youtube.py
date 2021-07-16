@@ -17,6 +17,15 @@ def getAudioLink(info):
         if "audio only" in tmp["format"]:
             return tmp["url"]
 
+def getM4aLink(info):
+    for tmp in info["formats"]:
+        if "audio only" in tmp["format"]:
+            if("m4a" in tmp["ext"]):
+                return tmp["url"]
+
+    return ""
+
+
 def getExtension(info,url):
     for tmp in info["formats"]:
         if url in tmp["url"]:

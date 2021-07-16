@@ -6,8 +6,15 @@ from re import search
 
 from subprocess import call
 from os import getcwd
-
+from os import chdir
+from os import mkdir
 import os
+
+from youtube import *
+import youtube
+
+from urllib import request
+
 
 def getListLink(link):
     if "list=" not in link:
@@ -26,30 +33,21 @@ def getListLink(link):
     print(list)
     return list;
 
-def getLinksFromList(list):
-    call("youtube-dl --get-id "+list+" > persistence.txt",shell=True)
-    
-    lines = getLines("persistence.txt")
-    del lines[-1]
+def download(url,fname):    
+    request.urlretrieve(url, fname)
 
-    for line in lines:
-        line = "https://www.youtube.com/watch?v="+line+"\n"
-        writeFile("play.txt",line)
-
-def downloadAsMusic():
-    call("youtube-dl -x --audio-format mp3 -o \""+getcwd()+"/%(title)s-%(id)s.%(ext)s\" -a "+getTemp()+"persistence.txt",shell=True)
-    
-    remove(getTemp()+"persistence.txt")
-
-
-def downloadMp4(url):
-   call("youtube-dl --format best "+url)
 
 def downloadMp3(link,folder):
-    SUPRESS = open(os.devnull, 'w')
+    cdir = getcwd()
+    
+    chdir(folder)
+    
+    try:
+        youtube.downloadMp3(link)
+    except:
+        print("erro downloading...")
 
-    #specify all path for linux
-    call("youtube-dl -x --audio-format mp3 -o \""+folder+"/%(title)s-%(id)s.%(ext)s\" "+link,shell=True,stdout=SUPRESS)
+    chdir(cdir)
 
 
 def generatePlaylists(list):
@@ -72,15 +70,13 @@ def generatePlaylists(list):
     else:
         tmpname = list.split("list=")[-1]
         if(not exists("playlists/"+tmpname)):
-            call("youtube-dl --get-id "+list+" > persistence.txt",shell=True)
-
-            lines = getLines("persistence.txt")
-            del lines[-1]
-
+            info = getInfo(list)
+            print(getTitle(info)+" ok")
+            lines = getLinks(info)
+            
             for line in lines:
-                line = "https://www.youtube.com/watch?v="+line+"\n"
+                line = line+"\n"
                 writeFile("playlists/"+tmpname,line)
         
         return tmpname
-
 
