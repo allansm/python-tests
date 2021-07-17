@@ -1,24 +1,10 @@
-'''
-import argparse
-
-parser = argparse.ArgumentParser()
-   
-parser.add_argument('name')
-
-parser.add_argument('--lastname', required=False)
-
-parser.add_argument('age')
-
-args = parser.parse_args()
-'''
-
 import sys
 
 sys.path.append("../functions")
 
 from argsHandle import *
 
-args = getArgsTest(["name","--lastname","--age"])
+args = getArgs(["name","--lastname","--age"])
 
 name = args.name
 lastname = args.lastname

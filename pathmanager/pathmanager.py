@@ -10,7 +10,7 @@ from os import system
 
 
 def run():
-    command = getArgs(["command"],"").command
+    command = getArgs(["--command"]).command
     paths = getLines(".config")
     
     if(command == None or command == ""):

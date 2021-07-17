@@ -1,6 +1,6 @@
 import argparse
-
-
+#deprecated
+'''
 def getArgs(args,op):
     parser = argparse.ArgumentParser()
 
@@ -11,8 +11,8 @@ def getArgs(args,op):
             parser.add_argument("--"+arg,required=False)
     
     return parser.parse_args()
-
-def getArgsTest(args):
+'''
+def getArgs(args):
     parser = argparse.ArgumentParser()
 
     for arg in args:

@@ -16,7 +16,7 @@ paths = getLines(".config")
 
 totup = 0
 
-quiet = getArgs(["quiet"],"").quiet
+quiet = getArgs(["--quiet"]).quiet
 
 for path in paths:
     if(path != ""):
