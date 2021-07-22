@@ -20,7 +20,7 @@ def run():
     for tmp in files:
         newname = tmp.replace(cname,nname)
         
-        #rename(tmp,newname)
+        rename(tmp,newname)
 
         print(tmp+" > "+newname)
 
