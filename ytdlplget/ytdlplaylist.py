@@ -4,8 +4,10 @@ sys.path.append("../functions")
 from fileHandle import *
 from re import search
 from os import system
-from yt import *
+from youtube import *
 
+#deprecated
+'''
 def console():
     print("starting..\n")
     remove("persistence.txt")
@@ -20,6 +22,15 @@ def console():
     getLinksFromList(list)
 
     downloadAsMusic()
+'''
+def console():
+    info = getInfo(input("playlist link:"))
+
+    links = getLinks(info)
+
+    for link in links:
+        print("downloading : "+link+"...")
+        downloadMp3(link)        
 
 console()
 
