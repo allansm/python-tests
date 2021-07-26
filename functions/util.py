@@ -6,6 +6,9 @@ from os import system
 
 from urllib import request
 
+import json
+from urllib.request import urlopen
+
 
 def split_list(a_list):
     half = len(a_list)//2
@@ -64,4 +67,9 @@ removeRedundant = lambda array: list(dict.fromkeys(array))
 def download(url,fname):    
     request.urlretrieve(url, fname)
 
+def getJson(url):
+    response = urlopen(url)
+    data = json.loads(response.read().decode())
+
+    return data
 
