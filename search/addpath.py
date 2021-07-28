@@ -10,7 +10,7 @@ from os import chdir
 from os import mkdir
 from os import system
 
-path = getArgs(["path"],"").path
+path = getArgs(["path"]).path
 
 print("getting files..")
 files = getAllFilesPath(path)

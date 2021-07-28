@@ -7,16 +7,16 @@ from argsHandle import *
 from os import chdir
 
 try:
-    args = getArgs(["text","op","backup","ext"],"")
+    args = getArgs(["--text","--op","--backup","--ext"])
     
     text = args.text
     op = args.op
     backup = args.backup
     ext = args.ext
 
-    chdir(getTemp())
-
+    chdir(getTemp()) 
     chdir("search")
+
     if(backup == None):
         found = getLines(".found")
     else:

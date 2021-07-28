@@ -4,16 +4,30 @@ import os
 from argsHandle import *
 from fileHandle import *
 from os import chdir
+from os import mkdir
 
-args = getArgs(["path","text","ext"],"")
+args = getArgs(["path","text","--ext","--op"])
 
 path = args.path
 text = args.text
 ext = args.ext
+op = args.op
 
 chdir(getTemp())
+
+try:
+    mkdir("search")
+except:
+    dummy=""
+
 chdir("search")
-found = getLines(".found")
+
+found = []
+
+try:
+    found = getLines(".found")
+except:
+    dummy=""
 
 fold = os.walk(path)
 for root, dirs, files in fold:
@@ -23,6 +37,7 @@ for root, dirs, files in fold:
         exist = False
 
         chdir(getTemp())
+         
         chdir("search")
 
         for fo in found:
@@ -40,5 +55,8 @@ for root, dirs, files in fold:
 
             else:
                 print(tmp)
+
+            if(op == "onlyone"):
+                exit()
 
 

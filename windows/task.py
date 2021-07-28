@@ -63,7 +63,7 @@ def inspect(limit,op,pattern):
      
 def console():
     clear()
-    args = getArgs(["limit","op","interval","pattern","loop"],"")
+    args = getArgs(["--limit","--op","--interval","--pattern","--loop"])
     
     limit = args.limit
     op = args.op
