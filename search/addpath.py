@@ -10,6 +10,18 @@ from os import chdir
 from os import mkdir
 from os import system
 
+def getAllFilesPath(path):
+    fold = os.walk(path)
+    ret = []
+    for root, dirs, files in fold:
+        for name in files:
+            tmp = os.path.realpath(os.path.join(root, name))
+            print(tmp)
+            ret.append(tmp)
+
+    return ret
+
+
 path = getArgs(["path"]).path
 
 print("getting files..")
