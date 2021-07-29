@@ -12,17 +12,25 @@ def search(title):
 def getFeed(id):
     return getJson(getApi()+"manga/"+id+"/feed")
 
-def getIds(titles):
+def getIds(mangas):
     ids = []
-    for result in titles["results"]: 
+    for result in mangas["results"]: 
         ids.append(result["data"]["id"])
 
     return ids
 
-titles = search(input("title:"))
+def getTitles(mangas):
+    titles = []
+    for result in mangas["results"]:
+        title = result["data"]["attributes"]["title"]
+        titles.append(title["en"])
 
-#print(getIds(titles))
+    return titles
 
 
-for result in titles["results"]: 
-    print(result["data"]["attributes"]["title"])
+mangas = search(input("title:"))
+titles = getTitles(mangas)
+ids = getIds(mangas)
+
+#print(getTitles(mangas))
+
