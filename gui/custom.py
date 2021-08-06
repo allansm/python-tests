@@ -1,6 +1,6 @@
 from tkinter import *
 
-class Cg:
+class Custom:
     __maximized = False
     __root = ""
 
@@ -17,7 +17,7 @@ class Cg:
 
     def turnback(self,event):
         if(self.__maximized):
-            self.__root.geometry("%dx%d+0+0" % (width, height))
+            self.__root.geometry("%dx%d+0+0" % (self.width, self.height))
             self.__maximized = False
 
     def move_window(self,event):
@@ -32,9 +32,27 @@ class Cg:
         self.__root.close['bg']='#2e2e2e' 
 
     def __init__(self):
+        #self.hide = Tk()
+        #self.hide.withdraw()
+        #self.hide.attributes('-alpha', 0.0)
+        
+        #self.hide.bind("<FocusIn>",print("in"))
+
         self.__root = Tk()
         self.__root.overrideredirect(True)
-        
+        self.hide = Toplevel(self.__root)
+        #self.hide.withdraw()
+        self.hide.attributes('-alpha', 0.0)
+
+        #self.hide.bind("<FocusIn>",print("in"))#self.__root.attributes("-topmost",1))
+        #self.__root.after(100,self.__root.attributes("-topmost",0))
+        #self.hide.bind("<FocusOut>",print("out"))#self.__root.attributes("-topmost",0))
+        #self.hide.tkraise()
+        #self.__root.attributes("-topmost",1)
+        #self.__root.lift(aboveThis=self.hide)
+        #self.__root.
+        #Toplevel(self.__root)
+
         self.__root.topbar = Frame(self.__root, bg='#2e2e2e', bd=2,highlightthickness=0)
  
         self.__root.close = Button(self.__root.topbar, text='X', command=self.__root.destroy,bg = "#2e2e2e",padx = 2,pady = 2,activebackground='red',bd = 0,font="bold",fg='white',highlightthickness=0)
@@ -61,6 +79,6 @@ class Cg:
         return self.__root
 
 def root():
-    return Cg().getRoot()
+    return Custom().getRoot()
 
 
