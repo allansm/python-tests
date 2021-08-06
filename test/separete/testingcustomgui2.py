@@ -23,8 +23,8 @@ class Cg:
     def move_window(self,event):
         self.turnback(self)
         width, height = self.__root.winfo_reqwidth(), self.__root.topbar.winfo_reqheight()
-        self.__root.geometry('+{0}+{1}'.format(int(event.x_root-width/2), int(event.y_root-height/2)))
-        
+        self.__root.geometry('+{0}+{1}'.format(int(event.x_root-width/2), int(event.y_root-height/2))) 
+    
     def change_on_hovering(self,event):
         self.__root.close['bg']='red'
         
@@ -34,7 +34,7 @@ class Cg:
     def __init__(self):
         self.__root = Tk()
         self.__root.overrideredirect(True)
-
+        
         self.__root.topbar = Frame(self.__root, bg='#2e2e2e', bd=2,highlightthickness=0)
  
         self.__root.close = Button(self.__root.topbar, text='X', command=self.__root.destroy,bg = "#2e2e2e",padx = 2,pady = 2,activebackground='red',bd = 0,font="bold",fg='white',highlightthickness=0)
@@ -62,3 +62,5 @@ class Cg:
 
 def root():
     return Cg().getRoot()
+
+
