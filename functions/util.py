@@ -9,6 +9,9 @@ from urllib import request
 import json
 from urllib.request import urlopen
 
+from os import getcwd
+from os import chdir
+
 
 def split_list(a_list):
     half = len(a_list)//2
@@ -72,4 +75,12 @@ def getJson(url):
     data = json.loads(response.read().decode())
 
     return data
+
+def do(that,inside):
+    tmp = getcwd()
+
+    chdir(inside)
+    that()
+    chdir(tmp)
+
 

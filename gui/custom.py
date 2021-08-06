@@ -29,29 +29,25 @@ class Custom:
         self.__root.close['bg']='red'
         
     def return_to_normalstate(self,event):
-        self.__root.close['bg']='#2e2e2e' 
+        self.__root.close['bg']=self.__root.topbar["bg"]
+
+    def handle_focus(self,event):
+        self.__root.attributes("-topmost",True)
+        self.__root.attributes("-topmost",False)
+    
+    def topbarbg(self,color):
+        self.__root.topbar["bg"] = color
+        self.__root.close["bg"] = color
+        self.__root.maximize["bg"] = color
 
     def __init__(self):
-        #self.hide = Tk()
-        #self.hide.withdraw()
-        #self.hide.attributes('-alpha', 0.0)
-        
-        #self.hide.bind("<FocusIn>",print("in"))
-
         self.__root = Tk()
+        self.__root.title("")
         self.__root.overrideredirect(True)
-        self.hide = Toplevel(self.__root)
-        #self.hide.withdraw()
-        self.hide.attributes('-alpha', 0.0)
-
-        #self.hide.bind("<FocusIn>",print("in"))#self.__root.attributes("-topmost",1))
-        #self.__root.after(100,self.__root.attributes("-topmost",0))
-        #self.hide.bind("<FocusOut>",print("out"))#self.__root.attributes("-topmost",0))
-        #self.hide.tkraise()
-        #self.__root.attributes("-topmost",1)
-        #self.__root.lift(aboveThis=self.hide)
-        #self.__root.
-        #Toplevel(self.__root)
+        
+        hide = Toplevel(self.__root)
+        hide.bind("<FocusIn>",self.handle_focus)      
+        hide.attributes("-alpha",0.0) 
 
         self.__root.topbar = Frame(self.__root, bg='#2e2e2e', bd=2,highlightthickness=0)
  
@@ -70,12 +66,14 @@ class Custom:
         self.__root.topbar.bind('<B1-Motion>', self.move_window)
         self.__root.close.bind('<Enter>',self.change_on_hovering)
         self.__root.close.bind('<Leave>',self.return_to_normalstate)
- 
+        
+        self.__root.topbarbg = self.topbarbg
+
     def show(self):
         self.__root.mainloop()
     
     def getRoot(self):
-        self.__root.cg = self
+        self.__root.custom = self
         return self.__root
 
 def root():
