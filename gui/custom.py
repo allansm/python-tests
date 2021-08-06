@@ -6,7 +6,7 @@ class Custom:
 
     def maximize(self):
         if(not self.__maximized):
-            self.width, self.height = self.__root.winfo_reqwidth(), self.__root.winfo_reqheight()
+            #self.width, self.height = self.__root.winfo_reqwidth(), self.__root.winfo_reqheight()
             w, h = self.__root.winfo_screenwidth(), self.__root.winfo_screenheight()
             self.__root.geometry("%dx%d+0+0" % (w, h))
             self.__maximized = True
@@ -22,8 +22,8 @@ class Custom:
 
     def move_window(self,event):
         self.turnback(self)
-        width, height = self.__root.winfo_reqwidth(), self.__root.topbar.winfo_reqheight()
-        self.__root.geometry('+{0}+{1}'.format(int(event.x_root-width/2), int(event.y_root-height/2))) 
+        #width, height = self.__root.winfo_reqwidth(), self.__root.topbar.winfo_reqheight()
+        self.__root.geometry('+{0}+{1}'.format(int(event.x_root-self.width/2), int(event.y_root-self.topbarheight/2))) 
     
     def change_on_hovering(self,event):
         self.__root.close['bg']='red'
@@ -39,6 +39,10 @@ class Custom:
         self.__root.topbar["bg"] = color
         self.__root.close["bg"] = color
         self.__root.maximize["bg"] = color
+    
+    def size(self,width,height):
+        self.__root.geometry(str(width)+"x"+str(height))
+        self.width, self.height = width, height
 
     def __init__(self):
         self.__root = Tk()
@@ -68,6 +72,10 @@ class Custom:
         self.__root.close.bind('<Leave>',self.return_to_normalstate)
         
         self.__root.topbarbg = self.topbarbg
+        self.__root.size = self.size
+        
+        self.width, self.height = self.__root.winfo_reqwidth(), self.__root.winfo_reqheight()
+        self.topbarheight = self.__root.topbar.winfo_reqheight()
 
     def show(self):
         self.__root.mainloop()
