@@ -46,6 +46,17 @@ def test3():
     print(arr[radio.val])
 
 test3()
+exit()
+root = Tk()
+#hide = Toplevel(root)
+root.overrideredirect(True)
+root.iconphoto(False, PhotoImage(file="app.png"))
+root.attributes("-alpha",0.0)
+
+root.bind("<FocusIn>",root.attributes("-alpha",0.0))
+root.bind("<FocusIn>",root.attributes("-topmost",1))
+
+root.mainloop()
 '''
 root = Tk()
 hide = Tk()

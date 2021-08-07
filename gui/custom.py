@@ -3,6 +3,8 @@ from tkinter import *
 class Custom:
     __maximized = False
     __root = ""
+    __minimized = False
+    __fix = True
 
     def maximize(self):
         if(not self.__maximized):
@@ -14,9 +16,12 @@ class Custom:
             self.__root.geometry("%dx%d+0+0" % (self.width, self.height))
             self.__maximized = False
     def minimize(self):
-        #self.__root.attributes("-alpha",0.0)
-        #self.__root.iconify()
         self.__root.withdraw()
+        self.__minimized = True
+        if(self.__fix == False):
+            self.__fix = True
+        else:
+            self.__fix = False
 
     def turnback(self,event):
         if(self.__maximized):
@@ -36,9 +41,13 @@ class Custom:
     def handle_focus(self,event):
         self.__root.attributes("-topmost",True)
         self.__root.attributes("-topmost",False)
-        #self.__root.attributes("-alpha",1.0)
-        self.__root.deiconify()
 
+        if(self.__minimized):
+            if(self.__fix):
+                self.__fix = False
+            else:
+                self.__root.deiconify()
+                self.__minimized = False
 
     def topbarbg(self,bg="#2e2e2e",fg="white"):
         self.__root.topbar["bg"] = bg
@@ -63,12 +72,11 @@ class Custom:
         self.__root.title(title)
         self.__root.overrideredirect(True)
         self.__root.iconphoto(False, PhotoImage(file="app.png"))
-        #self.__root.attributes("-alpha",0.0)
 
         hide = Toplevel(self.__root)
         hide.bind("<FocusIn>",self.handle_focus)      
         hide.attributes("-alpha",0.0) 
-        #hide.iconphoto(False, PhotoImage(file="app.png"))
+        hide.iconphoto(False, PhotoImage(file="app.png"))
 
         self.__root.topbar = Frame(self.__root, bg='#2e2e2e', bd=2,highlightthickness=0)
  
