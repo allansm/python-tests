@@ -1,5 +1,6 @@
 from custom import *
-from guientry import *
+from ask import *
+from radio import *
 
 def test1():
     root = root()
@@ -20,13 +21,26 @@ def test1():
 
     root.mainloop()
 
+def test2():
+    root = root()
+    root.size(200,150)
+    root.topbarbg("#00f")
+    root.window["bg"] = "#eee"
+    root.maximize.pack_forget()
+
+    entry = Ask("name:","",root)
+    entry.show()
+
+    print(entry.val)
+
 root = root()
 root.size(200,150)
-root.topbarbg("#00f")
-root.window["bg"] = "#eee"
-#root.maximize.pack_forget()
+root.topbarbg("#000","#fff")
+root.window["bg"] = "#fff"
+root.maximize.pack_forget()
 
-entry = GuiEntry("name:","",root)
-entry.show()
+arr = ["aaa","bbb"]
+radio = Radio(arr,"",root)
+radio.show()
 
-print(entry.val)
+print(arr[radio.val])

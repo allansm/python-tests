@@ -6,7 +6,6 @@ class Custom:
 
     def maximize(self):
         if(not self.__maximized):
-            #self.width, self.height = self.__root.winfo_reqwidth(), self.__root.winfo_reqheight()
             w, h = self.__root.winfo_screenwidth(), self.__root.winfo_screenheight()
             self.__root.geometry("%dx%d+0+0" % (w, h))
             self.__maximized = True
@@ -22,7 +21,6 @@ class Custom:
 
     def move_window(self,event):
         self.turnback(self)
-        #width, height = self.__root.winfo_reqwidth(), self.__root.topbar.winfo_reqheight()
         self.__root.geometry('+{0}+{1}'.format(int(event.x_root-self.width/2), int(event.y_root-self.topbarheight/2))) 
     
     def change_on_hovering(self,event):
@@ -35,34 +33,44 @@ class Custom:
         self.__root.attributes("-topmost",True)
         self.__root.attributes("-topmost",False)
     
-    def topbarbg(self,color):
-        self.__root.topbar["bg"] = color
-        self.__root.close["bg"] = color
-        self.__root.maximize["bg"] = color
-    
+    def topbarbg(self,bg="#2e2e2e",fg="white"):
+        self.__root.topbar["bg"] = bg
+        self.__root.close["bg"] = bg
+        self.__root.maximize["bg"] = bg
+        self.__root.title["bg"] = bg
+        
+        self.__root.close["fg"] = fg
+        self.__root.maximize["fg"] = fg
+        self.__root.title["fg"] = fg
+
+
+
     def size(self,width,height):
         self.__root.geometry(str(width)+"x"+str(height))
         self.width, self.height = width, height
 
-    def __init__(self):
+    def __init__(self,title=""):
         self.__root = Tk()
-        self.__root.title("")
+        self.__root.title(title)
         self.__root.overrideredirect(True)
-        
+        self.__root.iconphoto(False, PhotoImage(file="app.png"))
+
         hide = Toplevel(self.__root)
         hide.bind("<FocusIn>",self.handle_focus)      
         hide.attributes("-alpha",0.0) 
+        hide.iconphoto(False, PhotoImage(file="app.png"))
 
         self.__root.topbar = Frame(self.__root, bg='#2e2e2e', bd=2,highlightthickness=0)
  
         self.__root.close = Button(self.__root.topbar, text='X', command=self.__root.destroy,bg = "#2e2e2e",padx = 2,pady = 2,activebackground='red',bd = 0,font="bold",fg='white',highlightthickness=0)
         self.__root.maximize = Button(self.__root.topbar, text='☐', command=self.maximize,bg = "#2e2e2e",padx = 2,pady = 2,activebackground='red',bd = 0,font="bold",fg='white',highlightthickness=0)
-
+        self.__root.title = Label(self.__root.topbar,text=title,bg = "#2e2e2e",fg="white")
         self.__root.window = Canvas(self.__root,highlightthickness=0)
  
         self.__root.topbar.pack(fill=X)
         self.__root.close.pack(side=RIGHT)
         self.__root.maximize.pack(side=RIGHT)
+        self.__root.title.pack(side=LEFT)
         self.__root.window.pack(expand=1, fill=BOTH)
         xwin=None
         ywin=None
@@ -84,7 +92,7 @@ class Custom:
         self.__root.custom = self
         return self.__root
 
-def root():
-    return Custom().getRoot()
+def root(title=""):
+    return Custom(title).getRoot()
 
 

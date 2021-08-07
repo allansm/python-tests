@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 
-class GuiEntry:
+class Ask:
+    val = ""
+
     def toMiddle(self):
         width, height = self.__root.winfo_reqwidth(), self.__root.winfo_reqheight()
 
@@ -24,7 +26,7 @@ class GuiEntry:
             self.__root.option_add("*tearOff", False)
 
             self.__root.geometry("200x130")
-            self.toMiddle(200,130)
+            self.toMiddle()
             
             self.__root.title(title)
 
@@ -52,8 +54,7 @@ class GuiEntry:
             self.__root = root
 
             self.__root.option_add("*tearOff", False)
-
-            #self.__root.geometry("200x130")
+ 
             self.toMiddle()
             
             self.__root.title(title)
