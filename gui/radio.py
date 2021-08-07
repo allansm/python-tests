@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-#from view import *
-#import theme
+
 class Radio:
     def toMiddle(self):
         width, height = self.__root.winfo_reqwidth(), self.__root.winfo_reqheight()
@@ -61,7 +60,6 @@ class Radio:
         else:
             self.__root = root
             
-            #self.__root.geometry("400x200")
             self.toMiddle()
              
             self.__root = root.window
@@ -81,11 +79,7 @@ class Radio:
             canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 
             canvas.configure(yscrollcommand=scrollbar.set)
-            
-            #self.__root.resizable(0,0)
-
-            #self.__root.title(title)
-
+             
             self.selected = IntVar()
 
             self.selected.set(-1)    

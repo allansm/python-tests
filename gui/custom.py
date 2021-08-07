@@ -13,6 +13,10 @@ class Custom:
         else:
             self.__root.geometry("%dx%d+0+0" % (self.width, self.height))
             self.__maximized = False
+    def minimize(self):
+        #self.__root.attributes("-alpha",0.0)
+        #self.__root.iconify()
+        self.__root.withdraw()
 
     def turnback(self,event):
         if(self.__maximized):
@@ -32,15 +36,20 @@ class Custom:
     def handle_focus(self,event):
         self.__root.attributes("-topmost",True)
         self.__root.attributes("-topmost",False)
-    
+        #self.__root.attributes("-alpha",1.0)
+        self.__root.deiconify()
+
+
     def topbarbg(self,bg="#2e2e2e",fg="white"):
         self.__root.topbar["bg"] = bg
         self.__root.close["bg"] = bg
         self.__root.maximize["bg"] = bg
+        self.__root.minimize["bg"] = bg
         self.__root.title["bg"] = bg
         
         self.__root.close["fg"] = fg
         self.__root.maximize["fg"] = fg
+        self.__root.minimize["fg"] = fg
         self.__root.title["fg"] = fg
 
 
@@ -54,22 +63,26 @@ class Custom:
         self.__root.title(title)
         self.__root.overrideredirect(True)
         self.__root.iconphoto(False, PhotoImage(file="app.png"))
+        #self.__root.attributes("-alpha",0.0)
 
         hide = Toplevel(self.__root)
         hide.bind("<FocusIn>",self.handle_focus)      
         hide.attributes("-alpha",0.0) 
-        hide.iconphoto(False, PhotoImage(file="app.png"))
+        #hide.iconphoto(False, PhotoImage(file="app.png"))
 
         self.__root.topbar = Frame(self.__root, bg='#2e2e2e', bd=2,highlightthickness=0)
  
         self.__root.close = Button(self.__root.topbar, text='X', command=self.__root.destroy,bg = "#2e2e2e",padx = 2,pady = 2,activebackground='red',bd = 0,font="bold",fg='white',highlightthickness=0)
         self.__root.maximize = Button(self.__root.topbar, text='☐', command=self.maximize,bg = "#2e2e2e",padx = 2,pady = 2,activebackground='red',bd = 0,font="bold",fg='white',highlightthickness=0)
+        self.__root.minimize = Button(self.__root.topbar, text='— ', command=self.minimize,bg = "#2e2e2e",padx = 2,pady = 2,activebackground='red',bd = 0,font="bold",fg='white',highlightthickness=0)
+
         self.__root.title = Label(self.__root.topbar,text=title,bg = "#2e2e2e",fg="white")
         self.__root.window = Canvas(self.__root,highlightthickness=0)
  
         self.__root.topbar.pack(fill=X)
         self.__root.close.pack(side=RIGHT)
         self.__root.maximize.pack(side=RIGHT)
+        self.__root.minimize.pack(side=RIGHT)
         self.__root.title.pack(side=LEFT)
         self.__root.window.pack(expand=1, fill=BOTH)
         xwin=None

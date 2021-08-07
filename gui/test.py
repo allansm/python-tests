@@ -32,15 +32,25 @@ def test2():
     entry.show()
 
     print(entry.val)
+def test3():
+    test = root()
+    test.size(200,150)
+    test.topbarbg("#000","#fff")
+    test.window["bg"] = "#fff"
+    test.maximize.pack_forget()
 
-root = root()
-root.size(200,150)
-root.topbarbg("#000","#fff")
-root.window["bg"] = "#fff"
-root.maximize.pack_forget()
+    arr = ["aaa","bbb"]
+    radio = Radio(arr,"",test)
+    radio.show()
 
-arr = ["aaa","bbb"]
-radio = Radio(arr,"",root)
-radio.show()
+    print(arr[radio.val])
 
-print(arr[radio.val])
+test3()
+'''
+root = Tk()
+hide = Tk()
+hide.bind("<FocusOut>",root.overrideredirect(False)) 
+hide.bind("<FocusIn>",root.overrideredirect(True))
+root.overrideredirect(True)
+
+root.mainloop()'''
