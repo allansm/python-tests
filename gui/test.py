@@ -41,12 +41,13 @@ def test3():
 
     arr = ["aaa","bbb"]
     radio = Radio(arr,"",test)
+    radio.toMiddle()
     radio.show()
 
     print(arr[radio.val])
 
 test3()
-exit()
+'''exit()
 root = Tk()
 #hide = Toplevel(root)
 root.overrideredirect(True)
@@ -56,7 +57,7 @@ root.attributes("-alpha",0.0)
 root.bind("<FocusIn>",root.attributes("-alpha",0.0))
 root.bind("<FocusIn>",root.attributes("-topmost",1))
 
-root.mainloop()
+root.mainloop()'''
 '''
 root = Tk()
 hide = Tk()

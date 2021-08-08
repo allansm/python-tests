@@ -56,8 +56,6 @@ class Ask:
             self.__root.option_add("*tearOff", False)
  
             self.toMiddle()
-            
-            self.__root.title(title)
 
             self.__root.resizable(0,0)
             window = self.__root.window
