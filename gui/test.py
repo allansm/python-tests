@@ -46,23 +46,8 @@ def test3():
 
     print(arr[radio.val])
 
-test3()
-'''exit()
-root = Tk()
-#hide = Toplevel(root)
-root.overrideredirect(True)
-root.iconphoto(False, PhotoImage(file="app.png"))
-root.attributes("-alpha",0.0)
+radio = Radio(["aaa"])
+radio.show()
 
-root.bind("<FocusIn>",root.attributes("-alpha",0.0))
-root.bind("<FocusIn>",root.attributes("-topmost",1))
-
-root.mainloop()'''
-'''
-root = Tk()
-hide = Tk()
-hide.bind("<FocusOut>",root.overrideredirect(False)) 
-hide.bind("<FocusIn>",root.overrideredirect(True))
-root.overrideredirect(True)
-
-root.mainloop()'''
+ask = Ask("aaa")
+ask.show()

@@ -6,7 +6,7 @@ class Radio:
     def toMiddle(self):
         width, height = self.__root.winfo_reqwidth(), self.__root.winfo_reqheight()
 
-        middlew = str(int(self.__root.winfo_screenwidth()/2-width/2))
+        middlew = str(int(self.__root.winfo_screenwidth()/2-width))
         middleh = str(int(self.__root.winfo_screenheight()/2-height/2))
 
         self.__root.geometry("+"+middlew+"+"+middleh)
