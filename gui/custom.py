@@ -5,6 +5,7 @@ class Custom:
     __root = ""
     __minimized = False
     __fix = True
+    __canMove = True
 
     def maximize(self):
         if(not self.__maximized):
@@ -29,8 +30,9 @@ class Custom:
             self.__maximized = False
 
     def move_window(self,event):
-        self.turnback(self)
-        self.__root.geometry('+{0}+{1}'.format(int(event.x_root-self.width/2), int(event.y_root-self.topbarheight/2))) 
+        if(self.__canMove):
+            self.turnback(self)
+            self.__root.geometry('+{0}+{1}'.format(int(event.x_root-self.width/2), int(event.y_root-self.topbarheight/2))) 
     
     def change_on_hovering(self,event):
         self.__root.close['bg']='red'
@@ -102,7 +104,8 @@ class Custom:
         
         self.__root.topbarbg = self.topbarbg
         self.__root.size = self.size
-        
+        self.__root.canMove = self.setCanMove
+
         self.width, self.height = self.__root.winfo_reqwidth(), self.__root.winfo_reqheight()
         self.topbarheight = self.__root.topbar.winfo_reqheight()
 
@@ -112,6 +115,9 @@ class Custom:
     def getRoot(self):
         self.__root.custom = self
         return self.__root
+    
+    def setCanMove(self,canMove):
+        self.__canMove = canMove
 
 def root(title=""):
     return Custom(title).getRoot()
