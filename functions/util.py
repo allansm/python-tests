@@ -80,7 +80,8 @@ def do(that,inside):
     tmp = getcwd()
 
     chdir(inside)
-    that()
+    val = that()
     chdir(tmp)
-
+    
+    return val
 
