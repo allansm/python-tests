@@ -7,11 +7,11 @@ from os.path import dirname
 from os.path import realpath
 
 #use __file__
-def selfLocation(__f__):
-    return dirname(realpath(__f__))
+def selfLocation(f=__file__):
+    return dirname(realpath(f))
 
-def selfFileLocation(__f__):
-    return os.path.realpath(__f__)
+def selfFileLocation(f=__file__):
+    return os.path.realpath(f)
 
 def removeBreakLine(string):
     return string.replace("\n","").replace("\r","")
