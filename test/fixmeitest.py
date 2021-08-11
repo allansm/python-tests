@@ -1,11 +1,11 @@
 import sys
 sys.path.append("../functions")
 
-from fileHandle import selfFileLocation
+from fileHandle import *
 import os
 
-#os.chdir(fileHandle.getTemp())
-tmp = selfFileLocation
+arr = ls(getTemp(),"*")
 
-print(tmp(__file__))
-
+for a in arr:
+    if("MEI" in a and "_" in a):
+        print(a)
