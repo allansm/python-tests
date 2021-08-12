@@ -99,7 +99,7 @@ class Custom:
         ywin=None
         
         self.__root.topbar.bind('<B1-Motion>', self.move_window)
-        #test
+        
         self.__root.topbar.bind("<Double-Button-1>",lambda event : self.maximize())
 
         self.__root.close.bind('<Enter>',self.change_on_hovering)

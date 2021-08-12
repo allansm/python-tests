@@ -46,10 +46,3 @@ def test3():
 
     print(arr[radio.val])
 
-#radio = Radio(["aaa"])
-#radio.show()
-
-#ask = Ask("aaa")
-#ask.show()
-
-test3()
