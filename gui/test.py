@@ -46,3 +46,4 @@ def test3():
 
     print(arr[radio.val])
 
+test3()
