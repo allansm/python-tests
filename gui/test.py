@@ -32,6 +32,7 @@ def test2():
     entry.show()
 
     print(entry.val)
+
 def test3():
     test = root()
     test.size(200,150)
