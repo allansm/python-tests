@@ -17,4 +17,4 @@ files = getAllFilesPath(".")
 for f in files:
     size += os.path.getsize(f)
 
-print(size)
+print(str(size/1000000)+" mb")
