@@ -85,3 +85,10 @@ def do(that,inside):
     
     return val
 
+def showOptions(arr):
+    i = 0
+    for a in arr:
+        print(str(i)+" : "+a)
+        i = i + 1
+
+

@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../functions")
+sys.path.append("../../functions")
 
 from fileHandle import *
 
