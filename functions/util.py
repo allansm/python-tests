@@ -52,7 +52,7 @@ def isWindows():
     return false
 
 #require notifu on windows blank on linux
-def toast(message,title,exe):
+def toast(message,title,exe=""):
     SUPRESS = open(os.devnull, 'w')
 
     if(isWindows()):
