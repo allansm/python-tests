@@ -17,6 +17,9 @@ def run():
         if(path != ""):
             chdir(path)
             while(True):
+                print("")
+                print("-------------------------------------------------------------------------")
+
                 if(before != None and before != ""):
                     system(before)
 
