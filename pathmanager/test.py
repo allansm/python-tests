@@ -34,10 +34,6 @@ def fast(path,command,tmp):
     chdir(path)
     print("")
     print("-------------------------------------------------------------------------")
-    '''
-    if(before != None and before != ""):
-        system(before)
-    '''
     print("")
     print("     PATH:"+path+"")
     print("")
@@ -56,7 +52,6 @@ def run():
     tmp = getcwd()
 
     paths = ls(path,"*")
-    #show(paths)
     
     for path in paths:
         if(path != "" and isdir(path)):
@@ -64,25 +59,4 @@ def run():
                 slow(path,before,tmp)
             else:
                 fast(path,before,tmp) 
-            '''
-            chdir(path)
-            while(True):
-                print("")
-                print("-------------------------------------------------------------------------")
-
-                if(before != None and before != ""):
-                    system(before)
-
-                print("")
-                print("     PATH:"+path)
-                print("")
-
-                command = input("command:")
-                
-                if(command == "exit"):
-                    chdir(tmp)
-                    break;
-
-                system(command)'''
-
 run()
