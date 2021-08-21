@@ -76,8 +76,12 @@ def getJson(url):
 
     return data
 
-def do(that,inside):
+def do(that,inside,from_=None):
     tmp = getcwd()
+    
+    if(from_ != None):
+        #from os.path import dirname,realpath
+        chdir(from_) #dirname(realpath(from_)))
 
     chdir(inside)
     val = that()
