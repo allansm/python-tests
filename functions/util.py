@@ -52,7 +52,10 @@ def isWindows():
     return false
 
 #require notifu on windows blank on linux
-def toast(message,title,exe=""):
+def toast(message,title):
+    from os.path import dirname,realpath
+    exe = dirname(realpath(__file__))+"\\bin\\notifu"
+
     SUPRESS = open(os.devnull, 'w')
 
     if(isWindows()):
@@ -80,8 +83,7 @@ def do(that,inside,from_=None):
     tmp = getcwd()
     
     if(from_ != None):
-        #from os.path import dirname,realpath
-        chdir(from_) #dirname(realpath(from_)))
+        chdir(from_)
 
     chdir(inside)
     val = that()
