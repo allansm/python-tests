@@ -3,6 +3,7 @@ sys.path.append("../functions")
 
 from util import *
 
-#print(getJson(input("url:")))
 
-showOptions(["a","b","c","d","e"])
+text = "a\nb\nc\nd\ne\nf\n";
+print("original:\n"+text);
+print("with func:"+removeBreakLine(text));

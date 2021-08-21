@@ -11,11 +11,7 @@ def selfLocation(f=__file__):
     return dirname(realpath(f))
 
 def selfFileLocation(f=__file__):
-    return os.path.realpath(f)
-
-def removeBreakLine(string):
-    return string.replace("\n","").replace("\r","")
-
+    return realpath(f)
 
 def createFile(fname):
     try:

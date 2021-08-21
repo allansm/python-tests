@@ -51,7 +51,6 @@ def isWindows():
     
     return false
 
-#require notifu on windows blank on linux
 def toast(message,title):
     from os.path import dirname,realpath
     exe = dirname(realpath(__file__))+"\\bin\\notifu"
@@ -97,4 +96,6 @@ def showOptions(arr):
         print(str(i)+" : "+a)
         i = i + 1
 
+def removeBreakLine(string):
+    return string.replace("\n","").replace("\r","")
 
