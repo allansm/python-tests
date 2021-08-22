@@ -3,9 +3,10 @@ import sys
 sys.path.append("../functions")
 
 from fileHandle import *
+from argsHandle import *
 
-import argparse
-
+#import argparse
+'''
 def getArgs():
     parser = argparse.ArgumentParser()
     
@@ -16,7 +17,7 @@ def getArgs():
     args = parser.parse_args()
     
     return args
-
+'''
 def countLines(fname):
     return len(getLines(fname))-1
 
@@ -78,11 +79,12 @@ def getStats(folders,extensions,names):
     return stats
 
 def console():
-    args = getArgs()
+    args = getArgs(["--folders","--extensions","--names","--mode"])
 
     txt = args.folders
     names = args.names
     extensions = args.extensions
+    mode = args.mode
 
     folders = getLines(txt)
 
@@ -95,8 +97,17 @@ def console():
     filePercent = stats[5]
 
     for n in name:
-        print(n+":\n\nlines percent "+str(percent[name.index(n)])+"%\n"+str(count[name.index(n)])+" lines\n"+str(files[name.index(n)])+" files\npercent by file "+str(filePercent[name.index(n)])+" %\n")
+        if(mode == "line"):
+            print(n+":"+str(percent[name.index(n)])+"%")
+        elif(mode == "file"):
+            print(n+":"+str(filePercent[name.index(n)])+"%")
+        else:
+            if(mode != None):
+                mode = None
 
-    print("\ntotal lines:"+str(getTotal(count)))
+            print(n+":\n\nlines percent "+str(percent[name.index(n)])+"%\n"+str(count[name.index(n)])+" lines\n"+str(files[name.index(n)])+" files\npercent by file "+str(filePercent[name.index(n)])+" %\n")
+    
+    if(mode == None):
+        print("\ntotal lines:"+str(getTotal(count)))
 
 console()
