@@ -49,7 +49,7 @@ def isWindows():
     if(platform.system() == "Windows"):
         return True
     
-    return false
+    return False
 
 def toast(message,title):
     from os.path import dirname,realpath
@@ -62,7 +62,7 @@ def toast(message,title):
         call("taskkill /f /im notifu.exe 2>NUL",shell=True,stdout=SUPRESS)
         call("start \"\" \""+exe+"\" /m \"\\n"+message+"\" /p \""+title+"\" /t none /i %SYSTEMROOT%\\system32\\imageres.dll,10 /q",shell=True)
     else:
-        call("notify-send \""+title+"\" \""+message+"\"")
+        call("notify-send \""+title+"\" \""+message+"\"",True)
 
 clear = lambda: system("cls" if os.name=="nt" else "clear")
 removeEmpty = lambda array: [i for i in array if i]
