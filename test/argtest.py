@@ -32,3 +32,22 @@ def imposssible():
     test = args.test
 
     test2 = args.test2
+
+def test(): 
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--flag",action="store_true",dest="flag")
+    #parser.set_defaults(flag=False)
+
+    args = parser.parse_args()
+
+    print(args.flag)
+
+args = getArgs(["?flag","required","--name","??negative"])
+
+if(args.flag):
+    print(args.name)
+else:
+    print(args.required)
+
+print(args.negative)
