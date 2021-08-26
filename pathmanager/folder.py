@@ -41,12 +41,12 @@ def fast(path,command,tmp):
     chdir(tmp)
 
 def run():
-    args = getArgs(["path","--command","--mode"])
+    args = getArgs(["path","--command","?slow"])
     path = args.path
     before = args.command
-    mode = args.mode
+    slo = args.slow
     
-    if(mode == None and before == None):
+    if(not slo and before == None):
         before = input("command:")
 
     tmp = getcwd()
@@ -55,7 +55,7 @@ def run():
     
     for path in paths:
         if(path != "" and isdir(path)):
-            if(mode == "slow"):
+            if(slo):
                 slow(path,before,tmp)
             else:
                 fast(path,before,tmp) 
