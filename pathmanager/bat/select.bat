@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0
 cd ..
-python pathselect.py
+python pathselect.py %*
