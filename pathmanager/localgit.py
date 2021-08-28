@@ -17,15 +17,21 @@ paths = getLines(".config")
 totup = 0
 totcom = 0
 
-args = getArgs(["?show","?who"])
+args = getArgs(["?show","?modified","?waiting","?cached"])
 show = args.show
-who = args.who
+showModified = args.modified
+waiting = args.waiting
+showCached = args.cached
 
 modified = []
+need = []
+cached = []
 
 print("")
 
 for path in paths:
+    once = True
+
     if(path != ""):
         chdir(path)
         
@@ -38,7 +44,13 @@ for path in paths:
             if(show):
                 print("     need update\n")
             totup = totup+1
-            modified.append(path)
+            
+            if(once):
+                modified.append(path)
+                once = False
+            
+            need.append(path)
+
         else:
             if(show):
                 print("     all up to date\n")
@@ -47,8 +59,14 @@ for path in paths:
             tmp = str(output).split("by")[1].split(" ")[1]
             tmp = int(tmp)
             totcom += tmp
-            modified.append(path)
-if(who):
+            
+            if(once):
+                modified.append(path)
+                once = False
+
+            cached.append(path)
+
+if(showModified):
     for mod in modified:
         if "\\" in mod:
             proj = mod.split("\\")[-1]
@@ -60,5 +78,30 @@ if(who):
         print(proj)
     exit()
 
+elif(waiting):
+    for p in need:
+        if "\\" in p:
+            proj = p.split("\\")[-1]
+        elif "/" in p:
+            proj = p.split("/")[-1]
+        else:
+            proj = mod
+
+        print(proj)
+    exit()
+
+elif(showCached):
+    for p in cached:
+        if "\\" in p:
+            proj = p.split("\\")[-1]
+        elif "/" in p:
+            proj = p.split("/")[-1]
+        else:
+            proj = mod
+
+        print(proj)
+    exit()
+
+ 
 print("total projects to be updated:"+str(totup))
 print("total updates:"+str(totcom))
