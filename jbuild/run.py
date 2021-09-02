@@ -1,15 +1,7 @@
 import os
 from subprocess import call
-pdir = os.path.dirname(os.path.realpath(__file__))
-wdir = os.getcwd()
-os.chdir(pdir)
-
-import sys
-sys.path.append("../functions")
-
+import dependency
 from fileHandle import *
-
-os.chdir(wdir)
 
 bin = getAllFiles("bin")
 

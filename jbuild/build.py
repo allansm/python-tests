@@ -1,15 +1,7 @@
-import os
-pdir = os.path.dirname(os.path.realpath(__file__))
-wdir = os.getcwd()
-
-os.chdir(pdir)
-
-import sys
-sys.path.append("../functions")
+import dependency
 
 from fileHandle import *
 from shutil import rmtree
-os.chdir(wdir)
 
 src = getAllFiles("src")
 

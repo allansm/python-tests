@@ -1,6 +1,4 @@
-import sys
-sys.path.append("../../functions")
-
+import dependency
 from fileHandle import *
 
 def getSize():
@@ -12,3 +10,5 @@ def getSize():
         size += os.path.getsize(f)
 
     print(str(size/1000000)+" mb")
+
+getSize()
