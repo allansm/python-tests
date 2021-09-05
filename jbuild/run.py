@@ -27,9 +27,22 @@ try:
 except:
     dummy = ""
 
+cp = "\"src;bin"
+cplib = ""
+
+if(exists("lib")):
+    lib = getAllFiles("lib")
+    for f in lib:
+        cplib+=";"+f
+
+cp+=cplib
+
+cp+="\""
+
+
 call("echo @echo off > bat/"+cn+".bat",shell=True)
 call("echo cd .. >> bat/"+cn+".bat",shell=True)
-call("echo java -classpath bin "+package[index]+" >> bat/"+cn+".bat",shell=True)
+call("echo java -classpath "+cp+" "+package[index]+" >> bat/"+cn+".bat",shell=True)
 
-call("java -classpath bin "+package[index],shell=True)
+call("java -classpath "+cp+" "+package[index],shell=True)
 
