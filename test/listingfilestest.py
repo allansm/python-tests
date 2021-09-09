@@ -21,10 +21,11 @@ def getAllFilesIgnoring(path,ignore=""):
         dirs = []
         flag = False
         for f in root:
+            f = f.replace("\\","/")
             if(isdir(f)):
                 if(not filter(f,ignore) or ignore == ""):
                     dirs.append(f)
-                    print(f)
+                    #print(f)
                     flag = True
             else:
                  if(not filter(f,ignore) or ignore == ""):
@@ -32,10 +33,11 @@ def getAllFilesIgnoring(path,ignore=""):
         
         hidden = ls(path+"/.*")
         for f in hidden:
+            f = f.replace("\\","/")
             if(isdir(f)):
                  if(not filter(f,ignore) or ignore == ""):
                     dirs.append(f)
-                    print(f)
+                    #print(f)
                     flag = True
             else:
                  if(not filter(f,ignore) or ignore == ""):
@@ -46,7 +48,7 @@ def getAllFilesIgnoring(path,ignore=""):
     def fun2(res,ignore=""):
         files = res[0]
         if(res[2]):
-            print("run")
+            #print("run")
             for d in res[1]:
                 res2 = fun(d,ignore)
 
@@ -65,6 +67,6 @@ def getAllFilesIgnoring(path,ignore=""):
 files = getAllFilesIgnoring("../../",".git;unity;eclipse;__pycache")
 
 for f in files:
-    print(f)
-
-print(len(files))
+    if("." in f):
+        if("py" in f.split(".")[-1]):
+            print(f)

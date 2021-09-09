@@ -1,5 +1,4 @@
-import sys
-sys.path.append("../functions")
+import dependency
 import os
 from argsHandle import *
 from fileHandle import *
@@ -12,6 +11,10 @@ path = args.path
 text = args.text
 ext = args.ext
 op = args.op
+
+chdir(path)
+
+path = os.getcwd()
 
 chdir(getTemp())
 
