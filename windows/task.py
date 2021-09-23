@@ -1,5 +1,4 @@
-import sys
-sys.path.append("../functions")
+import dependency
 
 from time import sleep
 from util import *

@@ -1,5 +1,4 @@
-import sys
-sys.path.append("../functions")
+import dependency
 
 from subprocess import check_output
 from subprocess import call
