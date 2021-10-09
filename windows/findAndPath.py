@@ -1,16 +1,24 @@
 import dependency
 
 from fileHandle import *
+from argsHandle import *
 
-folders = getAllPaths(input("path:"))
-bin = input("binary folder name:")
+args = getArgs(["folder","bin","--ignore"])
+ignore = args.ignore
+
+if(ignore == None):
+    ignore = ""
+
+folders =  getAllPaths(args.folder)
+bin = args.bin
 
 res = ""
 
 for f in folders:
     if(bin == f.split("\\")[-1]):
-        print(f)
-        res+=f+";"
+        if(not ignore in f or ignore == ""):
+            print(f)
+            res+=f+";"
 
 print()
 print(res)
