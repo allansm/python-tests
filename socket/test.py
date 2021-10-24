@@ -13,8 +13,8 @@ while(True):
             print('Connected by', addr)
             #while True:
             data = conn.recv(1024)
-            if not data:
-                break
+            #if not data:
+             #   break
             
             recv = data.decode('utf-8')
 
@@ -22,11 +22,16 @@ while(True):
             print(recv)
 
             head = "HTTP/1.1 200 OK"
-            head+="\nContent-Type: text/html"
+            head+="\nContent-Type: text/html;charset=utf-8"
             #head+="\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0"
-            head+="\nContent-Length: "
-            html = "\n<!DOCTYPE html><html><head><meta http-equiv='content-type' content='text/html; charset=utf-8' /></head>helloworld</html>"
-            head+= str(len(html))
+            #head+="\nContent-Length: "
+            if(not "/" in recv):
+                html = "\n\n<!DOCTYPE html><html><head><meta http-equiv='content-type' content='text/html; charset=utf-8' /></head>helloworld<br/><div style='width:50px;height:50px;background:#000'></div></html>"
+            elif("/doThat" in recv):
+                html = "\n\nworks :D"
+            elif("/hello" in recv):
+                html = "\n\n>> helloworld <<"
+            #head+= str(len(html))
             html = head+html
             
             conn.sendall(html.encode("utf-8"))
