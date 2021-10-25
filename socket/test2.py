@@ -38,8 +38,33 @@ def action2(conn):
         conn.sendall(response.encode('utf-8'))
         print("send")
 
+def action3(sock):
+    from subprocess import check_output as check
+    data = sock.recv(1024).decode('utf-8')
+
+    if(not data or data == ""):
+        dummy = ""
+    else:
+        header = "HTTP/1.1 200 OK"
+        header+="\nContent-Type: text/html;charset=utf-8"
+        header+="\n\n"
+        
+        print(data)
+
+        html = "u.u"
+
+        if("?test=" in data):
+            html = check("dir",shell=True).decode("utf-8").replace("\r\n","<br>")
+
+        response = header+html
+        
+        sock.sendall(response.encode("utf-8"))
+
 #while True:
 #    server('127.0.0.1',65432,action1)
 
+#while True:
+#    server('127.0.0.1',8080,action2)
+
 while True:
-    server('127.0.0.1',8080,action2)
+    server('127.0.0.1',9191,action3)
