@@ -22,3 +22,18 @@ def http(html):
     header+="\n\n"
         
     return header+html
+
+def isFree(ip,port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        try:
+            s.bind((ip, port))
+            return True
+        except socket.error as e:
+            return False
+
+i=0
+while(isFree("127.0.0.1",i)):
+    print(i)
+    i = i+ 1
+
+print("o.O")
