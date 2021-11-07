@@ -8,7 +8,7 @@ from shutil import rmtree
 args = getArgs(["dir","--out"])
 files = getAllFilesPath(args.dir)
 
-def rm(dn):
+def build(dn):
     try:
         rmtree(dn)
     except:
@@ -18,17 +18,31 @@ def rm(dn):
         mkdir(dn)
     except:
         dummy = ""
-
+odir = ""
 if(args.out != None): 
-    rm(args.out)
+    build(args.out)
     chdir(args.out)
+    odir=args.out
 else: 
-    rm("links")
+    build("links")
     chdir("links")
+    odir="links"
 
 
 for f in files:
     fn = getFileName(f)
-    print(fn)
+    tmp = f
+    if(":\\" in tmp):
+        tmp = tmp.split(":\\")[1]
+    elif(":/" in tmp):
+        tmp = tmp.split(":/")[1]
 
-    os.symlink(f,fn)
+    tmp = tmp.replace(args.dir,odir)
+    filepath = tmp
+    folder = tmp.replace(fn,"")
+    print(folder)
+    try:
+        mkdir(folder)
+    except:
+        dummy=""
+    #os.symlink(f,filepath)
