@@ -15,10 +15,18 @@ def build(dn):
         dummy = ""
 
 def getPaths(args):
+    from os import chdir,getcwd
     from fileHandle import getAllFilesPath,getFileName
     
     files = getAllFilesPath(args.dir)
     
+    tmp = getcwd()
+    #print(tmp)
+    chdir(args.dir)
+    dir = getcwd()
+    #print(dir)
+    chdir(tmp)
+
     farr = []
     darr = []
 
@@ -27,15 +35,17 @@ def getPaths(args):
         
         tmp = "" 
         
-        if("/" in args.dir):
-            tok = args.dir.split("/")[-1]+"/"
+        if("/" in dir):
+            tok = dir.split("/")[-1]+"/"
             if(tok in f):
                 tmp = f.split(tok)[1]
-        elif("\\" in args.dir):
-            tok = args.dir.split("\\")[-1]+"\\"
+        elif("\\" in dir):
+            tok = dir.split("\\")[-1]+"\\"
             if(tok in f):
                 tmp = f.split(tok)[1]
-        else:
+        #else:
+        #    print(":O")
+        '''else:
             if("/" in f):
                 tmp = f.split(args.dir+"/")[1]
             elif("\\" in f):
@@ -45,7 +55,7 @@ def getPaths(args):
                 tmp.replace("/","")
             elif(tmp == "\\"):
                 tmp.replace("\\","")
-
+        '''
         fpath = tmp
         dpath = tmp.replace(fn,"")
         
@@ -71,14 +81,17 @@ def run():
     args = getArgs(["dir","--out","?test"])
     
     paths = getPaths(args)
-    
+    #print(args.test) 
     build("links")
     chdir("links")
-
+    #print(paths)
     for dir in paths[1]:
         print(dir)
         if(not args.test):
-            mkdir(dir)
+            try:
+                mkdir(dir)
+            except:
+                dummy=""
 
     i=0
     for file in paths[0]:
