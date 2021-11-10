@@ -1,6 +1,6 @@
 import dependency
 
-def build(dn):
+def rebuild(dn):
     from shutil import rmtree
     from os import mkdir
 
@@ -21,10 +21,10 @@ def getPaths(args):
     files = getAllFilesPath(args.dir)
     
     tmp = getcwd()
-    #print(tmp)
+    
     chdir(args.dir)
     dir = getcwd()
-    #print(dir)
+    
     chdir(tmp)
 
     farr = []
@@ -43,19 +43,7 @@ def getPaths(args):
             tok = dir.split("\\")[-1]+"\\"
             if(tok in f):
                 tmp = f.split(tok)[1]
-        #else:
-        #    print(":O")
-        '''else:
-            if("/" in f):
-                tmp = f.split(args.dir+"/")[1]
-            elif("\\" in f):
-                tmp = f.split(args.dir+"\\")[1]
-            
-            if(tmp == "/"):
-                tmp.replace("/","")
-            elif(tmp == "\\"):
-                tmp.replace("\\","")
-        '''
+        
         fpath = tmp
         dpath = tmp.replace(fn,"")
         
@@ -64,7 +52,7 @@ def getPaths(args):
         if(dpath != ""):
             darr.append(dpath)
 
-    #arr = {'files':farr,'folders':darr,'original':files};
+    
     arr = []
 
     arr.append(farr)
@@ -73,26 +61,32 @@ def getPaths(args):
 
     return arr
 
-def run():
-    from os import chdir,symlink,getcwd
-    from os import makedirs as mkdir
-    from argsHandle import getArgs
 
-    args = getArgs(["dir","--out","?test"])
+def build(paths,isTest=False): 
+    from os import chdir
+    from os import makedirs as mkdir
     
-    paths = getPaths(args)
-    #print(args.test) 
-    build("links")
-    chdir("links")
-    #print(paths)
+    if(not isTest):
+        rebuild("links")
+        chdir("links")
+    
     for dir in paths[1]:
         print(dir)
-        if(not args.test):
+        if(not isTest):
             try:
                 mkdir(dir)
             except:
                 dummy=""
 
+def run():
+    from os import symlink,getcwd 
+    from argsHandle import getArgs
+
+    args = getArgs(["dir","--out","?test"])
+    
+    paths = getPaths(args)
+    build(paths,args.test)
+    
     i=0
     for file in paths[0]:
         print(file+" "+paths[2][i])
