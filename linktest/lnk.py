@@ -14,15 +14,15 @@ def rebuild(dn):
     except:
         dummy = ""
 
-def getPaths(args):
+def getPaths(p):
     from os import chdir,getcwd
     from fileHandle import getAllFilesPath,getFileName
     
-    files = getAllFilesPath(args.dir)
+    files = getAllFilesPath(p)
     
     tmp = getcwd()
     
-    chdir(args.dir)
+    chdir(p)
     dir = getcwd()
     
     chdir(tmp)
