@@ -30,10 +30,3 @@ def isFree(ip,port):
             return True
         except socket.error as e:
             return False
-
-i=0
-while(isFree("127.0.0.1",i)):
-    print(i)
-    i = i+ 1
-
-print("o.O")
