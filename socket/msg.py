@@ -1,5 +1,4 @@
 import socketHandle as sh
-import sys
 from threading import *
 from time import sleep
 
