@@ -2,6 +2,7 @@ import os
 from subprocess import call
 import dependency
 from fileHandle import *
+from util import *
 
 bin = getAllFiles("bin")
 
@@ -31,15 +32,20 @@ cp = "\"src;bin"
 cplib = ""
 
 if(exists("lib")):
+    cp+=";lib"
     lib = getAllFiles("lib")
     for f in lib:
         cplib+=";"+f
 
+if(exists(".lib")):
+    for x in getLines(".lib"):
+        cplib+=";"+x
+        
 cp+=cplib
 
 cp+="\""
 
-
+clear()
 call("echo @echo off > bat/"+cn+".bat",shell=True)
 call("echo cd .. >> bat/"+cn+".bat",shell=True)
 call("echo java -classpath "+cp+" "+package[index]+" >> bat/"+cn+".bat",shell=True)

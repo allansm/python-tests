@@ -2,7 +2,6 @@ import dependency
 
 from fileHandle import *
 from shutil import rmtree
-#from os.path import exists
 
 src = getAllFiles("src")
 
@@ -28,10 +27,15 @@ cp = "\"src;bin"
 cplib = ""
 
 if(exists("lib")):
+    cp+=";lib"
     lib = getAllFiles("lib")
     for f in lib:
         cplib+=";"+f
 
+if(exists(".lib")):
+    for x in getLines(".lib"):
+        cplib+=";"+x
+ 
 cp+=cplib
 
 cp+="\""
