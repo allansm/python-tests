@@ -16,7 +16,7 @@ def rebuild(dn):
 
 def getPaths(p):
     from os import chdir,getcwd
-    from fileHandle import getAllFilesPath,getFileName
+    from fileHandle import getAllFilesPath,getFileName,dirname
     
     files = getAllFilesPath(p)
     
@@ -50,7 +50,7 @@ def getPaths(p):
         if(fpath != ""):
             farr.append(fpath)
         if(dpath != ""):
-            darr.append(dpath)
+            darr.append(dirname(dpath))
 
     
     arr = []
