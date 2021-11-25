@@ -1,14 +1,16 @@
 import dependency
 from fileHandle import *
+from util import clear
+
+size = 0
+
+def lamb(f): 
+    global size
+
+    size += os.path.getsize(f)
+    print(str(size/1000000)+" mb")
 
 def getSize():
-    size = 0
-
-    files = getAllFilesPath(".")
-
-    for f in files:
-        size += os.path.getsize(f)
-
-    print(str(size/1000000)+" mb")
+    files = getAllFilesPath(".",lamb)
 
 getSize()
