@@ -2,41 +2,24 @@ import sys
 sys.path.append("../../python-lib")
 
 from imageHandle import *
+from fileHandle import *
 from elapse import *
+from os import chdir,mkdir,getcwd
 
-e = Elapse()
+chdir(getTemp())
+try:
+    mkdir("capturetest")
+except:
+    dummy=""
 
-i = 0
-while(e.elapsed() < 1000):
-    screenshot()
+chdir("capturetest")
+print(getcwd())
+i=0
+while(True):
+    e = Elapse()
+    fn = '{:0>3}'.format(i)
+    ss = screenshot()
+    ss.save(fn+".jpg",quality=1)
     i+=1
-
-print(i)
-
-e = Elapse()
-
-i = 0
-while(e.elapsed() < 1000):
-    screenshot(bbox =(0, 0, 640, 480))
-    i+=1
-
-print(i)
-
-e = Elapse()
-
-i = 0
-while(e.elapsed() < 1000):
-    screenshot(bbox =(0, 0, 400, 300))
-    i+=1
-
-print(i)
-
-e = Elapse()
-
-i = 0
-while(e.elapsed() < 1000):
-    screenshot(bbox =(0, 0, 10, 10))
-    i+=1
-
-print(i)
+    print(e.elapsed())
 
