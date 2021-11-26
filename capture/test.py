@@ -7,19 +7,25 @@ from elapse import *
 from os import chdir,mkdir,getcwd
 
 chdir(getTemp())
-try:
-    mkdir("capturetest")
-except:
-    dummy=""
 
+remove("capturetest")
+mkdir("capturetest")
 chdir("capturetest")
+
 print(getcwd())
+
 i=0
+count = 0
+e = Elapse()
 while(True):
-    e = Elapse()
-    fn = '{:0>3}'.format(i)
+    if(e.elapsed() > 60000):
+        print(count/60)
+        count = 0
+        e = Elapse()
+
+    fn = str(i)#'{:0>3}'.format(i)
     ss = screenshot()
-    ss.save(fn+".jpg",quality=1)
+    ss.save(fn+".jpg",quality=33)
     i+=1
-    print(e.elapsed())
+    count+=1
 
