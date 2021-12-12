@@ -1,14 +1,28 @@
 import sys
 sys.path.append("../../python-lib")
 
-import pyautogui
-from elapse import *
+from imageHandle import *
+from fileHandle import getTemp,mkdir
+from os import chdir,getcwd
+from time import sleep
+from argsHandle import *
 
-e = Elapse()
-i = 0
-while(e.elapsed() < 1000):
-    a = pyautogui.screenshot()#region=(0,0,100,100))
-    a.save("test.png")
+interval = getArgs(["--interval"]).interval
+
+if(interval == None):
+    interval = 1
+else:
+    interval = int(interval)
+
+chdir(getTemp())
+mkdir("test")
+chdir("test")
+
+print(getcwd())
+
+i=0
+while(True):
+    print(i)
+    screenshot().save(str(i)+".png")
     i+=1
-
-print(i)
+    sleep(interval)
