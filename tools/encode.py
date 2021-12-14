@@ -5,6 +5,17 @@ sys.path.append("../../python-lib")
 from argsHandle import *
 from base64 import *
 
+def b(base,type,data):
+    exec("global x;x = b"+base+type+"(data.encode('utf-8')).decode('utf-8')")
+    
+    global x
+    tmp = x
+    
+    x = None
+    del x
+
+    return tmp
+
 args = getArgs(["--base","data","?decode"])
 
 base = args.base
@@ -20,4 +31,4 @@ if(not type):
 else:
     type = "decode"
 
-exec("print(b"+base+type+"(data.encode('utf-8')).decode('utf-8'))")
+print(b(base,type,data))
