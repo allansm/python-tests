@@ -3,24 +3,63 @@ from dependency import *
 include("../../python-lib")
 
 from ff import playSound as ffplay
-from fileHandle import getAllFilesPath as files
-from fileHandle import getLines,isdir
+from fileHandle import isdir
 from argsHandle import *
-from random import shuffle
+
 from util import toast
+
+class Playlist:
+    __index = 0
+    __paths = None
+    __size = 0
+    end = False
+
+    def __init__(self,dir):
+        from fileHandle import getAllFilesPath as files
+        from random import shuffle
+        
+        self.dir = dir
+        self.__paths = files(dir)
+        shuffle(self.__paths)
+        self.__size = len(self.__paths)
+    
+    def next(self):
+        i = self.__index
+        
+        if(i < self.__size-1):
+            self.__index+=1
+        else:
+            self.end = True
+
+        return self.__paths[i]
+
+def Playlists(file):
+    from fileHandle import getLines
+    from random import shuffle
+
+    playlists = []
+
+    for line in getLines(file):
+        playlists.append(Playlist(line))
+
+    shuffle(playlists)
+    
+    return playlists
 
 args = getArgs(["files"])
 
-'''
 if(not isdir(args.files)):
-    arr = []
-    for line in getLines(args.files):
-'''
-files = files(args.files)
+    playlists = Playlists(args.files)
 
-shuffle(files)
+    end = False
+    while(not end):
+        for playlist in playlists:
+            print(playlist.dir)
+            ffplay(playlist.next())
+            
+            end = playlist.end
+else:
+    playlist = Playlist(args.files)
 
-for n in files:
-    toast(n,"listening:")
-    print("listening:"+n)
-    ffplay(n)
+    while(not playlist.end):
+        ffplay(playlist.next())
