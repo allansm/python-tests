@@ -2,12 +2,6 @@ from dependency import *
 
 include("../../python-lib")
 
-from ff import playSound as ffplay
-from fileHandle import isdir
-from argsHandle import *
-
-from util import toast
-
 class Playlist:
     __index = 0
     __paths = None
@@ -46,20 +40,29 @@ def Playlists(file):
     
     return playlists
 
-args = getArgs(["files"])
+def run():
+    from ff import playSound as ffplay
+    from fileHandle import isdir
+    from argsHandle import getArgs
 
-if(not isdir(args.files)):
-    playlists = Playlists(args.files)
+    from util import toast
 
-    end = False
-    while(not end):
-        for playlist in playlists:
-            print(playlist.dir)
+    args = getArgs(["files"])
+
+    if(not isdir(args.files)):
+        playlists = Playlists(args.files)
+
+        end = False
+        while(not end):
+            for playlist in playlists:
+                print(playlist.dir)
+                ffplay(playlist.next())
+                
+                end = playlist.end
+    else:
+        playlist = Playlist(args.files)
+
+        while(not playlist.end):
             ffplay(playlist.next())
-            
-            end = playlist.end
-else:
-    playlist = Playlist(args.files)
 
-    while(not playlist.end):
-        ffplay(playlist.next())
+run()
