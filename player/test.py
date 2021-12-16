@@ -40,14 +40,50 @@ def Playlists(file):
     
     return playlists
 
-def run():
-    from ff import playSound as ffplay
-    from fileHandle import isdir
-    from argsHandle import getArgs
-
+def show(path):
     from util import toast
+    
+    print("listening:"+path)
+    toast(path,"listening:")
 
-    args = getArgs(["files"])
+def norepeat(path):
+    from fileHandle import getLines
+
+    flag = True
+    for n in getLines(".norepeat"):
+        if(n == path):
+            flag = False
+
+    return flag
+
+def play(args,next):
+    from ff import playSound as ffplay
+    from fileHandle import writeFile
+
+    flag = True
+    if(args.norepeat):
+        flag = norepeat(next)
+    if(flag):
+        show(next)
+        ffplay(next)
+
+        if(args.norepeat):
+            writeFile(".norepeat",next+"\n")
+    else:
+        print("skip repeat")
+
+def run():
+    from argsHandle import getArgs
+    from os import chdir,getcwd
+    from fileHandle import isdir,getTemp,mkdir
+
+    chdir(getTemp())
+    mkdir("player")
+    chdir("player")
+    
+    print(getcwd())
+
+    args = getArgs(["files","?norepeat"])
 
     if(not isdir(args.files)):
         playlists = Playlists(args.files)
@@ -56,13 +92,34 @@ def run():
         while(not end):
             for playlist in playlists:
                 print(playlist.dir)
-                ffplay(playlist.next())
-                
+                next = playlist.next()
+                play(args,next)
+                '''
+                flag = True
+                if(args.norepeat):
+                    flag = norepeat(next)
+                if(flag):
+                    show(next)
+                    ffplay(next)
+
+                    if(args.norepeat):
+                        writeFile(".norepeat",next+"\n")
+                else:
+                    print("skip repeat")
+                '''
                 end = playlist.end
     else:
         playlist = Playlist(args.files)
 
         while(not playlist.end):
-            ffplay(playlist.next())
-
+            next = playlist.next()
+            '''
+            flag = True
+            if(args.norepeat):
+                flag = norepeat(next)
+            if(flag):
+                show(next)
+                ffplay(next)
+            '''
+            play(args,next)
 run()
