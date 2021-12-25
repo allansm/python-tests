@@ -14,7 +14,13 @@ x = args.x
 if(x != None):
     x = int(x)
 
-data = readBytes(fn)
+data=""
+
+if(exists(fn)):
+    data = readBytes(fn)
+else:
+    data = fn.encode()
+
 data = b16encode(data).decode()
 
 i = 0
