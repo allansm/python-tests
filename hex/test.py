@@ -18,13 +18,7 @@ if(out == None):
 if(x != None):
     x = int(x)
 
-data=""
-
 if(exists(fn)):
     data = readFile(fn)
-else:
-    data = fn
-
-data = data.replace("\n","").replace(" ","")
-
-writeBytes(out,b16decode(data))
+    data = data.replace("\n","").replace(" ","")
+    writeBytes(out,b16decode(data))
