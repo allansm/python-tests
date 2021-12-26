@@ -6,10 +6,11 @@ include("../../python-lib")
 from argsHandle import *
 from fileHandle import *
 
-args = getArgs(["fn","--x"])
+args = getArgs(["fn","--x","--out"])
 
 fn = args.fn
 x = args.x
+out = args.out
 
 if(x != None):
     x = int(x)
@@ -26,9 +27,9 @@ data = b16encode(data).decode()
 i = 0
 c = 0
 arr = [""," "]
+res = ""
 for n in data:
-    print(n,end=arr[i])
-    
+    res+=n+arr[i]
     i+=1
     
     if(i > 1):
@@ -36,6 +37,10 @@ for n in data:
         c+=1
     
     if(c == x):
-        print("")
+        res+="\n"
         c=0
 
+if(out == None):
+    print(res)
+else:
+    writeFile(out,res)
