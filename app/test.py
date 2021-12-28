@@ -11,12 +11,16 @@ args = getArgs(["file"])
 def test(tmp,file):
     print(tmp)
     if(file.lower() in tmp.lower()):
-        #print(tmp)
         system('"start '+tmp+'"')
         exit()
 
-x = lambda a,b=args.file : test(a,b)
+file = args.file
+for n in getLines(".config"):
+    if(args.file in n):
+        file = n.split("::")[1]
 
+x = lambda a,b=file : test(a,b)
 
 for n in getLines(".config"):
-    getAllFiles(n,x)
+    if(not "::" in n):
+        getAllFiles(n,x)
