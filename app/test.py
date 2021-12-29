@@ -4,20 +4,21 @@ include("../../python-lib")
 
 from fileHandle import *
 from argsHandle import *
-from os import system
+from os import system,chdir
 
 args = getArgs(["file","--detail"])
 
 def test(tmp,file,detail):
     print(tmp)
-    print(dirname(tmp))
     if(file.lower() in tmp.lower()):
         if(detail != None):
             if(detail in tmp.lower()):
-                system('"start '+tmp+'"')
+                chdir(dirname(tmp))
+                system('"start '+file+'"')
                 exit()
         else:
-            system('"start '+tmp+'"')
+            chdir(dirname(tmp))
+            system('"start '+file+'"')
             exit()
 
 file = args.file
