@@ -1,29 +1,30 @@
-def extract(f):
-    import py7zr
-
-    archive = py7zr.SevenZipFile(f, mode='r')
-    archive.extractall(path="")
-    archive.close()
-
 from dependency import *
 include("../../python-lib")
 
 from fileHandle import *
 from os import chdir
 from shutil import rmtree as remove
+from zip import *
+from argsHandle import *
+from os import system
 
-path = realpath("test.7z")
+args = getArgs(["zip","action"])
 
-remove("test")
-mkdir("test")
-chdir("test")
+path = realpath(args.zip)
+
+try:
+    remove("tmp")
+except:
+    dummy=""
+
+mkdir("tmp")
+chdir("tmp")
 
 extract(path)
 
-print(readFile("a.txt"))
-print(readFile("b.txt"))
+system(args.action)
 
 chdir("..")
 
-remove("test")
+remove("tmp")
 
