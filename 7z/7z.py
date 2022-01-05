@@ -6,6 +6,7 @@ from os import chdir
 from zip import *
 from argsHandle import *
 from os import system
+from elapse import *
 
 args = getArgs(["zip","action"])
 
@@ -16,7 +17,9 @@ remove("7z")
 mkdir("7z")
 chdir("7z")
 
+e = Elapse()
 extract(path)
+e.show(0.001)
 
 system(args.action)
 
