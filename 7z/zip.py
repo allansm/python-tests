@@ -5,3 +5,8 @@ def extract(f):
     files = archive.getnames()
     archive.extract(targets=files)
     archive.close()
+
+def test(f):
+    from os import system
+
+    system('7z x "'+f+'"')
