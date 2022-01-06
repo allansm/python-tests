@@ -28,6 +28,7 @@ if(exists(path)):
         system(args.action)
     else:
         for n in ls():
+            n = getFileName(n)
             print(n)
             flag = True
             for x in args.action.split(";"):
@@ -38,7 +39,7 @@ if(exists(path)):
                 if(args.command == None):
                     system('"'+n+'"')
                 else:
-                    system('"'+args.command+'" "'+n+'"')
+                    system(args.command+" \""+n+"\"")
 
     chdir(getTemp())
     
