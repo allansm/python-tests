@@ -9,7 +9,7 @@ from os import system
 from elapse import *
 from util import exec,echo
 
-args = getArgs(["zip","action"])
+args = getArgs(["zip","action","?find","--command"])
 
 path = realpath(args.zip)
 
@@ -23,10 +23,25 @@ if(exists(path)):
     exec('7z x "'+path+'"')
     echo("elapsed:")
     e.show(0.001)
+    
+    if(not args.find):
+        system(args.action)
+    else:
+        for n in ls():
+            print(n)
+            flag = True
+            for x in args.action.split(";"):
+                if(not x.lower() in n.lower()):
+                    flag = False
 
-    system(args.action)
+            if(flag):
+                if(args.command == None):
+                    system('"'+n+'"')
+                else:
+                    system('"'+args.command+'" "'+n+'"')
 
     chdir(getTemp())
-
+    
+    print("cleaning up...")
     remove("7z")
 
