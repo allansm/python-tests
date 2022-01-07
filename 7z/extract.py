@@ -28,7 +28,7 @@ if(exists(path)):
         system(args.action)
     else:
         for n in ls():
-            n = getFileName(n)
+            n = realpath(n)
             print(n)
             flag = True
             for x in args.action.split(";"):
