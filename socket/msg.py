@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../../python-lib")
+
 import socketHandle as sh
 from threading import *
 from time import sleep
