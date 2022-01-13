@@ -1,13 +1,13 @@
 from dependency import *
 include("../../python-lib")
 
-from fileHandle import *
+from allansm.fileHandle import *
 from os import chdir
 from zip import *
-from argsHandle import *
+from allansm.argsHandle import *
 from os import system
-from elapse import *
-from util import exec,echo
+from allansm.elapse import *
+from allansm.util import exec,echo
 
 args = getArgs(["zip","action","?find","--command"])
 

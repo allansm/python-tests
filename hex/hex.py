@@ -3,8 +3,8 @@ from base64 import *
 
 include("../../python-lib")
 
-from argsHandle import *
-from fileHandle import *
+from allansm.argsHandle import *
+from allansm.fileHandle import *
 
 args = getArgs(["fn","--x","--out"])
 
