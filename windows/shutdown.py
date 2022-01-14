@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../../python-lib")
 
-from timeHandle import *
+from allansm.timeHandle import *
 import time
 from os import system
 from os import chdir
