@@ -3,10 +3,11 @@ from dependency import *
 include("../../python-lib")
 
 from allansm.file import *
-from os import system,chdir
 from allansm.util import exec
+from allansm.argsHandle import *
+from os import system,chdir
 
-def boot():
+def boot(start=True):
     machine = None
 
     while(True):
@@ -25,13 +26,15 @@ def boot():
             print("}\n") 
              
             machine = input("machine name:")
+        
 
         status = ""
-        for n in exec("vboxmanage startvm "+machine):
-            status+=n
+        if(start):
+            for n in exec("vboxmanage startvm "+machine):
+                status+=n
 
         print(status)
-        if("success" in status):
+        if("success" in status or not start):
             while(True):
                 op = input(machine+">")
 
@@ -47,6 +50,7 @@ def boot():
                     system("vboxmanage controlvm "+machine+" savestate")
 
                 elif(op == "boot"):
+                    start = True
                     break
                 
                 elif(op == "help"):
@@ -66,5 +70,5 @@ try:
 except:
     config.remove()
 
-boot()
+boot(getArgs(["?boot"]).boot)
 
