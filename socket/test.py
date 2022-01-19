@@ -1,19 +1,18 @@
 import sys
 sys.path.append("../../python-lib")
 
-import socketHandle as sh
-from fileHandle import *
-from argsHandle import *
+from allansm.socketHandle import *
+from allansm.file import *
+from allansm.argsHandle import *
 
 
 fn = getArgs(["fn"]).fn
 
-def send(s):
-    data = s.recv(1024)
-    f= open(fn,"rb")
-    tosend = f.read()
-    #tosend = readFile(fn)
-    s.sendall(tosend)
+def run(s):
+    data = receive(s)
+    tmp = File(fn)
+    send(s,http("","*"))
+    send(s,tmp.bytes())
 
-
-sh.server(54321,send)
+while(True):
+    server(54321,run)
