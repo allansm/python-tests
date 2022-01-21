@@ -3,8 +3,10 @@ sys.path.append("../../python-lib")
 
 from allansm.socketHandle import *
 from allansm.file import *
+from allansm.fileHandle import getTemp,mkdir,realpath
+from allansm.argsHandle import *
 import allansm.zip as zip
-from allansm.fileHandle import getTemp,mkdir
+
 from os import getcwd,chdir
 
 def run(s):
@@ -17,22 +19,24 @@ def run(s):
 
     print("ok")
 
+args = getArgs(["path"])
+
+path = realpath(args.path)
+
 chdir(getTemp())
 mkdir("stest")
 chdir("stest")
 
 print(getcwd())
 
-mkdir("test")
-hello = File("test/hello.txt")
-hello.write("helloworld")
-
-zip.dir("tmp","test")
+zip.dir("tmp",path)
 tmp = File("tmp.zip")
 
 bytes = tmp.bytes()
 tmp.remove()
 
+print("ready")
+
 while(True):
-    server(54321,run,1,"127.0.0.1")
+    server(54321,run,ip="127.0.0.1")
 
