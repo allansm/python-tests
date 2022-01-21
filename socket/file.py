@@ -14,4 +14,4 @@ def run(s):
     send(s,http("","*"))
     send(s,tmp.bytes())
 
-server(54321,run,ip="127.0.0.1")
+server(54321,run)

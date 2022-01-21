@@ -38,5 +38,5 @@ tmp.remove()
 print("ready")
 
 while(True):
-    server(54321,run,ip="127.0.0.1")
+    server(54321,run)
 
