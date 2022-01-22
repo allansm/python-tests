@@ -6,6 +6,7 @@ from allansm.file import *
 from allansm.util import exec
 from allansm.argsHandle import *
 from os import system,chdir
+from time import sleep
 
 def boot(start=True):
     machine = None
@@ -49,6 +50,22 @@ def boot(start=True):
                 elif(op == "save"):
                     system("vboxmanage controlvm "+machine+" savestate")
 
+                elif("save" in op and ":" in op):
+                    time = op.split(" ")[1].split(":")
+                    
+                    h = time[0]
+                    m = time[1]
+                    s = time[2]
+                    
+                    t  = int(h)*60*60
+                    t += int(m)*60
+                    t += int(s)
+                    
+                    print("waiting:"+str(t)+" seconds")
+                    sleep(t)
+
+                    system("vboxmanage controlvm "+machine+" savestate")
+            
                 elif(op == "boot"):
                     start = True
                     break
@@ -59,6 +76,12 @@ def boot(start=True):
                         print("     "+n)
 
                     print("}\n")
+                
+                elif(op == "exit"):
+                    exit()
+                
+                else:
+                    system(op)
 
 config = File(".config")
 
