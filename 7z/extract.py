@@ -9,7 +9,7 @@ from os import system
 from allansm.elapse import *
 from allansm.util import exec,echo
 
-args = getArgs(["zip","action","?find","--command"])
+args = getArgs(["zip","action"])
 
 path = realpath(args.zip)
 
@@ -23,24 +23,29 @@ if(exists(path)):
     exec('7z x "'+path+'"')
     echo("elapsed:")
     e.show(0.001)
-    
-    if(not args.find):
-        system(args.action)
-    else:
+    if("$" in args.action):
+        tmp = ""
+        for n in args.action.split(" "):
+            if("$" in n):
+                tmp = n.replace("$","")
+
         for n in ls():
-            n = realpath(n)
-            print(n)
+            n = getFileName(n)
+
             flag = True
-            for x in args.action.split(";"):
+            for x in tmp.split(";"):
                 if(not x.lower() in n.lower()):
                     flag = False
 
             if(flag):
-                if(args.command == None):
-                    system('"'+n+'"')
-                else:
-                    system(args.command+" \""+n+"\"")
+                n = realpath(n)
+                action = args.action
+                action = action.replace("$"+tmp,"\""+n+"\"")
 
+                system(action)
+    else:
+        system(args.action)
+             
     chdir(getTemp())
     
     print("cleaning up...")
