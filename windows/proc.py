@@ -1,12 +1,12 @@
-import dependency
-
+#import dependency
 from subprocess import check_output
 from subprocess import call
 from os import system
 from time import sleep
-from util import *
-from argsHandle import *
+#from util import *
+#from argsHandle import *
 
+removeEmpty = lambda array: [i for i in array if i]
 
 def getOutput():
     return check_output("tasklist",shell=True)

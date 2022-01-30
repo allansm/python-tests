@@ -1,7 +1,7 @@
 import dependency
 
-from fileHandle import *
-from argsHandle import *
+from allansm.fileHandle import *
+from allansm.argsHandle import *
 
 args = getArgs(["folder","bin","--ignore"])
 ignore = args.ignore

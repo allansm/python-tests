@@ -1,8 +1,8 @@
 import dependency
 
 from time import sleep
-from util import *
-from argsHandle import *
+from allansm.util import *
+from allansm.argsHandle import *
 from proc import *
 
 
