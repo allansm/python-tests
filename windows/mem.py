@@ -24,7 +24,27 @@ print("------------------------------------")
 print("process                       mb")
 print("------------------------------------")
 
+h = {}
+h["mem"] = -1
 for n in rr(proc):
+    if(program[n] > h["mem"]):
+        h["name"] = n
+        h["mem"] = program[n]
+
+order = []
+order.append(h["name"])
+while(len(order) < len(rr(proc))):
+    tmp = {}
+    tmp["mem"] = -1
+    for n in rr(proc):
+        if(program[n] < h["mem"] and program[n] > tmp["mem"]):
+           tmp["name"] = n
+           tmp["mem"] = program[n]
+    
+    order.append(tmp["name"])
+    h = tmp
+
+for n in order:
     if(args.exe != None):
         size = len(n)
         space = ""
