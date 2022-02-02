@@ -25,7 +25,7 @@ print("process                       mb")
 print("------------------------------------")
 
 h = {}
-h["mem"] = -1
+h["mem"] = 0
 for n in rr(proc):
     if(program[n] > h["mem"]):
         h["name"] = n
@@ -33,34 +33,41 @@ for n in rr(proc):
 
 order = []
 order.append(h["name"])
+
 while(len(order) < len(rr(proc))):
     tmp = {}
-    tmp["mem"] = -1
+    tmp["name"] = None
+    tmp["mem"] = 0
+
     for n in rr(proc):
         if(program[n] < h["mem"] and program[n] > tmp["mem"]):
            tmp["name"] = n
            tmp["mem"] = program[n]
     
     order.append(tmp["name"])
+    
     h = tmp
 
 for n in order:
-    if(args.exe != None):
-        size = len(n)
-        space = ""
-        if(size < 30):
-            for x in range(1,30-size):
-                space+=" "
+    try:
+        if(args.exe != None):
+            size = len(n)
+            space = ""
+            if(size < 30):
+                for x in range(1,30-size):
+                    space+=" "
 
-        if(args.exe+".exe" == n.strip()):
+            if(args.exe+".exe" == n.strip()):
+                print(n+space+" "+str(round(program[n]/1024)))
+        else:
+            size = len(n)
+            space = ""
+            if(size < 30):
+                for x in range(1,30-size):
+                    space+=" "
+
             print(n+space+" "+str(round(program[n]/1024)))
-    else:
-        size = len(n)
-        space = ""
-        if(size < 30):
-            for x in range(1,30-size):
-                space+=" "
-
-        print(n+space+" "+str(round(program[n]/1024)))
+    except:
+        dummy=0
 
 print("------------------------------------")
