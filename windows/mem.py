@@ -48,7 +48,10 @@ while(len(order) < len(rr(proc))):
     
     h = tmp
 
+total = 0
 for n in order:
+    total += program[n]
+
     try:
         if(args.exe != None):
             size = len(n)
@@ -70,4 +73,7 @@ for n in order:
     except:
         dummy=0
 
+print("")
+print("total                         "+str(round(total/1024)))
 print("------------------------------------")
+
