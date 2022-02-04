@@ -27,6 +27,22 @@ if(exists(path)):
     while(True):
         op = input(getFileName(path).replace(".7z","")+">")
         
+        tmp = "" 
+        if("$" in op):
+            for n in op.split(" "):
+                if("$" in n):
+                    tmp = n.replace("$","")
+        
+            for n in getAllFiles(realpath(".")):
+                flag = True
+                y = getFileName(n)
+                for x in tmp.split(";"):
+                    if(not x.lower() in y.lower()):
+                        flag = False
+                
+                if(flag):
+                    op = op.replace("$"+tmp,"\""+n+"\"")
+
         if(op == "exit"):
             break
         else:
