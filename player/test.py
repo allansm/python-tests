@@ -1,7 +1,3 @@
-from dependency import *
-
-include("../../python-lib")
-
 class Playlist:
     __index = 0
     __paths = None
@@ -9,7 +5,7 @@ class Playlist:
     end = False
 
     def __init__(self,dir):
-        from fileHandle import getAllFilesPath as files
+        from allansm.fileHandle import getAllFilesPath as files
         from random import shuffle
         
         self.dir = dir
@@ -28,7 +24,7 @@ class Playlist:
         return self.__paths[i]
 
 def Playlists(file):
-    from fileHandle import getLines
+    from allansm.fileHandle import getLines
     from random import shuffle
 
     playlists = []
@@ -41,13 +37,13 @@ def Playlists(file):
     return playlists
 
 def show(path):
-    from util import toast
+    from allansm.util import toast
     
     print("listening:"+path)
     toast(path,"listening:")
 
 def norepeat(path):
-    from fileHandle import getLines
+    from allansm.fileHandle import getLines
 
     flag = True
     for n in getLines(".norepeat"):
@@ -57,8 +53,8 @@ def norepeat(path):
     return flag
 
 def play(args,next):
-    from ff import playSound as ffplay
-    from fileHandle import writeFile
+    from allansm.ff import playSound as ffplay
+    from allansm.fileHandle import writeFile
 
     flag = True
     if(args.norepeat):
@@ -73,9 +69,9 @@ def play(args,next):
         print("skip repeat")
 
 def run():
-    from argsHandle import getArgs
+    from allansm.argsHandle import getArgs
     from os import chdir,getcwd
-    from fileHandle import isdir,getTemp,mkdir
+    from allansm.fileHandle import isdir,getTemp,mkdir
 
     chdir(getTemp())
     mkdir("player")
