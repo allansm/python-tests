@@ -38,9 +38,17 @@ def Playlists(file):
 
 def show(path):
     from allansm.util import toast
+    music = path.split("\\")
+    if(len(music) > 0):
+        music = music[-1]
+    else:
+        music = path.split("/")[-1]
     
-    print("listening:"+path)
-    toast(path,"listening:")
+    music = music.split(".")[0]
+    music = music.replace("\"","")
+
+    print("listening:"+music)
+    toast(music,"listening:")
 
 def norepeat(path):
     from allansm.fileHandle import getLines
@@ -71,7 +79,7 @@ def play(args,next):
 def run():
     from allansm.argsHandle import getArgs
     from os import chdir,getcwd
-    from allansm.fileHandle import isdir,getTemp,mkdir
+    from allansm.fileHandle import isdir,getTemp,mkdir,selfLocation,getLines
 
     chdir(getTemp())
     mkdir("player")
@@ -79,43 +87,39 @@ def run():
     
     print(getcwd())
 
-    args = getArgs(["files","?norepeat"])
-
+    args = getArgs(["files","?norepeat","?ignore"])
+    
+    ignore = []
+    try:
+        if(args.ignore):
+            ignore = getLines(selfLocation(__file__)+"/.ignore")
+    except:
+        error = 0
+    
     if(not isdir(args.files)):
         playlists = Playlists(args.files)
 
         end = False
         while(not end):
             for playlist in playlists:
-                print(playlist.dir)
-                next = playlist.next()
-                play(args,next)
-                '''
                 flag = True
-                if(args.norepeat):
-                    flag = norepeat(next)
+                for n in ignore:
+                    if(n in playlist.dir):
+                        flag = False
+                        break
                 if(flag):
-                    show(next)
-                    ffplay(next)
-
-                    if(args.norepeat):
-                        writeFile(".norepeat",next+"\n")
+                    print(playlist.dir)
+                    next = playlist.next()
+                    play(args,next)
+                    
+                    end = playlist.end
                 else:
-                    print("skip repeat")
-                '''
-                end = playlist.end
+                    print("ignored :"+playlist.dir)
     else:
         playlist = Playlist(args.files)
 
         while(not playlist.end):
             next = playlist.next()
-            '''
-            flag = True
-            if(args.norepeat):
-                flag = norepeat(next)
-            if(flag):
-                show(next)
-                ffplay(next)
-            '''
+            
             play(args,next)
 run()
