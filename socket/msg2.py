@@ -17,9 +17,18 @@ def totext(text):
     return text
 
 def action(s):
+    from time import sleep
+
+    global users
     global messages
     
+    sleep(1)
+
+    ip = s.getpeername()[0]
+    
+    users[ip] = "nameless"
     message = ""
+    
     recv = receive(s)
     
     try:
@@ -27,13 +36,15 @@ def action(s):
     except:
         url = ""
     
-    if("?message=" in url):
-        message = url.split("?message=")[1]
+    if("message=" in url):
+        users[ip] = url.split("user=")[1].split("&")[0]
+        message = url.split("message=")[1]
 
     message = message.replace("\n","").replace("\r","")
     
     try:
-        message = totext(message)
+        users[ip] = totext(users[ip]).replace("+"," ")
+        message = users[ip]+": "+totext(message)
     except:
         error=0
     
@@ -58,11 +69,12 @@ def action(s):
     html+="</div>"
     
     html+="<div style='margin:1%;pading:1%;width:96%;height:11%'>"
-    html+= "<form method='GET' action='./'><input type='text' name='message'><input type='submit' value='send'></form>"
+    html+= "<form method='GET' action='./'><input style='width:75px' type='text' name='user' value='"+users[ip]+"'>&nbsp;&nbsp;<input type='text' name='message'>&nbsp;&nbsp;<input type='submit' value='send'></form>"
     html+="</div>"
 
     send(s,html)
 
+users = {}
 messages = []
 while(True):
     server(54321, action)
