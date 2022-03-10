@@ -1,33 +1,95 @@
-import sys
-sys.path.append("../../python-lib")
+from allansm.socketHandle import *
 
-import socketHandle as sh
-from threading import *
-from time import sleep
+def totext(text):
+    from base64 import b16decode
 
-def receive(s):
-    while(True):
-        data = s.recv(1024)
-        host, port = s.getpeername()
-        print(host+":"+data.decode("utf-8"))
+    hex = []
+    
+    i = 0
+    for n in text:
+        if(n == "%"):
+            hex.append(text[i+1]+text[i+2])
+        i+=1
+    
+    for n in hex:
+        text = text.replace("%"+n,b16decode(n).decode())
 
-def send(s):
-    while(True):
-        s.sendall(input("msg:").encode("utf-8"))
+    return text
 
-def th():
-    while(True):
-        try:
-            sh.server(12345,receive)
-        except:
-            dummy=""
-        sleep(1)
+def action(s):
+    from time import sleep
 
-t = Thread(target=th)
-t.start()
+    global users
+    global messages
+    
+    sleep(1)
 
-while(input() != "connect"):
-    dummy=""
+    ip = s.getpeername()[0]
+    
+    users[ip] = "nameless"
+    message = ""
+    
+    recv = receive(s)
+    
+    try:
+        url = recv.split(" ")[1]
+    except:
+        url = ""
+    
+    if("message=" in url):
+        users[ip] = url.split("user=")[1].split("&")[0]
+        message = url.split("message=")[1]
 
-ip = input("ip:")
-sh.client(ip,12345,send)
+    message = message.replace("\n","").replace("\r","")
+    
+    try:
+        users[ip] = totext(users[ip]).replace("+"," ")
+        message = users[ip]+": "+totext(message)
+    except:
+        error=0
+    
+    if(len(messages) > 0):
+        if(message != messages[-1]):
+            msg = message
+            if("<img" in msg):
+                u = msg.split(":")[0]
+                msg = u+":"+msg.split("src='")[1].split("'")[0]
+            print(msg)
+            
+            messages.append(message)
+    else:
+        msg = message
+        if("<img" in msg):
+            u = msg.split(":")[0]
+            msg = u+":"+msg.split("src='")[1].split("'")[0]
+        print(msg)
+            
+        messages.append(message)
+
+    html = http()
+    
+    html+="<style>"
+    html+="*{padding:0px;margin:0px;}"
+    html+="</style>"
+    
+    html+="<script>"
+    html+="function image(){message = document.getElementById('message').value;document.getElementById('message').value = \"<a href='\"+message+\"'><img src='\"+message+\"' width='100%' height='300'></a>\";document.getElementById('send').click();}"
+    html+="</script>"
+    
+    html+="<div style='margin:1%;padding:1%;width:96%;height:80%;border:1px dashed black;overflow:auto'>"
+    for n in messages:
+        n = n.replace("+"," ")
+        html+="<div display='block'>"+n+"</div>"
+    html+="</div>"
+    
+    html+="<div style='margin:1%;pading:1%;width:96%;height:11%'>"
+    html+= "<form method='GET' action='./'><input placeholder='username' style='width:75px' type='text' name='user' value='"+users[ip]+"'>&nbsp;&nbsp;<input placeholder='message' type='text' style='width:50%' id='message' name='message' autofocus>&nbsp;&nbsp;<input id='send' type='submit' value='send'>&nbsp;&nbsp;<input type='button' onclick='image()' value='image'></form>"
+    html+="</div>"
+
+    send(s,html)
+
+users = {}
+messages = []
+while(True):
+    server(54321, action)
+
