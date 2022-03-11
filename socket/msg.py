@@ -42,37 +42,38 @@ def action(s):
 
     message = message.replace("\n","").replace("\r","")
     
-    try:
-        users[ip] = totext(users[ip]).replace("+"," ")
-        message = users[ip]+": "+totext(message)
-    except:
-        error=0
-    
-    if(len(messages) > 0):
-        if(message != messages[-1]):
+    if(message != ""):
+        try:
+            users[ip] = totext(users[ip]).replace("+"," ")
+            message = "<div style='float:left'>"+users[ip]+":</div> "+"<div>"+totext(message)+"</div>"
+        except:
+            error=0
+        
+        if(len(messages) > 0):
+            if(message != messages[-1]):
+                msg = message
+                if("<img" in msg):
+                    u = msg.split(":")[0]
+                    msg = u+":"+msg.split("src='")[1].split("'")[0]
+                elif("<a" in msg):
+                    u = msg.split(":")[0]
+                    msg = u+":"+msg.split("href='")[1].split("'")[0]
+                
+                print(msg)
+                
+                messages.append(message)
+        else:
             msg = message
             if("<img" in msg):
                 u = msg.split(":")[0]
                 msg = u+":"+msg.split("src='")[1].split("'")[0]
             elif("<a" in msg):
-                u = msg.split(":")[0]
-                msg = u+":"+msg.split("href='")[1].split("'")[0]
+                    u = msg.split(":")[0]
+                    msg = u+":"+msg.split("href='")[1].split("'")[0]
             
             print(msg)
-            
+                
             messages.append(message)
-    else:
-        msg = message
-        if("<img" in msg):
-            u = msg.split(":")[0]
-            msg = u+":"+msg.split("src='")[1].split("'")[0]
-        elif("<a" in msg):
-                u = msg.split(":")[0]
-                msg = u+":"+msg.split("href='")[1].split("'")[0]
-        
-        print(msg)
-            
-        messages.append(message)
 
     html = http()
     
@@ -84,18 +85,19 @@ def action(s):
     html+="</style>"
     
     html+="<script>"
-    html+="function image(){message = document.getElementById('message').value;document.getElementById('message').value = \"<a href='\"+message+\"'><img src='\"+message+\"' width='100%' height='300'></a>\";document.getElementById('send').click();}"
+    html+="function image(){message = document.getElementById('message').value;document.getElementById('message').value = \"<a href='\"+message+\"'><img src='\"+message+\"'></a>\";document.getElementById('send').click();}"
     html+="function link(){message = document.getElementById('message').value;document.getElementById('message').value = \"<a href='\"+message+\"'>\"+message+\"</a>\";document.getElementById('send').click();}"
+    html+="function video(){message = document.getElementById('message').value;document.getElementById('message').value = \"<video controls style='max-width:50%;max-height:50%'><source src='\"+message+\"' type='video/mp4'></video>\";document.getElementById('send').click();}"
     html+="</script>"
     
     html+="<div style='margin:1%;padding:1%;width:96%;height:80%;overflow:auto'>"
     for n in messages:
         n = n.replace("+"," ")
-        html+="<div display='block'>"+n+"</div>"
+        html+="<div display='block'>"+n+"</div><br/><br/>"
     html+="</div>"
     
     html+="<div style='margin:1%;pading:1%;width:96%;height:11%'>"
-    html+="<form method='GET' action='./'><input placeholder='username' style='width:75px' type='text' name='user' value='"+users[ip]+"'>&nbsp;&nbsp;<input placeholder='message' type='text' style='width:50%' id='message' name='message' autofocus>&nbsp;&nbsp;<input id='send' type='submit' value='send'>&nbsp;&nbsp;<input type='button' onclick='image()' value='image'>&nbsp;&nbsp;<input type='button' onclick='link()' value='link'></form>"
+    html+="<form method='GET' action='./'><input placeholder='username' style='width:75px' type='text' name='user' value='"+users[ip]+"'>&nbsp;&nbsp;<input placeholder='message' type='text' style='width:50%' id='message' name='message' autofocus>&nbsp;&nbsp;<input id='send' type='submit' value='send'>&nbsp;&nbsp;<input type='button' onclick='image()' value='image'>&nbsp;&nbsp;<input type='button' onclick='link()' value='link'>&nbsp;&nbsp;<input type='button' onclick='video()' value='mp4'></form>"
     html+="</div>"
 
     send(s,html)
@@ -103,5 +105,5 @@ def action(s):
 users = {}
 messages = []
 while(True):
-    server(54321, action)
+    server(54321, action, 10)
 
