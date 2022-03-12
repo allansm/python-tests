@@ -26,7 +26,7 @@ def action(s):
 
     ip = s.getpeername()[0]
     
-    users[ip] = "nameless"
+    users[ip] = ""
     message = ""
     
     recv = receive(s)
@@ -41,7 +41,8 @@ def action(s):
         message = url.split("message=")[1]
 
     message = message.replace("\n","").replace("\r","")
-    
+    output = totext(message)
+
     if(message != ""):
         try:
             users[ip] = totext(users[ip]).replace("+"," ")
@@ -51,27 +52,11 @@ def action(s):
         
         if(len(messages) > 0):
             if(message != messages[-1]):
-                msg = message
-                if("<img" in msg):
-                    u = msg.split(":")[0]
-                    msg = u+":"+msg.split("src='")[1].split("'")[0]
-                elif("<a" in msg):
-                    u = msg.split(":")[0]
-                    msg = u+":"+msg.split("href='")[1].split("'")[0]
-                
-                print(msg)
+                print(users[ip]+":"+output)
                 
                 messages.append(message)
         else:
-            msg = message
-            if("<img" in msg):
-                u = msg.split(":")[0]
-                msg = u+":"+msg.split("src='")[1].split("'")[0]
-            elif("<a" in msg):
-                    u = msg.split(":")[0]
-                    msg = u+":"+msg.split("href='")[1].split("'")[0]
-            
-            print(msg)
+            print(users[ip]+":"+output)
                 
             messages.append(message)
 
@@ -85,19 +70,20 @@ def action(s):
     html+="</style>"
     
     html+="<script>"
-    html+="function image(){message = document.getElementById('message').value;document.getElementById('message').value = \"<a href='\"+message+\"'><img src='\"+message+\"'></a>\";document.getElementById('send').click();}"
+    html+="function image(){message = document.getElementById('message').value;document.getElementById('message').value = \"<br/><a href='\"+message+\"'><img style='max-width:100%' src='\"+message+\"'></a>\";document.getElementById('send').click();}"
     html+="function link(){message = document.getElementById('message').value;document.getElementById('message').value = \"<a href='\"+message+\"'>\"+message+\"</a>\";document.getElementById('send').click();}"
-    html+="function video(){message = document.getElementById('message').value;document.getElementById('message').value = \"<video controls style='max-width:50%;max-height:50%'><source src='\"+message+\"' type='video/mp4'></video>\";document.getElementById('send').click();}"
+    html+="function video(){message = document.getElementById('message').value;document.getElementById('message').value = \"<br/><video controls style='max-width:100%'><source src='\"+message+\"' type='video/mp4'></video>\";document.getElementById('send').click();}"
+    html+="function yt(){message = document.getElementById('message').value;message = message.split('v=')[1];if(message.includes('&')){message = message.split('&')[0];}message = 'https://www.youtube.com/embed/'+message;document.getElementById('message').value = \"<br/><iframe width='560' height='315' src='\"+message+\"' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>\";document.getElementById('send').click();}"
     html+="</script>"
     
     html+="<div style='margin:1%;padding:1%;width:96%;height:80%;overflow:auto'>"
     for n in messages:
         n = n.replace("+"," ")
-        html+="<div display='block'>"+n+"</div><br/><br/>"
+        html+="<div display='block'>"+n+"</div><br/>"
     html+="</div>"
     
     html+="<div style='margin:1%;pading:1%;width:96%;height:11%'>"
-    html+="<form method='GET' action='./'><input placeholder='username' style='width:75px' type='text' name='user' value='"+users[ip]+"'>&nbsp;&nbsp;<input placeholder='message' type='text' style='width:50%' id='message' name='message' autofocus>&nbsp;&nbsp;<input id='send' type='submit' value='send'>&nbsp;&nbsp;<input type='button' onclick='image()' value='image'>&nbsp;&nbsp;<input type='button' onclick='link()' value='link'>&nbsp;&nbsp;<input type='button' onclick='video()' value='mp4'></form>"
+    html+="<form method='GET' action='./'><input required placeholder='username' style='width:75px' type='text' name='user' value='"+users[ip]+"'>&nbsp;&nbsp;<input required placeholder='message' type='text' style='width:50%' id='message' name='message' autofocus>&nbsp;&nbsp;<input id='send' type='submit' value='send'>&nbsp;&nbsp;<input type='button' onclick='image()' value='image'>&nbsp;&nbsp;<input type='button' onclick='link()' value='link'>&nbsp;&nbsp;<input type='button' onclick='video()' value='mp4'>&nbsp;&nbsp;<input type='button' onclick='yt()' value='youtube'></form>"
     html+="</div>"
 
     send(s,html)
