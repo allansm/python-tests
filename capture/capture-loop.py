@@ -1,22 +1,20 @@
-import sys
-sys.path.append("../../python-lib")
-
-from imageHandle import *
-from fileHandle import getTemp,mkdir
+from allansm.imageHandle import *
+from allansm.fileHandle import getTemp,mkdir,remove
 from os import chdir,getcwd
 from time import sleep
-from argsHandle import *
+from allansm.argsHandle import *
 
 interval = getArgs(["--interval"]).interval
 
 if(interval == None):
     interval = 1
 else:
-    interval = int(interval)
+    interval = float(interval)
 
 chdir(getTemp())
-mkdir("test")
-chdir("test")
+remove("capture-loop")
+mkdir("capture-loop")
+chdir("capture-loop")
 
 print(getcwd())
 
