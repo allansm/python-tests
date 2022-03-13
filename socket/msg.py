@@ -1,4 +1,5 @@
 from allansm.socketHandle import *
+from allansm.argsHandle import *
 
 def totext(text):
     from base64 import b16decode
@@ -108,8 +109,14 @@ def action(s):
     
     send(s,html)
 
+port = getArgs(["--port"]).port
+if(port == None):
+    port = 54321
+else:
+    port = int(port)
+
 users = {}
 messages = []
 while(True):
-    server(54321, action, 10)
+    server(port, action, 10)
 

@@ -1,6 +1,3 @@
-import sys
-sys.path.append("../../python-lib")
-
 from allansm.socketHandle import *
 from allansm.file import *
 from allansm.fileHandle import getTemp,mkdir,realpath
@@ -19,9 +16,15 @@ def run(s):
 
     print("ok")
 
-args = getArgs(["path"])
+args = getArgs(["path","--port"])
 
 path = realpath(args.path)
+
+port = args.port
+if(port == None):
+    port=54321
+else:
+    port=int(port)
 
 chdir(getTemp())
 mkdir("stest")
@@ -38,5 +41,5 @@ tmp.remove()
 print("ready")
 
 while(True):
-    server(54321,run)
+    server(port,run)
 
