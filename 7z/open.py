@@ -1,9 +1,5 @@
-from dependency import *
-include("../../python-lib")
-
 from allansm.fileHandle import *
 from os import chdir
-from zip import *
 from allansm.argsHandle import *
 from os import system
 from allansm.elapse import *
@@ -18,14 +14,16 @@ if(exists(path)):
     remove("7z")
     mkdir("7z")
     chdir("7z")
+    
+    filename = path.split("/")[-1].split("\\")[-1].replace(".7z","").replace(".zip","")
 
     e = Elapse()
-    exec('7z x "'+path+'"')
+    system('7z x "'+path+'"')
     echo("elapsed:")
     e.show(0.001)
-    
+
     while(True):
-        op = input(getFileName(path).replace(".7z","")+">")
+        op = input(filename+">")
         
         tmp = "" 
         if("$" in op):
