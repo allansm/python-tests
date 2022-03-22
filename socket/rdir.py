@@ -27,19 +27,18 @@ else:
     port=int(port)
 
 chdir(getTemp())
-mkdir("stest")
-chdir("stest")
+mkdir("rdir")
+chdir("rdir")
 
 print(getcwd())
 
-zip.dir("tmp",path)
-tmp = File("tmp.zip")
-
-bytes = tmp.bytes()
-tmp.remove()
-
-print("ready")
-
 while(True):
+    zip.dir("tmp",path)
+    tmp = File("tmp.zip")
+
+    bytes = tmp.bytes()
+    tmp.remove()
+    print("ready")
+
     server(port,run)
 
