@@ -1,12 +1,6 @@
-import sys
-sys.path.append("../../python-lib")
-
 from allansm.socketHandle import *
 from allansm.file import *
 from allansm.argsHandle import *
-
-
-fn = getArgs(["fn"]).fn
 
 def run(s):
     data = receive(s)
@@ -14,4 +8,15 @@ def run(s):
     send(s,http("","*"))
     send(s,tmp.bytes())
 
-server(54321,run)
+args = getArgs(["fn", "--port"])
+
+fn = args.fn
+port = args.port
+
+if(port == None):
+    port=54321
+else:
+    port=int(port)
+
+while(True):
+    server(port,run)
