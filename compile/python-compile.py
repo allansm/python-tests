@@ -6,6 +6,7 @@ import py_compile
 
 def compile(f, output):
     try:
+        remove("__pycache__")
         if(not ".pyc" in f and not isdir(f) and ".py" in f):
             py_compile.compile(f)
             f = getFileName(f)
