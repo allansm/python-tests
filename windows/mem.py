@@ -50,9 +50,8 @@ while(len(order) < len(rr(proc))):
 
 total = 0
 for n in order:
-    total += program[n]
-
     try:
+        total += program[n]
         if(args.exe != None):
             size = len(n)
             space = ""
