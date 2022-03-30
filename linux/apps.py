@@ -1,16 +1,26 @@
 from allansm.fileHandle import *
 from allansm.argsHandle import *
+from allansm.file import *
 from os import chdir
 
-remove(".apps")
-mkdir(".apps")
+config = File(".config")
+remove("alias")
 
-files = getAllFiles(getArgs(["path"]).path)
+for n in config.lines():
+    tmp = n.split(";")
+    if(len(tmp) > 1):
+        action = tmp[0]
+        ext = tmp[1]
+        print(action)
+        print(ext)
 
-for n in files:
-    if(realpath(n) != realpath(__file__) and ".pyc" in n):
-        file = realpath(n)
-        chdir(".apps")
-        fn = file.split("/")[-1].replace(".pyc","")
-        writeFile(fn, "#!/bin/bash\npython3 "+file+" $@")
-        chdir("..")
+        dirs = ls(getArgs(["path"]).path)
+        for d in dirs:
+            files = ls(d)
+            for n in files:
+                if(realpath(n) != realpath(__file__) and ext in n):
+                    file = realpath(n)
+                    
+                    fn = file.split("/")[-1].replace(ext,"")
+                    
+                    add("alias","alias "+fn+"=\""+action+" "+file+" $@\"\n")
