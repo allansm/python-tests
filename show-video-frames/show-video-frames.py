@@ -4,7 +4,7 @@ from allansm.opencv import *
 from PIL import Image, ImageTk
 
 def l(event):
-    global current, frames, canvas
+    global current, frames, canvas, lastimg
 
     current-=1
 
@@ -15,10 +15,12 @@ def l(event):
     img = ImageTk.PhotoImage(img)
     canvas.create_image(1366/2, 768/2, image=img)
     
+    lastimg = img
+
     print("frame:"+str(current))
 
 def r(event):
-    global current, frames, canvas
+    global current, frames, canvas, lastimg
 
     current+=1
 
@@ -29,8 +31,11 @@ def r(event):
     img = ImageTk.PhotoImage(img)
     canvas.create_image(1366/2, 768/2, image=img)
     
+    lastimg = img
+
     print("frame:"+str(current))
 
+lastimg = None
 current = 0
 
 root = Tk()
