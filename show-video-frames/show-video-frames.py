@@ -42,10 +42,11 @@ root = Tk()
 
 file = openfile()
 frames = getFrames(file)
+
 print(len(frames))
 
 canvas = Canvas(root, width=1366, height=768, highlightthickness=0)
-canvas.pack()
+canvas.pack(fill="both", expand=True)
 
 img = Image.fromarray(frames[0])
 img = ImageTk.PhotoImage(img)
@@ -54,5 +55,6 @@ canvas.create_image(1366/2, 768/2, image=img)
 
 root.bind("<Left>", l)
 root.bind("<Right>", r)
+root.after(1, lambda: root.focus_force())
 
 root.mainloop()
