@@ -6,8 +6,9 @@ from PIL import Image, ImageTk
 def size(event):
     global current, frames, canvas, lastimg, root
     
-    img = Image.fromarray(frames[current])
-    
+    img = getFrame(frames[current])
+    img = getImage(img)
+
     w, h = img.size
     while(w > root.winfo_width()):    
         img = img.resize((int(w*0.9), int(h*0.9)))
@@ -29,8 +30,9 @@ def l(event):
     if(current < 0):
         current = 0
     
-    img = Image.fromarray(frames[current])
-    
+    img = getFrame(frames[current])
+    img = getImage(img)
+
     w, h = img.size
     while(w > root.winfo_width()):    
         img = img.resize((int(w*0.9), int(h*0.9)))
@@ -54,8 +56,9 @@ def r(event):
     if(current > len(frames)-1):
         current = len(frames)-1
     
-    img = Image.fromarray(frames[current])
-    
+    img = getFrame(frames[current])
+    img = getImage(img)
+
     w, h = img.size
     while(w > root.winfo_width()):    
         img = img.resize((int(w*0.9), int(h*0.9)))
@@ -87,7 +90,8 @@ canvas = Canvas(root, width=640, height=480, highlightthickness=0)
 canvas.config(bg="black")
 canvas.pack(fill="both", expand=True)
 
-img = Image.fromarray(frames[0])
+img = getFrame(frames[0])
+img = getImage(img)
 
 w, h = img.size
 while(w > root.winfo_width()):    
