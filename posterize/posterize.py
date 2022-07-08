@@ -1,15 +1,20 @@
-from tkinter.filedialog import askopenfilename as filedialog
+from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import *
 from tkinter import *
 from PIL import Image, ImageTk
 
 root = Tk()
 
-path = filedialog()
+original = None
 
-print(path)
+try:
+    path = askopenfilename()
 
-original = Image.open(path)
+    print(path)
+
+    original = Image.open(path)
+except:
+    exit()
 
 root.title("posterize")
 root.geometry("800x600")
@@ -75,9 +80,30 @@ def space(event):
     img = ImageTk.PhotoImage(image)
     canvas.create_image(800/2, 600/2, image=img)
 
+def open(event):
+    global colors, original, image, img, canvas, grayscale, original
+
+    path = askopenfilename()
+    if(path != None and path != ""):
+        print(path)
+
+        original = Image.open(path)
+
+    image = original.resize((800,600)).quantize(colors=colors, method=2)
+    
+    if(grayscale):
+        image = image.convert("L")
+
+    img = ImageTk.PhotoImage(image)
+    canvas.create_image(800/2, 600/2, image=img)
+
 root.bind("<Left>", l)
 root.bind("<Right>", r)
 root.bind("<KeyPress-space>", space)
+root.bind("<KeyPress-o>", open)
+
+root.resizable(0, 0)
+root.eval('tk::PlaceWindow . center')
 
 root.after(1, lambda: root.focus_force())
 
