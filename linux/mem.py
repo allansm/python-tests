@@ -1,62 +1,71 @@
 from subprocess import check_output
+from time import sleep
+from os import system
+import os
+import argparse
 
-command = "ps -e -o %c, -o %p, -o %C, -o %mem"
+def getArgs():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--loop",action="store_true", dest="loop")
 
-out = check_output(command, shell=True).decode()
+    return parser.parse_args()
 
-data = []
+def getRam():
+    command = "ps -e -o %c, -o %mem"
 
-for n in out.split("\n"):
-    tmp = n.split(",")
-    if(len(tmp) > 1):
-        program = tmp[0].strip()
-        pid = tmp[1].strip()
-        cpu = tmp[2].strip()
-        ram = tmp[3].strip()
-        command = ""
+    out = check_output(command, shell=True).decode()
+
+    data = []
+
+    for n in out.split("\n"):
+        tmp = n.split(",")
+        if(len(tmp) > 1):
+            program = tmp[0].strip()
+            ram = tmp[1].strip()
+            if(program != "COMMAND"):
+                data.append({"program":program, "ram":ram})
+
+    ram = {}
+
+    ram["total in use"] = 0.0
+
+    for n in data:
+        ram[n["program"]] = 0.0
+
+    for n in data:
         try:
-            command = tmp[4].strip()
-        except:
+            ram[n["program"]]+=float(n["ram"])
+            ram["total in use"]+=float(n["ram"])
+        except Exception as e:
             pass
-        data.append({"program":program, "pid":pid, "cpu":cpu, "ram":ram, "command":command})
+    
+    return ram
 
-ram = {}
+def show(n, percent):
+    print(n, end=" ")
+    print(" "*(20-len(n)), end="")
+    print("█"*round(percent/5), end="")
+    print("░"*round((100-percent)/5),end="")
+    print(" "+("{:.3}".format(ram[n]))+"%\n")
 
-ram["total in use"] = 0.0
-
-for n in data:
-    ram[n["program"]] = 0.0
-
-for n in data:
-    try:
-        ram[n["program"]]+=float(n["ram"])
-        ram["total in use"]+=float(n["ram"])
-    except Exception as e:
-        pass
-
+ram = getRam()
 for n in ram:
-    percent = ram[n]
-    if(percent > 0):
-        print(n, end=" ")
-        print(" "*(20-len(n)), end="")
-        current = 0
-        x = 0
-        while(current < percent):
-            if(x == 5):
-                print("█", end='')
-                x=0
+    show(n, ram[n])
 
-            current+=1
-            x+=1
-        
-        x = 0
-        while(current <= 100):
-            if(x == 5):
-                print("░", end='')
-                x=0
+while(getArgs().loop):
+    ram = getRam()
+    system("cls" if os.name=="nt" else 'printf "\033c"')
+    total = 0.0
 
-            current+=1
-            x+=1
-         
-        print(" "+("{:.3}".format(ram[n]))+"%\n")
-        
+    for n in ram:
+        if(ram[n] < 1):
+            if(n != "total in use"):
+                total+=ram[n]
+    
+    ram["a lot of programs"] = total
+    
+    for n in ram:
+        if(ram[n] >= 1):
+            show(n, ram[n])
+
+    sleep(1)    
