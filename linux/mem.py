@@ -1,4 +1,5 @@
 from subprocess import check_output
+from proc import *
 from time import sleep
 from os import system
 import os
@@ -9,37 +10,6 @@ def getArgs():
     parser.add_argument("--loop",action="store_true", dest="loop")
 
     return parser.parse_args()
-
-def getRam():
-    command = "ps -e -o %c, -o %mem"
-
-    out = check_output(command, shell=True).decode()
-
-    data = []
-
-    for n in out.split("\n"):
-        tmp = n.split(",")
-        if(len(tmp) > 1):
-            program = tmp[0].strip()
-            ram = tmp[1].strip()
-            if(program != "COMMAND"):
-                data.append({"program":program, "ram":ram})
-
-    ram = {}
-
-    ram["total in use"] = 0.0
-
-    for n in data:
-        ram[n["program"]] = 0.0
-
-    for n in data:
-        try:
-            ram[n["program"]]+=float(n["ram"])
-            ram["total in use"]+=float(n["ram"])
-        except Exception as e:
-            pass
-    
-    return ram
 
 def show(n, percent):
     print(n, end=" ")

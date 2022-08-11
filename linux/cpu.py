@@ -1,4 +1,5 @@
 from subprocess import check_output
+from proc import *
 from time import sleep
 from os import system
 import os
@@ -9,39 +10,6 @@ def getArgs():
     parser.add_argument("--loop",action="store_true", dest="loop")
 
     return parser.parse_args()
-
-def getCpu():
-    command = "ps -e -o %c, -o %cpu"
-
-    out = check_output(command, shell=True).decode()
-    cpus = check_output("lscpu | egrep 'CPU\(s\)'", shell=True).decode().split("\n")[0].split(" ")[-1]
-    cpus = int(cpus)
-
-    data = []
-
-    for n in out.split("\n"):
-        tmp = n.split(",")
-        if(len(tmp) > 1):
-            program = tmp[0].strip()
-            cpu = tmp[1].strip()
-            if(program != "COMMAND"):
-                data.append({"program":program, "cpu":cpu})
-
-    cpu = {}
-
-    cpu["total in use"] = 0.0
-
-    for n in data:
-        cpu[n["program"]] = 0.0
-
-    for n in data:
-        try:
-            cpu[n["program"]]+=float(n["cpu"])/cpus
-            cpu["total in use"]+=float(n["cpu"])/cpus
-        except Exception as e:
-            pass
-    
-    return cpu
 
 def show(n, percent):
     print(n, end=" ")
