@@ -31,13 +31,9 @@ def getCpu():
         except Exception as e:
             pass
     
-    magic = check_output("grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}'", shell=True).decode()
-    magic = float(magic.replace("\n", "").replace(",", "."))
-    
-    magic = (1/magic)*cpu["total in use"]
-    for n in cpu:
-        cpu[n] = cpu[n]/magic
-    
+    if(cpu["total in use"] >= 100):
+        cpu["total in use"] = 99.9
+  
     return cpu
 
 def getRam():
@@ -74,6 +70,10 @@ def getRam():
     
     magic = (1/magic)*ram["total in use"]
     for n in ram:
+        #if(n != "total in use"):
         ram[n] = ram[n]/magic
+    
+    if(ram["total in use"] >= 100):
+        ram["total in use"] = 99.9
 
     return ram
