@@ -1,9 +1,9 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QGraphicsScene, QGraphicsView
-from PyQt5.QtGui import  QImage, QPixmap
-from PyQt5.QtWidgets import QGraphicsPixmapItem
-from PyQt5.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QGraphicsScene, QGraphicsView
+from PySide6.QtGui import  QImage, QPixmap
+from PySide6.QtWidgets import QGraphicsPixmapItem
+from PySide6.QtCore import Qt
 
 app = QApplication(sys.argv)
 
@@ -20,5 +20,5 @@ view.setDragMode(QGraphicsView.ScrollHandDrag)
 
 view.showFullScreen()
 
-sys.exit(app.exec_())
+sys.exit(app.exec())
 

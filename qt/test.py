@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QLabel
+from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QLabel
 
 def test():
     global input
@@ -27,4 +27,4 @@ window.setMaximumSize(250, 60);
 window.setWindowTitle("Test");
 window.show()
 
-sys.exit(app.exec_())
+sys.exit(app.exec())
